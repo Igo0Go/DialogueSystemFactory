@@ -6,6 +6,8 @@ using UnityEngine;
 /// </summary>
 public class EventNode : DialogueNode
 {
+    public readonly Vector2 exitPointOffset = new Vector2(130, 21);
+
     public int NextNodeNumber => nextNodesNumbers[0];
 
     #region —ообщение при событии
@@ -22,9 +24,14 @@ public class EventNode : DialogueNode
 
     #region »зменение параметра
     /// <summary>
+    /// ѕакет параметров дл€ изменени€
+    /// </summary>
+    public ParameterPack parameter;
+
+    /// <summary>
     /// мен€ть ли значение какого-то параметра
     /// </summary>
-    public bool changeCondition;
+    public bool changeParameter;
 
     /// <summary>
     /// на какое значение bool изменить параметр, если мен€ть пакет условий
@@ -35,6 +42,11 @@ public class EventNode : DialogueNode
     /// «начение int, которое будет добавлен/присвоен значению параметра, если мен€ть пакет условий (может быть отрицательным)
     /// </summary>
     public int changeIntValue;
+
+    /// <summary>
+    /// »ндекс измен€емого параметра в пакете
+    /// </summary>
+    public int changeingParameterIndex;
 
     /// <summary>
     ///  аую операцию проводить с параметром
@@ -66,19 +78,6 @@ public class EventNode : DialogueNode
 
     #region  онструкторы
     /// <summary>
-    /// —оздать узел-событие с указанным индексом
-    /// </summary>
-    /// <param name="index">индекс узла в схеме</param>
-    public EventNode(int index) : base(index)
-    {
-        reactorsNumbers = new List<int>();
-        transformRect = new Rect(0, 0, 150, 90);
-        colorInEditor = Color.yellow;
-        //        _rightPointOffset = new Vector2(130, 21);
-        nextNodesNumbers.Add(-1);
-    }
-
-    /// <summary>
     /// —оздать узел-событие с указанным индексом в указанной позиции
     /// </summary>
     /// <param name="pos">позици€ узла в координатах схемы</param>
@@ -88,7 +87,6 @@ public class EventNode : DialogueNode
         reactorsNumbers = new List<int>();
         transformRect = new Rect(pos.x, pos.y, 150, 90);
         colorInEditor = Color.yellow;
-        //        _rightPointOffset = new Vector2(130, 21);
         nextNodesNumbers.Add(-1);
     }
 

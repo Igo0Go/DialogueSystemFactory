@@ -16,7 +16,7 @@ public class RandomizerNode : DialogueNode
     /// </summary>
     public bool withRemoving;
 
-    private readonly Vector2 exitPointOffset = new Vector2(125, 42);
+    public readonly Vector2 exitPointOffset = new Vector2(130, 21);
 
     /// <summary>
     /// —сылка на узел по умолчанию
@@ -38,12 +38,11 @@ public class RandomizerNode : DialogueNode
     /// </summary>
     /// <param name="pos">позици€ узла в координатах схемы</param>
     /// <param name="index">индекс узла в схеме</param>
-    public RandomizerNode(Vector2 pos, int index)
+    public RandomizerNode(Vector2 pos, int index) : base(pos, index)
     {
         transformRect = new Rect(pos.x, pos.y, 150, 65);
         colorInEditor = Color.magenta;
         exitPointsOffsetList = new List<Vector2>();
-        //        _rightPointOffset = new Vector2(130, 21);
         nextNodesNumbers.Add(-1);
     }
 

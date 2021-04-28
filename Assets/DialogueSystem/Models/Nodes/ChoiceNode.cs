@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public class ChoiceNode : DialogueNode
 {
+    #region Поля
     /// <summary>
     /// Ролевой пакет выбирающего
     /// </summary>
@@ -26,24 +27,11 @@ public class ChoiceNode : DialogueNode
     /// </summary>
     public int defaultCameraPositionIndex;
 
-    private readonly int answerLimit = 3;
+    public readonly int answerLimit = 3;
     private readonly Vector2 exitOffset = new Vector3(180, 21);
+    #endregion
 
-    /// <summary>
-    /// Создать узел выбора с указанным индексом
-    /// </summary>
-    /// <param name="index">индекс узла в схеме</param>
-    public ChoiceNode(int index) : base(index)
-    {
-        transformRect = new Rect(0, 0, 200, 50);
-        colorInEditor = Color.grey;
-        exitPointOffsetList = new List<Vector2>();
-        for (int i = 0; i < answerLimit; i++)
-        {
-            nextNodesNumbers.Add(-1);
-        }
-    }
-
+    #region Конструкторы
     /// <summary>
     /// Создать узел выбора с указанным индексом в указанной позиции
     /// </summary>
@@ -54,6 +42,7 @@ public class ChoiceNode : DialogueNode
         transformRect = new Rect(pos.x, pos.y, 200, 50);
         colorInEditor = Color.grey;
         exitPointOffsetList = new List<Vector2>();
+        answers = new List<AnswerItem>();
         for (int i = 0; i < answerLimit; i++)
         {
             nextNodesNumbers.Add(-1);
@@ -61,7 +50,9 @@ public class ChoiceNode : DialogueNode
     }
 
     private ChoiceNode(){}
+    #endregion
 
+    #region Методы
     /// <summary>
     /// Добавить заготовку для нового варианта ответа
     /// </summary>
@@ -94,6 +85,7 @@ public class ChoiceNode : DialogueNode
             exitPointOffsetList.Add(exitOffset + new Vector2(0, i * 21));
         }
     }
+    #endregion
 }
 
 /// <summary>

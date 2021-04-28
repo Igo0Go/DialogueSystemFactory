@@ -7,7 +7,10 @@ using UnityEngine;
 [System.Serializable]
 public abstract class DialogueNode
 {
-    #region Поля
+    #region Поля и свойства
+
+    public Vector2 InverseEnterPointOffset => new Vector2(transformRect.width - 21, enterPointOffset.y);
+
     /// <summary>
     /// Номер в схеме диалога
     /// </summary>
@@ -50,18 +53,6 @@ public abstract class DialogueNode
     #endregion
 
     #region Конструкторы
-    /// <summary>
-    /// Создать диалоговый узел с указанным индексом
-    /// </summary>
-    /// <param name="index">индекс узла в схеме</param>
-    public DialogueNode(int index)
-    {
-        leftToRight = true;
-        this.index = index;
-        previousNodesNumbers = new List<int>();
-        nextNodesNumbers = new List<int>();
-    }
-
     /// <summary>
     /// Создать дилоговый узел с указанным индексом в указанной позиции
     /// </summary>

@@ -6,11 +6,20 @@ using UnityEngine;
 public class ReplicaNode : DialogueNode
 {
     #region Поля и свойства
-
     /// <summary>
     /// Следующий узел
     /// </summary>
-    public int NextNodeNumber => nextNodesNumbers[0];
+    public int NextNodeNumber
+    {
+        get
+        {
+            return nextNodesNumbers[0];
+        }
+        set
+        {
+            nextNodesNumbers[0] = value;
+        }
+    }
 
     /// <summary>
     /// Совокупность всей информации о реплике
@@ -21,22 +30,9 @@ public class ReplicaNode : DialogueNode
     /// Смещение выхода
     /// </summary>
     public readonly Vector2 exitPointOffset = new Vector3(130, 21);
-
     #endregion
 
     #region Конструкторы
-
-    /// <summary>
-    /// Создать узел реплики
-    /// </summary>
-    /// <param name="index">индекс узла</param>
-    public ReplicaNode(int index) : base(index)
-    {
-        transformRect = new Rect(0, 0, 150, 50);
-        colorInEditor = Color.gray;
-        replicaInformation = new ReplicInfo();
-        nextNodesNumbers.Add(-1);
-    }
 
     /// <summary>
     /// Создать узел реплики с указанным индексом в указанных координатах

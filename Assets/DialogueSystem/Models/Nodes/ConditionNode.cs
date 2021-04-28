@@ -70,19 +70,6 @@ public class ConditionNode : DialogueNode
     #region Конструкторы
 
     /// <summary>
-    /// Создать диалоговый узел с указанным индексом
-    /// </summary>
-    /// <param name="index">индекс узла в схеме</param>
-    public ConditionNode(int index) : base(index)
-    {
-        transformRect = new Rect(0, 0, 180, 65);
-        //        _rightPointOffset = new Vector3(160, 21);
-        colorInEditor = Color.cyan;
-        nextNodesNumbers.Add(-1);
-        nextNodesNumbers.Add(-1);
-    }
-
-    /// <summary>
     /// Создать дилоговый узел с указанным индексом в указанной позиции
     /// </summary>
     /// <param name="pos">позиция узла в координатах схемы</param>

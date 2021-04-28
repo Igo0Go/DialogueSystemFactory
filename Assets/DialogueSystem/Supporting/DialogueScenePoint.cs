@@ -103,210 +103,210 @@ public class DialogueScenePoint : MonoBehaviour
         node = scene.nodes[nodeIndex];
         CheckVariants(false);
 
-        if(node.Type == NodeType.Link)
-        {
-            dialogueStatus = DialogueState.Disactive;
-            currentIndex = node.NextNodeNumber;
-            if (useNetwork)
-            {
-                ToNodeWithEventId?.Invoke(currentIndex);
-            }
-            else
-            {
-                StartNode(currentIndex);
-            }
-        }
-        else if(node.Type == NodeType.RandomLink)
-        {
-            dialogueStatus = DialogueState.Disactive;
-            currentIndex = node.GetNextLink();
-            if (useNetwork)
-            {
-                ToNodeWithEventId?.Invoke(currentIndex);
-            }
-            else
-            {
-                StartNode(currentIndex);
-            }
-        }
+        //if(node.Type == NodeType.Link)
+        //{
+        //    dialogueStatus = DialogueState.Disactive;
+        //    currentIndex = node.NextNodeNumber;
+        //    if (useNetwork)
+        //    {
+        //        ToNodeWithEventId?.Invoke(currentIndex);
+        //    }
+        //    else
+        //    {
+        //        StartNode(currentIndex);
+        //    }
+        //}
+        //else if(node.Type == NodeType.RandomLink)
+        //{
+        //    dialogueStatus = DialogueState.Disactive;
+        //    currentIndex = node.GetNextLink();
+        //    if (useNetwork)
+        //    {
+        //        ToNodeWithEventId?.Invoke(currentIndex);
+        //    }
+        //    else
+        //    {
+        //        StartNode(currentIndex);
+        //    }
+        //}
 
-        if (node.Type == NodeType.Replica || node.Type == NodeType.Choice)
-        {
-            sceneCamera.position = cameraPoints[node.CamPositionNumber].position;
-            sceneCamera.rotation = cameraPoints[node.CamPositionNumber].rotation;
-            sceneCamera.parent = cameraPoints[node.CamPositionNumber];
+        //if (node.Type == NodeType.Replica || node.Type == NodeType.Choice)
+        //{
+        //    sceneCamera.position = cameraPoints[node.CamPositionNumber].position;
+        //    sceneCamera.rotation = cameraPoints[node.CamPositionNumber].rotation;
+        //    sceneCamera.parent = cameraPoints[node.CamPositionNumber];
 
-            if (node.Type == NodeType.Choice)
-            {
-                skip = 0;
-                if(!useNetwork || playerRole.Equals(node.Character))
-                {
-                    dialogueStatus = DialogueState.WaitChoose;
-                    for (int i = 0; i < node.AnswerChoice.Count; i++)
-                    {
-                        CheckVariant(answers[i], scene.nodes[node.AnswerChoice[i]]);
-                    }
-                }
+        //    if (node.Type == NodeType.Choice)
+        //    {
+        //        skip = 0;
+        //        if(!useNetwork || playerRole.Equals(node.Character))
+        //        {
+        //            dialogueStatus = DialogueState.WaitChoose;
+        //            for (int i = 0; i < node.AnswerChoice.Count; i++)
+        //            {
+        //                CheckVariant(answers[i], scene.nodes[node.AnswerChoice[i]]);
+        //            }
+        //        }
                 
-            }
-            else
-            {
-                if(noVoice)
-                {
-                    if(!node.finalNode && !(scene.nodes[node.NextNodeNumber].Type == NodeType.Choice))
-                    {
-                        skipTip.SetActive(true);
-                        skip = 1;
-                    }
-                }
-                else
-                {
-                    audioSource.clip = node.Clip;
-                    audioSource.Play();
-                    if (node.alreadyUsed)
-                    {
-                        skipTip.SetActive(true);
-                        skip = 1;
-                    }
-                }
+        //    }
+        //    else
+        //    {
+        //        if(noVoice)
+        //        {
+        //            if(!node.finalNode && !(scene.nodes[node.NextNodeNumber].Type == NodeType.Choice))
+        //            {
+        //                skipTip.SetActive(true);
+        //                skip = 1;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            audioSource.clip = node.Clip;
+        //            audioSource.Play();
+        //            if (node.alreadyUsed)
+        //            {
+        //                skipTip.SetActive(true);
+        //                skip = 1;
+        //            }
+        //        }
 
-                dialogueStatus = DialogueState.TalkReplic;
+        //        dialogueStatus = DialogueState.TalkReplic;
 
-                subsPanel.SetActive(true);
-                subsText.color = node.Character.color;
-                subsText.text = node.ReplicText;
+        //        subsPanel.SetActive(true);
+        //        subsText.color = node.Character.color;
+        //        subsText.text = node.ReplicText;
                 
-                if(useAnimations)
-                {
-                    if (FindController(node.Character))
-                    {
-                        activeDialogueController.SetTalkType(node.AnimType);
-                    }
-                    else
-                    {
-                        Debug.LogError("Контроллер не найден");
-                    }
-                }
+        //        if(useAnimations)
+        //        {
+        //            if (FindController(node.Character))
+        //            {
+        //                activeDialogueController.SetTalkType(node.AnimType);
+        //            }
+        //            else
+        //            {
+        //                Debug.LogError("Контроллер не найден");
+        //            }
+        //        }
 
-                if(!node.finalNode && scene.nodes[node.NextNodeNumber].Type == NodeType.Choice)
-                {
-                    StartNode(node.NextNodeNumber);
-                }
-            }
-        }
-        else if (node.Type == NodeType.Condition)
-        {
-            if (node.Parameter.GetType(node.ConditionNumber, out ParameterType type) && type == ParameterType.Bool)
-            {
-                if (node.Parameter.Check(node.ConditionNumber, node.CheckType, node.CheckBoolValue))
-                {
-                    currentIndex = node.PositiveNextNumber;
-                    if (useNetwork)
-                    {
-                        ToNodeWithEventId?.Invoke(currentIndex);
-                    }
-                    else
-                    {
-                        StartNode(currentIndex);
-                    }
-                }
-                else
-                {
-                    currentIndex = node.NegativeNextNumber;
-                    if (useNetwork)
-                    {
-                        ToNodeWithEventId?.Invoke(currentIndex);
-                    }
-                    else
-                    {
-                        StartNode(currentIndex);
-                    }
-                }
-            }
-            else
-            {
-                if (node.Parameter.GetType(node.ConditionNumber, out type) && type == ParameterType.Int)
-                {
-                    if (node.Parameter.Check(node.ConditionNumber, node.CheckType, node.CheckIntValue))
-                    {
-                        if (useNetwork)
-                        {
-                            ToNodeWithEventId?.Invoke(node.PositiveNextNumber);
-                        }
-                        else
-                        {
-                            StartNode(node.PositiveNextNumber);
-                        }
-                    }
-                    else
-                    {
-                        if (useNetwork)
-                        {
-                            ToNodeWithEventId?.Invoke(node.NegativeNextNumber);
-                        }
-                        else
-                        {
-                            StartNode(node.NegativeNextNumber);
-                        }
-                    }
-                }
-            }
-        }
-        else if (node.Type == NodeType.Event)
-        {
-            if(node.IsMessage)
-            {
-                messagePanel.SetActive(true);
-                messageText.text = node.MessageText;
-                Invoke("HideMessage", 4);
-            }
+        //        if(!node.finalNode && scene.nodes[node.NextNodeNumber].Type == NodeType.Choice)
+        //        {
+        //            StartNode(node.NextNodeNumber);
+        //        }
+        //    }
+        //}
+        //else if (node.Type == NodeType.Condition)
+        //{
+        //    if (node.Parameter.GetType(node.ConditionNumber, out ParameterType type) && type == ParameterType.Bool)
+        //    {
+        //        if (node.Parameter.Check(node.ConditionNumber, node.CheckType, node.CheckBoolValue))
+        //        {
+        //            currentIndex = node.PositiveNextNumber;
+        //            if (useNetwork)
+        //            {
+        //                ToNodeWithEventId?.Invoke(currentIndex);
+        //            }
+        //            else
+        //            {
+        //                StartNode(currentIndex);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            currentIndex = node.NegativeNextNumber;
+        //            if (useNetwork)
+        //            {
+        //                ToNodeWithEventId?.Invoke(currentIndex);
+        //            }
+        //            else
+        //            {
+        //                StartNode(currentIndex);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (node.Parameter.GetType(node.ConditionNumber, out type) && type == ParameterType.Int)
+        //        {
+        //            if (node.Parameter.Check(node.ConditionNumber, node.CheckType, node.CheckIntValue))
+        //            {
+        //                if (useNetwork)
+        //                {
+        //                    ToNodeWithEventId?.Invoke(node.PositiveNextNumber);
+        //                }
+        //                else
+        //                {
+        //                    StartNode(node.PositiveNextNumber);
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (useNetwork)
+        //                {
+        //                    ToNodeWithEventId?.Invoke(node.NegativeNextNumber);
+        //                }
+        //                else
+        //                {
+        //                    StartNode(node.NegativeNextNumber);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        //else if (node.Type == NodeType.Event)
+        //{
+        //    if(node.IsMessage)
+        //    {
+        //        messagePanel.SetActive(true);
+        //        messageText.text = node.MessageText;
+        //        Invoke("HideMessage", 4);
+        //    }
 
 
-            if (!node.ChangeCondition && !node.InSceneInvoke)
-            {
-                dialogueStatus = DialogueState.EventComplete;
-            }
-            else
-            {
-                if (node.ChangeCondition)
-                {
-                    if (node.Parameter.GetType(node.ConditionNumber, out ParameterType type) && type == ParameterType.Bool)
-                    {
-                        node.Parameter.SetBool(node.ConditionNumber, node.ChangeBoolValue);
-                    }
-                    else
-                    {
-                        if(node.Operation == OperationType.AddValue)
-                        {
-                            node.Parameter.SetInt(node.ConditionNumber, node.Parameter.GetInt(node.ConditionNumber) + node.ChangeIntValue);
-                        }
-                        else
-                        {
-                            node.Parameter.SetInt(node.ConditionNumber, node.ChangeIntValue);
-                        }
-                    }
-                    if (!node.InSceneInvoke)
-                    {
-                        dialogueStatus = DialogueState.EventComplete;
-                    }
-                }
-                if (node.InSceneInvoke)
-                {
-                    foreach (var item in node.ReactorsNumbers)
-                    {
-                        if (reactors[item] != null)
-                        {
-                            reactors[item].OnEvent();
-                        }
-                    }
-                    dialogueStatus = DialogueState.WaitEvent;
-                    sceneCamera.position = cameraPoints[node.EventCamPositionNumber].position;
-                    sceneCamera.rotation = cameraPoints[node.EventCamPositionNumber].rotation;
-                    sceneCamera.parent = cameraPoints[node.EventCamPositionNumber];
-                    Invoke("StopEvent", node.EventTime);
-                }
-            }
-        }
+        //    if (!node.ChangeCondition && !node.InSceneInvoke)
+        //    {
+        //        dialogueStatus = DialogueState.EventComplete;
+        //    }
+        //    else
+        //    {
+        //        if (node.ChangeCondition)
+        //        {
+        //            if (node.Parameter.GetType(node.ConditionNumber, out ParameterType type) && type == ParameterType.Bool)
+        //            {
+        //                node.Parameter.SetBool(node.ConditionNumber, node.ChangeBoolValue);
+        //            }
+        //            else
+        //            {
+        //                if(node.Operation == OperationType.AddValue)
+        //                {
+        //                    node.Parameter.SetInt(node.ConditionNumber, node.Parameter.GetInt(node.ConditionNumber) + node.ChangeIntValue);
+        //                }
+        //                else
+        //                {
+        //                    node.Parameter.SetInt(node.ConditionNumber, node.ChangeIntValue);
+        //                }
+        //            }
+        //            if (!node.InSceneInvoke)
+        //            {
+        //                dialogueStatus = DialogueState.EventComplete;
+        //            }
+        //        }
+        //        if (node.InSceneInvoke)
+        //        {
+        //            foreach (var item in node.ReactorsNumbers)
+        //            {
+        //                if (reactors[item] != null)
+        //                {
+        //                    reactors[item].OnEvent();
+        //                }
+        //            }
+        //            dialogueStatus = DialogueState.WaitEvent;
+        //            sceneCamera.position = cameraPoints[node.EventCamPositionNumber].position;
+        //            sceneCamera.rotation = cameraPoints[node.EventCamPositionNumber].rotation;
+        //            sceneCamera.parent = cameraPoints[node.EventCamPositionNumber];
+        //            Invoke("StopEvent", node.EventTime);
+        //        }
+        //    }
+        //}
     }
     public void CloseSkipTip()
     {
@@ -315,119 +315,119 @@ public class DialogueScenePoint : MonoBehaviour
     }
     private void CheckReplic()
     {
-        switch (dialogueStatus)
-        {
-            case DialogueState.Disactive:
-                break;
-            case DialogueState.TalkReplic:
-                if(noVoice)
-                {
-                    if(skip == 2)
-                    {
-                        if(useAnimations)
-                            activeDialogueController.StopReplic();
-                        CloseSkipTip();
+        //switch (dialogueStatus)
+        //{
+        //    case DialogueState.Disactive:
+        //        break;
+        //    case DialogueState.TalkReplic:
+        //        if(noVoice)
+        //        {
+        //            if(skip == 2)
+        //            {
+        //                if(useAnimations)
+        //                    activeDialogueController.StopReplic();
+        //                CloseSkipTip();
 
-                        if (node.finalNode)
-                        {
-                            skip = 0;
-                            ExitScene();
-                            //skip = 2;
-                            //dialogueStatus = DialogueState.LastClick;
-                        }
-                        else
-                        {
-                            currentIndex = node.Type == NodeType.RandomLink ? node.GetNextLink() : node.NextNodeNumber;
-                            if (useNetwork)
-                            {
-                                ToNodeWithEventId?.Invoke(currentIndex);
-                            }
-                            else
-                            {
+        //                if (node.finalNode)
+        //                {
+        //                    skip = 0;
+        //                    ExitScene();
+        //                    //skip = 2;
+        //                    //dialogueStatus = DialogueState.LastClick;
+        //                }
+        //                else
+        //                {
+        //                    currentIndex = node.Type == NodeType.RandomLink ? node.GetNextLink() : node.NextNodeNumber;
+        //                    if (useNetwork)
+        //                    {
+        //                        ToNodeWithEventId?.Invoke(currentIndex);
+        //                    }
+        //                    else
+        //                    {
                                 
-                                StartNode(currentIndex);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (!audioSource.isPlaying || skip == 2)
-                    {
-                        audioSource.Stop();
-                        activeDialogueController.StopReplic();
-                        CloseSkipTip();
-                        if (node.Type == NodeType.Replica)
-                        {
-                            node.alreadyUsed = true;
-                        }
+        //                        StartNode(currentIndex);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (!audioSource.isPlaying || skip == 2)
+        //            {
+        //                audioSource.Stop();
+        //                activeDialogueController.StopReplic();
+        //                CloseSkipTip();
+        //                if (node.Type == NodeType.Replica)
+        //                {
+        //                    node.alreadyUsed = true;
+        //                }
 
-                        if (node.finalNode)
-                        {
-                            ExitScene();
-                            dialogueStatus = DialogueState.Disactive;
-                        }
-                        else
-                        {
-                            currentIndex = node.NextNodeNumber;
-                            if (useNetwork)
-                            {
-                                ToNodeWithEventId?.Invoke(currentIndex);
-                            }
-                            else
-                            {
-                                StartNode(currentIndex);
-                            }
-                        }
-                    }
-                }
-                break;
-            case DialogueState.ChooseComplete:
-                currentIndex = scene.nodes[currentIndex].AnswerChoice[answerNumber];
+        //                if (node.finalNode)
+        //                {
+        //                    ExitScene();
+        //                    dialogueStatus = DialogueState.Disactive;
+        //                }
+        //                else
+        //                {
+        //                    currentIndex = node.NextNodeNumber;
+        //                    if (useNetwork)
+        //                    {
+        //                        ToNodeWithEventId?.Invoke(currentIndex);
+        //                    }
+        //                    else
+        //                    {
+        //                        StartNode(currentIndex);
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        break;
+        //    case DialogueState.ChooseComplete:
+        //        currentIndex = scene.nodes[currentIndex].AnswerChoice[answerNumber];
 
-                if(noVoice)
-                {
-                    currentIndex = scene.nodes[currentIndex].NextNodeNumber;
-                }
+        //        if(noVoice)
+        //        {
+        //            currentIndex = scene.nodes[currentIndex].NextNodeNumber;
+        //        }
 
-                if (useNetwork)
-                {
-                    ToNodeWithEventId?.Invoke(currentIndex);
-                }
-                else
-                {
-                    StartNode(currentIndex);
-                }
-                break;
-            case DialogueState.EventComplete:
-                if(node.finalNode)
-                {
-                    ExitScene();
-                    dialogueStatus = DialogueState.Disactive;
-                }
-                else
-                {
-                    currentIndex = node.Type == NodeType.RandomLink ? node.GetNextLink() : node.NextNodeNumber;
-                    if (useNetwork)
-                    {
-                        ToNodeWithEventId?.Invoke(currentIndex);
-                    }
-                    else
-                    {
-                        StartNode(currentIndex);
-                    }
-                }
-                break;
-            case DialogueState.LastClick:
-                if(skip == 2)
-                {
-                    skip = 0;
-                    ExitScene();
-                }
-                break;
-            default:
-                break;
-        }    
+        //        if (useNetwork)
+        //        {
+        //            ToNodeWithEventId?.Invoke(currentIndex);
+        //        }
+        //        else
+        //        {
+        //            StartNode(currentIndex);
+        //        }
+        //        break;
+        //    case DialogueState.EventComplete:
+        //        if(node.finalNode)
+        //        {
+        //            ExitScene();
+        //            dialogueStatus = DialogueState.Disactive;
+        //        }
+        //        else
+        //        {
+        //            currentIndex = node.Type == NodeType.RandomLink ? node.GetNextLink() : node.NextNodeNumber;
+        //            if (useNetwork)
+        //            {
+        //                ToNodeWithEventId?.Invoke(currentIndex);
+        //            }
+        //            else
+        //            {
+        //                StartNode(currentIndex);
+        //            }
+        //        }
+        //        break;
+        //    case DialogueState.LastClick:
+        //        if(skip == 2)
+        //        {
+        //            skip = 0;
+        //            ExitScene();
+        //        }
+        //        break;
+        //    default:
+        //        break;
+        //}    
     }
     public void StopScene()
     {
@@ -480,7 +480,7 @@ public class DialogueScenePoint : MonoBehaviour
         {
             foreach (var item in scene.nodes)
             {
-                item.alreadyUsed = false;
+                //item.alreadyUsed = false;
             }
             Debug.Log("Узлы очищены!");
         }
@@ -500,10 +500,10 @@ public class DialogueScenePoint : MonoBehaviour
         tipPanel.SetActive(false);
     }
 
-    public int GetNodeIndexByAnswer(int choiseNodeIndex, int answerNumber)
-    {
-        return scene.nodes[choiseNodeIndex].AnswerChoice[answerNumber];
-    }
+    //public int GetNodeIndexByAnswer(int choiseNodeIndex, int answerNumber)
+    //{
+    //    //return scene.nodes[choiseNodeIndex].AnswerChoice[answerNumber];
+    //}
     private Transform FindPointByRole(DialogueCharacter role)
     {
         foreach (var item in actorsPoints)
@@ -544,12 +544,12 @@ public class DialogueScenePoint : MonoBehaviour
     /// <param name="node"></param>
     private void CheckVariant(AnswerUI answer, DialogueNode node)
     {
-        if (!node.ReplicText.Equals(string.Empty))
-        {
-            answer.variantButton.SetActive(true);
-            answer.variantText.color = node.Character.color;
-            answer.variantText.text = node.ReplicText;
-        }
+        //if (!node.ReplicText.Equals(string.Empty))
+        //{
+        //    answer.variantButton.SetActive(true);
+        //    answer.variantText.color = node.Character.color;
+        //    answer.variantText.text = node.ReplicText;
+        //}
     }
     /// <summary>
     /// Срабатывает, когда игрок нажимает кнопку выбора варианта ответа. В параметр передаётся номер этой кнопки.

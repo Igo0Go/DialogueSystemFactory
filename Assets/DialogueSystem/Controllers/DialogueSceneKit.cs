@@ -50,7 +50,8 @@ public class DialogueSceneKit : ScriptableObject
     {
         for (int i = 0; i < from.previousNodesNumbers.Count; i++)
         {
-            nodes[from.previousNodesNumbers[i]].RemoveThisNodeFromNext(from);
+            if (from.nextNodesNumbers[i] >= 0)
+                nodes[from.previousNodesNumbers[i]].RemoveThisNodeFromNext(from);
         }
     }
     /// <summary>
@@ -61,19 +62,20 @@ public class DialogueSceneKit : ScriptableObject
     {
         for (int i = 0; i < from.nextNodesNumbers.Count; i++)
         {
-            nodes[from.nextNodesNumbers[i]].RemoveThisNodeFromPrevious(from);
+            if(from.nextNodesNumbers[i] >= 0)
+                nodes[from.nextNodesNumbers[i]].RemoveThisNodeFromPrevious(from);
         }
     }
     /// <summary>
     /// добавление узла в предыдущие к другому узлу
     /// </summary>
-    /// <param name="from"></param>
-    /// <param name="node"></param>
-    public void AddInPreviousRelations(DialogueNode from, DialogueNode node)
+    /// <param name="thisNode">Какой узел добавить</param>
+    /// <param name="nextNode">Какому узлу добавить</param>
+    public void AddInPreviousRelations(DialogueNode thisNode, DialogueNode nextNode)
     {
-        if (!from.previousNodesNumbers.Contains(node.index))
+        if (!nextNode.previousNodesNumbers.Contains(thisNode.index))
         {
-            from.previousNodesNumbers.Add(node.index);
+            nextNode.previousNodesNumbers.Add(thisNode.index);
         }
     }
     /// <summary>
