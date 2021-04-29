@@ -525,7 +525,7 @@ public class DialogueScenePointEditor : Editor
         GUILayout.Label("Не использовать озвучку в диалоге");
         GUILayout.Space(5);
         EditorGUI.BeginChangeCheck();
-        point.noVoice = EditorGUILayout.Toggle(point.noVoice);
+        point.useVoice = EditorGUILayout.Toggle(point.useVoice);
         if (EditorGUI.EndChangeCheck())
         {
             Undo.RecordObject(point, "Изменён параметр озвучка для " + name);
@@ -569,17 +569,6 @@ public class DialogueScenePointEditor : Editor
         }
         GUILayout.EndHorizontal();
 
-        if (point.scene != null)
-        {
-            GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Пометить все реплики как непрочитанные",
-                GUILayout.MinWidth(120), GUILayout.MaxHeight(20), GUILayout.MinHeight(20)))
-            {
-                point.ClearUsings();
-                Undo.RecordObject(point, "Рпелики помечены как непрочитанные в диалоговй схеме " + point.scene.sceneName);
-            }
-            GUILayout.EndHorizontal();
-        }
         GUILayout.EndVertical();
     }
 }

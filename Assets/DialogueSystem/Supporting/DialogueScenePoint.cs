@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Collections;
 
 public class DialogueScenePoint : MonoBehaviour
 {
@@ -28,7 +30,7 @@ public class DialogueScenePoint : MonoBehaviour
 
     [Tooltip("Кнопка пропуска реплики")] public KeyCode skipButton = KeyCode.R;
     [Space(20)]
-    public bool noVoice;
+    public bool useVoice;
     public bool once;
     public bool debug;
     public bool useAnimations;
@@ -40,9 +42,9 @@ public class DialogueScenePoint : MonoBehaviour
     public bool useNetwork = false; 
 
     public DialogueCharacter playerRole;
-    public event System.Action<int> ToNodeWithEventId;
-    public event System.Action StopDialogueEvent;
-    public event System.Action ClearPlayersBuffer;
+    public event Action<int> ActivateNodeWithIDEvent;
+    public event Action StopDialogueEvent;
+    public event Action ClearPlayersBuffer;
 
     private DialogueController activeDialogueController;
     private int currentIndex;
@@ -58,12 +60,13 @@ public class DialogueScenePoint : MonoBehaviour
         skip = 0;
         dialogueStatus = DialogueState.Disactive;
         subsPanel.SetActive(false);
-        CheckVariants(false);
-        HideMessage();
         audioSource.playOnAwake = false;
         audioSource.Stop();
         currentIndex = scene.firstNodeIndex;
         skipTip.SetActive(false);
+
+        CheckVariants(false);
+        HideMessage();
     }
 
     void Update()
@@ -81,354 +84,222 @@ public class DialogueScenePoint : MonoBehaviour
         CloseTip();
         camPosBufer = sceneCamera.position;
         camRotBufer = sceneCamera.rotation;
+
         AddAnswerEvents();
+
         if (currentIndex >= 0)
         {
-            teamDirector.OnChooseAnswer += CheckAnswer;
-            teamDirector.inDialog = true;
-            for (int i = 0; i < actors.Count; i++)
-            {
-                if(teleportPlayersToPositions)
-                    actors[i].ToDialoguePosition(FindPointByRole(actors[i].dialogueCharacter));
-                if (useAnimations)
-                    actors[i].ToDialogueAnimation();
-            }
+            PreparePlayersToDialogue();
             StartNode(currentIndex);
         }
     }
     public void StartNode(int nodeIndex)
     {
+        StopAllCoroutines();
         skip = 1;
+
         currentIndex = nodeIndex; 
         node = scene.nodes[nodeIndex];
         CheckVariants(false);
 
-        //if(node.Type == NodeType.Link)
-        //{
-        //    dialogueStatus = DialogueState.Disactive;
-        //    currentIndex = node.NextNodeNumber;
-        //    if (useNetwork)
-        //    {
-        //        ToNodeWithEventId?.Invoke(currentIndex);
-        //    }
-        //    else
-        //    {
-        //        StartNode(currentIndex);
-        //    }
-        //}
-        //else if(node.Type == NodeType.RandomLink)
-        //{
-        //    dialogueStatus = DialogueState.Disactive;
-        //    currentIndex = node.GetNextLink();
-        //    if (useNetwork)
-        //    {
-        //        ToNodeWithEventId?.Invoke(currentIndex);
-        //    }
-        //    else
-        //    {
-        //        StartNode(currentIndex);
-        //    }
-        //}
+        if (node is LinkNode link)
+        {
+            dialogueStatus = DialogueState.Disactive;
+            currentIndex = link.NextNodeNumber;
+            if (useNetwork)
+            {
+                ActivateNodeWithIDEvent?.Invoke(currentIndex);
+            }
+            else
+            {
+                StartNode(currentIndex);
+            }
+        }
+        else if (node is RandomizerNode randomizer)
+        {
+            dialogueStatus = DialogueState.Disactive;
+            currentIndex = randomizer.GetNextLink();
+            if (useNetwork)
+            {
+                ActivateNodeWithIDEvent?.Invoke(currentIndex);
+            }
+            else
+            {
+                StartNode(currentIndex);
+            }
+        }
+        else if (node is ReplicaNode replica)
+        {
+            ReplicInfo info = replica.replicaInformation;
+            PrepareReplica(info);
+            StartCoroutine(ShowSkipTipAfterTimeCoroutine());
+        }
+        else if (node is ChoiceNode choice)
+        {
+            sceneCamera.position = cameraPoints[choice.defaultCameraPositionIndex].position;
+            sceneCamera.rotation = cameraPoints[choice.defaultCameraPositionIndex].rotation;
+            sceneCamera.parent = cameraPoints[choice.defaultCameraPositionIndex];
 
-        //if (node.Type == NodeType.Replica || node.Type == NodeType.Choice)
-        //{
-        //    sceneCamera.position = cameraPoints[node.CamPositionNumber].position;
-        //    sceneCamera.rotation = cameraPoints[node.CamPositionNumber].rotation;
-        //    sceneCamera.parent = cameraPoints[node.CamPositionNumber];
-
-        //    if (node.Type == NodeType.Choice)
-        //    {
-        //        skip = 0;
-        //        if(!useNetwork || playerRole.Equals(node.Character))
-        //        {
-        //            dialogueStatus = DialogueState.WaitChoose;
-        //            for (int i = 0; i < node.AnswerChoice.Count; i++)
-        //            {
-        //                CheckVariant(answers[i], scene.nodes[node.AnswerChoice[i]]);
-        //            }
-        //        }
-                
-        //    }
-        //    else
-        //    {
-        //        if(noVoice)
-        //        {
-        //            if(!node.finalNode && !(scene.nodes[node.NextNodeNumber].Type == NodeType.Choice))
-        //            {
-        //                skipTip.SetActive(true);
-        //                skip = 1;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            audioSource.clip = node.Clip;
-        //            audioSource.Play();
-        //            if (node.alreadyUsed)
-        //            {
-        //                skipTip.SetActive(true);
-        //                skip = 1;
-        //            }
-        //        }
-
-        //        dialogueStatus = DialogueState.TalkReplic;
-
-        //        subsPanel.SetActive(true);
-        //        subsText.color = node.Character.color;
-        //        subsText.text = node.ReplicText;
-                
-        //        if(useAnimations)
-        //        {
-        //            if (FindController(node.Character))
-        //            {
-        //                activeDialogueController.SetTalkType(node.AnimType);
-        //            }
-        //            else
-        //            {
-        //                Debug.LogError("Контроллер не найден");
-        //            }
-        //        }
-
-        //        if(!node.finalNode && scene.nodes[node.NextNodeNumber].Type == NodeType.Choice)
-        //        {
-        //            StartNode(node.NextNodeNumber);
-        //        }
-        //    }
-        //}
-        //else if (node.Type == NodeType.Condition)
-        //{
-        //    if (node.Parameter.GetType(node.ConditionNumber, out ParameterType type) && type == ParameterType.Bool)
-        //    {
-        //        if (node.Parameter.Check(node.ConditionNumber, node.CheckType, node.CheckBoolValue))
-        //        {
-        //            currentIndex = node.PositiveNextNumber;
-        //            if (useNetwork)
-        //            {
-        //                ToNodeWithEventId?.Invoke(currentIndex);
-        //            }
-        //            else
-        //            {
-        //                StartNode(currentIndex);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            currentIndex = node.NegativeNextNumber;
-        //            if (useNetwork)
-        //            {
-        //                ToNodeWithEventId?.Invoke(currentIndex);
-        //            }
-        //            else
-        //            {
-        //                StartNode(currentIndex);
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (node.Parameter.GetType(node.ConditionNumber, out type) && type == ParameterType.Int)
-        //        {
-        //            if (node.Parameter.Check(node.ConditionNumber, node.CheckType, node.CheckIntValue))
-        //            {
-        //                if (useNetwork)
-        //                {
-        //                    ToNodeWithEventId?.Invoke(node.PositiveNextNumber);
-        //                }
-        //                else
-        //                {
-        //                    StartNode(node.PositiveNextNumber);
-        //                }
-        //            }
-        //            else
-        //            {
-        //                if (useNetwork)
-        //                {
-        //                    ToNodeWithEventId?.Invoke(node.NegativeNextNumber);
-        //                }
-        //                else
-        //                {
-        //                    StartNode(node.NegativeNextNumber);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-        //else if (node.Type == NodeType.Event)
-        //{
-        //    if(node.IsMessage)
-        //    {
-        //        messagePanel.SetActive(true);
-        //        messageText.text = node.MessageText;
-        //        Invoke("HideMessage", 4);
-        //    }
+            skip = 0;
+            if (!useNetwork || playerRole.Equals(choice.character))
+            {
+                dialogueStatus = DialogueState.WaitChoose;
+                for (int i = 0; i < choice.answers.Count; i++)
+                {
+                    ShowVariants(answers[i], choice.answers[i]);
+                }
+            }
+        }
+        else if(node is ConditionNode condition)
+        {
+            if (condition.parameter.GetType(condition.conditionNumber, out ParameterType type) && type == ParameterType.Bool)
+            {
+                if (condition.parameter.Check(condition.conditionNumber, condition.checkType, condition.checkBoolValue))
+                {
+                    currentIndex = condition.PositiveNextNumber;
+                    if (useNetwork)
+                    {
+                        ActivateNodeWithIDEvent?.Invoke(currentIndex);
+                    }
+                    else
+                    {
+                        StartNode(currentIndex);
+                    }
+                }
+                else
+                {
+                    currentIndex = condition.NegativeNextNumber;
+                    if (useNetwork)
+                    {
+                        ActivateNodeWithIDEvent?.Invoke(currentIndex);
+                    }
+                    else
+                    {
+                        StartNode(currentIndex);
+                    }
+                }
+            }
+            else
+            {
+                if (condition.parameter.GetType(condition.conditionNumber, out type) && type == ParameterType.Int)
+                {
+                    if (condition.parameter.Check(condition.conditionNumber, condition.checkType, condition.checkIntValue))
+                    {
+                        if (useNetwork)
+                        {
+                            ActivateNodeWithIDEvent?.Invoke(condition.PositiveNextNumber);
+                        }
+                        else
+                        {
+                            StartNode(condition.PositiveNextNumber);
+                        }
+                    }
+                    else
+                    {
+                        if (useNetwork)
+                        {
+                            ActivateNodeWithIDEvent?.Invoke(condition.NegativeNextNumber);
+                        }
+                        else
+                        {
+                            StartNode(condition.NegativeNextNumber);
+                        }
+                    }
+                }
+            }
+        }
+        else if(node is EventNode eventNode)
+        {
+            if (eventNode.useMessage)
+            {
+                messagePanel.SetActive(true);
+                messageText.text = eventNode.messageText;
+                StartCoroutine(HideMessageCoroutine(4));
+            }
 
 
-        //    if (!node.ChangeCondition && !node.InSceneInvoke)
-        //    {
-        //        dialogueStatus = DialogueState.EventComplete;
-        //    }
-        //    else
-        //    {
-        //        if (node.ChangeCondition)
-        //        {
-        //            if (node.Parameter.GetType(node.ConditionNumber, out ParameterType type) && type == ParameterType.Bool)
-        //            {
-        //                node.Parameter.SetBool(node.ConditionNumber, node.ChangeBoolValue);
-        //            }
-        //            else
-        //            {
-        //                if(node.Operation == OperationType.AddValue)
-        //                {
-        //                    node.Parameter.SetInt(node.ConditionNumber, node.Parameter.GetInt(node.ConditionNumber) + node.ChangeIntValue);
-        //                }
-        //                else
-        //                {
-        //                    node.Parameter.SetInt(node.ConditionNumber, node.ChangeIntValue);
-        //                }
-        //            }
-        //            if (!node.InSceneInvoke)
-        //            {
-        //                dialogueStatus = DialogueState.EventComplete;
-        //            }
-        //        }
-        //        if (node.InSceneInvoke)
-        //        {
-        //            foreach (var item in node.ReactorsNumbers)
-        //            {
-        //                if (reactors[item] != null)
-        //                {
-        //                    reactors[item].OnEvent();
-        //                }
-        //            }
-        //            dialogueStatus = DialogueState.WaitEvent;
-        //            sceneCamera.position = cameraPoints[node.EventCamPositionNumber].position;
-        //            sceneCamera.rotation = cameraPoints[node.EventCamPositionNumber].rotation;
-        //            sceneCamera.parent = cameraPoints[node.EventCamPositionNumber];
-        //            Invoke("StopEvent", node.EventTime);
-        //        }
-        //    }
-        //}
+            if (!eventNode.changeParameter && !eventNode.inSceneInvoke)
+            {
+                dialogueStatus = DialogueState.EventComplete;
+            }
+            else
+            {
+                if (eventNode.changeParameter)
+                {
+                    if (eventNode.parameter.GetType(eventNode.changeingParameterIndex, out ParameterType type) && type == ParameterType.Bool)
+                    {
+                        eventNode.parameter.SetBool(eventNode.changeingParameterIndex, eventNode.targetBoolValue);
+                    }
+                    else
+                    {
+                        if (eventNode.operation == OperationType.AddValue)
+                        {
+                            eventNode.parameter.SetInt(eventNode.changeingParameterIndex,
+                                eventNode.parameter.GetInt(eventNode.changeingParameterIndex) + eventNode.changeIntValue);
+                        }
+                        else
+                        {
+                            eventNode.parameter.SetInt(eventNode.changeingParameterIndex, eventNode.changeIntValue);
+                        }
+                    }
+                    if (!eventNode.inSceneInvoke)
+                    {
+                        dialogueStatus = DialogueState.EventComplete;
+                    }
+                }
+                if (eventNode.inSceneInvoke)
+                {
+                    foreach (var item in eventNode.reactorsNumbers)
+                    {
+                        if (reactors[item] != null)
+                        {
+                            reactors[item].OnEvent();
+                        }
+                    }
+                    dialogueStatus = DialogueState.WaitEvent;
+                    sceneCamera.position = cameraPoints[eventNode.eventCamPositionNumber].position;
+                    sceneCamera.rotation = cameraPoints[eventNode.eventCamPositionNumber].rotation;
+                    sceneCamera.parent = cameraPoints[eventNode.eventCamPositionNumber];
+                    StartCoroutine(StopInSceneEventCoroutine(eventNode.eventTime));
+                }
+            }
+        }
     }
+    /// <summary>
+    /// Срабатывает, когда игрок нажимает кнопку выбора варианта ответа. В параметр передаётся номер этой кнопки.
+    /// </summary>
+    /// <param name="number">номер нажатой кнопки</param>
+    public void UseAnswer(int number)
+    {
+        answerNumber = number;
+        StartNode(node.nextNodesNumbers[answerNumber]);
+    }
+
     public void CloseSkipTip()
     {
         skipTip.SetActive(false);
         skip = 0;
     }
+
     private void CheckReplic()
     {
-        //switch (dialogueStatus)
-        //{
-        //    case DialogueState.Disactive:
-        //        break;
-        //    case DialogueState.TalkReplic:
-        //        if(noVoice)
-        //        {
-        //            if(skip == 2)
-        //            {
-        //                if(useAnimations)
-        //                    activeDialogueController.StopReplic();
-        //                CloseSkipTip();
-
-        //                if (node.finalNode)
-        //                {
-        //                    skip = 0;
-        //                    ExitScene();
-        //                    //skip = 2;
-        //                    //dialogueStatus = DialogueState.LastClick;
-        //                }
-        //                else
-        //                {
-        //                    currentIndex = node.Type == NodeType.RandomLink ? node.GetNextLink() : node.NextNodeNumber;
-        //                    if (useNetwork)
-        //                    {
-        //                        ToNodeWithEventId?.Invoke(currentIndex);
-        //                    }
-        //                    else
-        //                    {
-                                
-        //                        StartNode(currentIndex);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (!audioSource.isPlaying || skip == 2)
-        //            {
-        //                audioSource.Stop();
-        //                activeDialogueController.StopReplic();
-        //                CloseSkipTip();
-        //                if (node.Type == NodeType.Replica)
-        //                {
-        //                    node.alreadyUsed = true;
-        //                }
-
-        //                if (node.finalNode)
-        //                {
-        //                    ExitScene();
-        //                    dialogueStatus = DialogueState.Disactive;
-        //                }
-        //                else
-        //                {
-        //                    currentIndex = node.NextNodeNumber;
-        //                    if (useNetwork)
-        //                    {
-        //                        ToNodeWithEventId?.Invoke(currentIndex);
-        //                    }
-        //                    else
-        //                    {
-        //                        StartNode(currentIndex);
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        break;
-        //    case DialogueState.ChooseComplete:
-        //        currentIndex = scene.nodes[currentIndex].AnswerChoice[answerNumber];
-
-        //        if(noVoice)
-        //        {
-        //            currentIndex = scene.nodes[currentIndex].NextNodeNumber;
-        //        }
-
-        //        if (useNetwork)
-        //        {
-        //            ToNodeWithEventId?.Invoke(currentIndex);
-        //        }
-        //        else
-        //        {
-        //            StartNode(currentIndex);
-        //        }
-        //        break;
-        //    case DialogueState.EventComplete:
-        //        if(node.finalNode)
-        //        {
-        //            ExitScene();
-        //            dialogueStatus = DialogueState.Disactive;
-        //        }
-        //        else
-        //        {
-        //            currentIndex = node.Type == NodeType.RandomLink ? node.GetNextLink() : node.NextNodeNumber;
-        //            if (useNetwork)
-        //            {
-        //                ToNodeWithEventId?.Invoke(currentIndex);
-        //            }
-        //            else
-        //            {
-        //                StartNode(currentIndex);
-        //            }
-        //        }
-        //        break;
-        //    case DialogueState.LastClick:
-        //        if(skip == 2)
-        //        {
-        //            skip = 0;
-        //            ExitScene();
-        //        }
-        //        break;
-        //    default:
-        //        break;
-        //}    
+        switch (dialogueStatus)
+        {
+            case DialogueState.TalkReplic:
+                CheckTalkReplicState();
+                break;
+            case DialogueState.LastClick:
+                if (skip == 2)
+                {
+                    skip = 0;
+                    ExitScene();
+                }
+                break;
+            default:
+                break;
+        }
     }
+
     public void StopScene()
     {
         currentIndex = -1;
@@ -447,7 +318,7 @@ public class DialogueScenePoint : MonoBehaviour
         }
         teamDirector.inDialog = false;
         teamDirector.ReturnFromDialogue();
-        teamDirector.OnChooseAnswer -= CheckAnswer;
+        teamDirector.OnChooseAnswer -= UseAnswer;
         if(once)
         {
             ClearPlayersBuffer?.Invoke();
@@ -472,20 +343,8 @@ public class DialogueScenePoint : MonoBehaviour
 
     #region Вспомогательные
     /// <summary>
-    /// Помечает все узлы как ещё не просмотренные. Теперь их нельзя пропускать.
+    /// Показать подсказку - зона диалога
     /// </summary>
-    public void ClearUsings()
-    {
-        if(scene != null)
-        {
-            foreach (var item in scene.nodes)
-            {
-                //item.alreadyUsed = false;
-            }
-            Debug.Log("Узлы очищены!");
-        }
-        Debug.LogWarning("Диалоговая сцена не указана!");
-    }
     public void ShowTip()
     {
         tipPanel.SetActive(true);
@@ -494,6 +353,9 @@ public class DialogueScenePoint : MonoBehaviour
         Debug.Log("2 "+ tipString);
 
     }
+    /// <summary>
+    /// Скрыть подсказку - зона диалога
+    /// </summary>
     public void CloseTip()
     {
         tipText.text = string.Empty;
@@ -526,10 +388,7 @@ public class DialogueScenePoint : MonoBehaviour
         }
         return false;
     }
-    /// <summary>
-    /// Скрывает (false) или показывает (true) кнопки, используемые в вариантах ответов
-    /// </summary>
-    /// <param name="value"></param>
+
     private void CheckVariants(bool value)
     {
         foreach (var item in answers)
@@ -537,44 +396,175 @@ public class DialogueScenePoint : MonoBehaviour
             item.variantButton.SetActive(value);
         }
     }
-    /// <summary>
-    /// В соответствии с указанным вариантом ответа, представленным как DialogueNode, включает кнопку для выбора данного варианта ответа и устанавливает ей нужный текст
-    /// </summary>
-    /// <param name="answer"></param>
-    /// <param name="node"></param>
-    private void CheckVariant(AnswerUI answer, DialogueNode node)
+    private void HideMessage()
     {
-        //if (!node.ReplicText.Equals(string.Empty))
-        //{
-        //    answer.variantButton.SetActive(true);
-        //    answer.variantText.color = node.Character.color;
-        //    answer.variantText.text = node.ReplicText;
-        //}
+        messagePanel.SetActive(false);
     }
-    /// <summary>
-    /// Срабатывает, когда игрок нажимает кнопку выбора варианта ответа. В параметр передаётся номер этой кнопки.
-    /// </summary>
-    /// <param name="number"></param>
-    public void CheckAnswer(int number)
-    {
-        answerNumber = number;
-        dialogueStatus = DialogueState.ChooseComplete;
-    }
-    private void HideMessage() => messagePanel.SetActive(false);
-    private void StopEvent() => dialogueStatus = DialogueState.EventComplete;
-    //Используется!!! в StartReplic() для события (Invke("StopEvent"))
     private void AddAnswerEvents()
     {
         foreach (var item in answers)
         {
-            item.variantButton.GetComponent<AnswerButtonReactor>().TakeAnswerEvent += CheckAnswer;
+            item.variantButton.GetComponent<AnswerButtonReactor>().TakeAnswerEvent += UseAnswer;
         }
     }
     private void RemoveAnswerEvents()
     {
         foreach (var item in answers)
         {
-            item.variantButton.GetComponent<AnswerButtonReactor>().TakeAnswerEvent -= CheckAnswer;
+            item.variantButton.GetComponent<AnswerButtonReactor>().TakeAnswerEvent -= UseAnswer;
+        }
+    }
+    private void PreparePlayersToDialogue()
+    {
+        teamDirector.OnChooseAnswer += UseAnswer;
+        teamDirector.inDialog = true;
+        for (int i = 0; i < actors.Count; i++)
+        {
+            if (teleportPlayersToPositions)
+                actors[i].ToDialoguePosition(FindPointByRole(actors[i].dialogueCharacter));
+            if (useAnimations)
+                actors[i].ToDialogueAnimation();
+        }
+    }
+    private void PrepareReplica(ReplicInfo info)
+    {
+        sceneCamera.position = cameraPoints[info.camPositionNumber].position;
+        sceneCamera.rotation = cameraPoints[info.camPositionNumber].rotation;
+        sceneCamera.parent = cameraPoints[info.camPositionNumber];
+
+        if (useVoice)
+        {
+            audioSource.clip = info.clip;
+            audioSource.Play();
+        }
+
+        dialogueStatus = DialogueState.TalkReplic;
+
+        subsPanel.SetActive(true);
+        subsText.color = info.character.color;
+        subsText.text = info.replicaText;
+
+        if (useAnimations)
+        {
+            if (FindController(info.character))
+            {
+                activeDialogueController.SetTalkType(info.animType);
+            }
+            else
+            {
+                Debug.LogError("Контроллер не найден");
+            }
+        }
+    }
+    private void ShowVariants(AnswerUI answer, AnswerItem item)
+    {
+        ReplicInfo inf = item.answerReplica;
+        if (!inf.replicaText.Equals(string.Empty))
+        {
+            answer.variantButton.SetActive(true);
+            answer.variantText.color = inf.character.color;
+            answer.variantText.text = inf.replicaText;
+        }
+    }
+
+    private void CheckTalkReplicState()
+    {
+        if (useVoice)
+        {
+            if (!audioSource.isPlaying || skip == 2)
+            {
+                audioSource.Stop();
+                activeDialogueController.StopReplic();
+                CloseSkipTip();
+                if (node.finalNode)
+                {
+                    ExitScene();
+                    dialogueStatus = DialogueState.Disactive;
+                }
+                else
+                {
+                    currentIndex = node.nextNodesNumbers[0];
+                    if (useNetwork)
+                    {
+                        ActivateNodeWithIDEvent?.Invoke(currentIndex);
+                    }
+                    else
+                    {
+                        StartNode(currentIndex);
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (skip == 2)
+            {
+                if (useAnimations)
+                    activeDialogueController.StopReplic();
+                CloseSkipTip();
+
+                if (node.finalNode)
+                {
+                    skip = 0;
+                    ExitScene();
+                }
+                else
+                {
+                    currentIndex = node.nextNodesNumbers[0];
+                    if (useNetwork)
+                    {
+                        ActivateNodeWithIDEvent?.Invoke(currentIndex);
+                    }
+                    else
+                    {
+                        StartNode(currentIndex);
+                    }
+                }
+            }
+        }
+    }
+
+    private IEnumerator HideMessageCoroutine(float time)
+    {
+        float t = 0;
+        while (t < time)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
+        HideMessage();
+    }
+    private IEnumerator ShowSkipTipAfterTimeCoroutine()
+    {
+        yield return new WaitForSeconds(2);
+        skipTip.SetActive(true);
+        skip = 1;
+    }
+    private IEnumerator StopInSceneEventCoroutine(float time)
+    {
+        float t = 0;
+        while(t < time)
+        {
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        if (node.finalNode)
+        {
+            ExitScene();
+            dialogueStatus = DialogueState.Disactive;
+        }
+        else
+        {
+            currentIndex = node.nextNodesNumbers[0];
+            if (useNetwork)
+            {
+                ActivateNodeWithIDEvent?.Invoke(currentIndex);
+            }
+            else
+            {
+                StartNode(currentIndex);
+            }
         }
     }
     #endregion
@@ -611,11 +601,6 @@ public class DialogueScenePoint : MonoBehaviour
                     Debug.LogError("Одна из заявленных точек камеры на задана!");
                 }
             }
-        }
-        if(clearUsingInReplics)
-        {
-            ClearUsings();
-            clearUsingInReplics = false;
         }
     }
 }
