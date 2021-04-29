@@ -13,7 +13,7 @@ public class DialogueSceneEditor : EditorWindow
     /// </summary>
     public DialogueSceneKit sceneKit;
 
-    private DialogueNodeType nodeType;
+    private DialogueNodeType nodeType = DialogueNodeType.Replica;
     private DialogueNode beginRelationNodeBufer;
     private DialogueNode dragNodeBufer;
     private Rect buferRect, scrollViewRect;
@@ -732,7 +732,7 @@ public class DialogueSceneEditor : EditorWindow
                 sceneKit.ClearNextRelations(eventNode);
             }
             eventNode.NextNodeNumber = node.index;
-            sceneKit.AddInPreviousRelations(sceneKit.nodes[eventNode.NextNodeNumber], eventNode);
+            sceneKit.AddInPreviousRelations(eventNode, sceneKit.nodes[eventNode.NextNodeNumber]);
         }
         else if(beginRelationNodeBufer is ConditionNode condition)
         {
@@ -989,6 +989,11 @@ public class DialogueSceneEditor : EditorWindow
                 break;
             default:
                 break;
+        }
+
+        if(index == 0)
+        {
+            sceneKit.SetAsFirst(sceneKit.nodes[0]);
         }
     }
     /// <summary>

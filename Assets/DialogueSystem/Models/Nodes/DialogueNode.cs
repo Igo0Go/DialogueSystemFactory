@@ -76,7 +76,13 @@ public abstract class DialogueNode
     /// </summary>
     public void RemoveThisNodeFromNext(DialogueNode nodeForRemoving)
     {
-        nextNodesNumbers.RemoveAll(node => node == nodeForRemoving.index);
+        for (int i = 0; i < nextNodesNumbers.Count; i++)
+        {
+            if(nextNodesNumbers[i] == nodeForRemoving.index)
+            {
+                nextNodesNumbers[i] = -1;
+            }
+        }
     }
 
     /// <summary>

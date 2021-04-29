@@ -50,7 +50,7 @@ public class DialogueSceneKit : ScriptableObject
     {
         for (int i = 0; i < from.previousNodesNumbers.Count; i++)
         {
-            if (from.previousNodesNumbers[i] >= 0)
+            if (from.previousNodesNumbers[i] > -1)
                 nodes[from.previousNodesNumbers[i]].RemoveThisNodeFromNext(from);
         }
     }
@@ -62,7 +62,7 @@ public class DialogueSceneKit : ScriptableObject
     {
         for (int i = 0; i < from.nextNodesNumbers.Count; i++)
         {
-            if(from.nextNodesNumbers[i] >= 0)
+            if(from.nextNodesNumbers[i] > -1)
                 nodes[from.nextNodesNumbers[i]].RemoveThisNodeFromPrevious(from);
         }
     }
