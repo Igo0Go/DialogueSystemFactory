@@ -109,7 +109,7 @@ public abstract class DialogueNode
         {
             if (nextNodesNumbers[i] > removedIndex)
             {
-                nextNodesNumbers[i]++;
+                nextNodesNumbers[i]--;
             }
         }
     }

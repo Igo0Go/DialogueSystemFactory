@@ -8,7 +8,17 @@ public class EventNode : DialogueNode
 {
     public readonly Vector2 exitPointOffset = new Vector2(130, 21);
 
-    public int NextNodeNumber => nextNodesNumbers[0];
+    public int NextNodeNumber
+    {
+        get
+        {
+            return nextNodesNumbers[0];
+        }
+        set
+        {
+            nextNodesNumbers[0] = value;
+        }
+    }
 
     #region Сообщение при событии
     /// <summary>

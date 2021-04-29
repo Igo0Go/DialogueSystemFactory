@@ -369,7 +369,7 @@ public class DialogueSceneEditor : EditorWindow
             if (choice.leftToRight)
             {
                 bufer = new Rect(nodeTransform.x + 21, nodeTransform.y + 21 * (i + 1), 20, 20);
-                if (GUI.Button(bufer, "x")) //можно удалять отдельные варианты ответов
+                if (GUI.Button(bufer, "x"))
                 {
                     choice.RemoveAnsver(i);
                     if (choice.answers.Count < 2)
@@ -716,63 +716,74 @@ public class DialogueSceneEditor : EditorWindow
             replica.NextNodeNumber = node.index;
             sceneKit.AddInPreviousRelations(beginRelationNodeBufer, node);
         }
-
-        //    case NodeType.Choice:
-        //        if (sceneKit.nodes[beginRelationNodeBufer.AnswerChoice[exitBufer]].NextNodeNumber != -1)
-        //        {
-        //            sceneKit.RemoveFromNext(beginRelationNodeBufer, sceneKit.nodes[beginRelationNodeBufer.AnswerChoice[exitBufer]]);
-        //        }
-        //        sceneKit.nodes[beginRelationNodeBufer.AnswerChoice[exitBufer]].NextNodeNumber = node.index;
-        //        sceneKit.AddInPreviousRelations(sceneKit.nodes[node.index], sceneKit.nodes[beginRelationNodeBufer.AnswerChoice[exitBufer]]);
-        //        break;
-        //    case NodeType.Event:
-        //        if (beginRelationNodeBufer.NextNodeNumber != -1)
-        //        {
-        //            sceneKit.RemoveFromNext(beginRelationNodeBufer, sceneKit.nodes[beginRelationNodeBufer.NextNodeNumber]);
-        //        }
-        //        beginRelationNodeBufer.NextNodeNumber = node.index;
-        //        sceneKit.AddInPreviousRelations(sceneKit.nodes[beginRelationNodeBufer.NextNodeNumber], beginRelationNodeBufer);
-        //        break;
-        //    case NodeType.Condition:
-        //        if (exitBufer == 0)
-        //        {
-        //            if (beginRelationNodeBufer.PositiveNextNumber != -1)
-        //            {
-        //                sceneKit.ConditionRemoveFromNext(beginRelationNodeBufer, sceneKit.nodes[beginRelationNodeBufer.PositiveNextNumber], 0);
-        //            }
-        //            beginRelationNodeBufer.PositiveNextNumber = node.index;
-        //            sceneKit.AddInPreviousRelations(sceneKit.nodes[beginRelationNodeBufer.PositiveNextNumber], beginRelationNodeBufer);
-        //        }
-        //        else
-        //        {
-        //            if (beginRelationNodeBufer.NegativeNextNumber != -1)
-        //            {
-        //                sceneKit.ConditionRemoveFromNext(beginRelationNodeBufer, sceneKit.nodes[beginRelationNodeBufer.NegativeNextNumber], 1);
-        //            }
-        //            beginRelationNodeBufer.NegativeNextNumber = node.index;
-        //            sceneKit.AddInPreviousRelations(sceneKit.nodes[beginRelationNodeBufer.NegativeNextNumber], beginRelationNodeBufer);
-        //        }
-        //        break;
-        //    case NodeType.Link:
-        //        if (beginRelationNodeBufer.NextNodeNumber != -1)
-        //        {
-        //            sceneKit.RemoveFromNext(beginRelationNodeBufer, sceneKit.nodes[beginRelationNodeBufer.NextNodeNumber]);
-        //        }
-        //        beginRelationNodeBufer.NextNodeNumber = node.index;
-        //        sceneKit.AddInPreviousRelations(node, beginRelationNodeBufer);
-        //        break;
-        //    case NodeType.RandomLink:
-        //        if(exitBufer == -1)
-        //        {
-        //            beginRelationNodeBufer.NextNodeNumber = node.index;
-        //        }
-        //        else
-        //        {
-        //            beginRelationNodeBufer.linkNextNodeNumbers[exitBufer].link = node.index;
-        //        }
-        //        sceneKit.AddInPreviousRelations(node, beginRelationNodeBufer);
-        //        break;
-        //}
+        else if(beginRelationNodeBufer is ChoiceNode choice)
+        {
+            if(choice.nextNodesNumbers[exitBufer] != -1)
+            {
+                sceneKit.ClearOneNextNumber(choice, exitBufer);
+            }
+            choice.nextNodesNumbers[exitBufer] = node.index;
+            sceneKit.AddInPreviousRelations(choice, node);
+        }
+        else if(beginRelationNodeBufer is EventNode eventNode)
+        {
+            if (eventNode.NextNodeNumber != -1)
+            {
+                sceneKit.ClearNextRelations(eventNode);
+            }
+            eventNode.NextNodeNumber = node.index;
+            sceneKit.AddInPreviousRelations(sceneKit.nodes[eventNode.NextNodeNumber], eventNode);
+        }
+        else if(beginRelationNodeBufer is ConditionNode condition)
+        {
+            if (exitBufer == 0)
+            {
+                if (condition.PositiveNextNumber != -1)
+                {
+                    sceneKit.ClearOneNextNumber(condition, exitBufer);
+                }
+                condition.PositiveNextNumber = node.index;
+                sceneKit.AddInPreviousRelations(condition, sceneKit.nodes[condition.PositiveNextNumber]);
+            }
+            else
+            {
+                if (condition.NegativeNextNumber != -1)
+                {
+                    sceneKit.ClearOneNextNumber(condition, exitBufer);
+                }
+                condition.NegativeNextNumber = node.index;
+                sceneKit.AddInPreviousRelations(condition, sceneKit.nodes[condition.NegativeNextNumber]);
+            }
+        }
+        else if(beginRelationNodeBufer is LinkNode link)
+        {
+            if (link.NextNodeNumber != -1)
+            {
+                sceneKit.ClearNextRelations(link);
+            }
+            link.NextNodeNumber = node.index;
+            sceneKit.AddInPreviousRelations(link, node);
+        }
+        else if(beginRelationNodeBufer is RandomizerNode randomizer)
+        {
+            if (exitBufer == -1)
+            {
+                if(randomizer.defaultNextNodeNumber != -1)
+                {
+                    sceneKit.ClearOneNextNumber(randomizer, 0);
+                }
+                randomizer.defaultNextNodeNumber = node.index;
+            }
+            else
+            {
+                if (randomizer.nextNodesNumbers[exitBufer] != -1)
+                {
+                    sceneKit.ClearOneNextNumber(randomizer, exitBufer);
+                }
+                randomizer.nextNodesNumbers[exitBufer] = node.index;
+            }
+            sceneKit.AddInPreviousRelations(randomizer, node);
+        }
         beginRelationNodeBufer = null;
         exitBufer = 0;
     }
@@ -802,7 +813,7 @@ public class DialogueSceneEditor : EditorWindow
 
                     Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
                         nextNode.transformRect.y + nextNode.enterPointOffset.y);
-                    if (!replica.leftToRight)
+                    if (!nextNode.leftToRight)
                     {
                         endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
                             nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
@@ -812,120 +823,113 @@ public class DialogueSceneEditor : EditorWindow
                     DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.white);
                 }
             }
+            else if(node is ChoiceNode choice)
+            {
+                for (int j = 0; j < choice.nextNodesNumbers.Count; j++)
+                {
+                    if(choice.nextNodesNumbers[j] != -1)
+                    {
+                        DialogueNode nextNode = sceneKit.nodes[choice.nextNodesNumbers[j]];
 
-            #region
-            //switch (sceneKit.nodes[i].Type)
-            //{
-            //    case NodeType.Replica:
+                        Vector2 startPoint = new Vector2(choice.transformRect.x + choice.exitPointOffsetList[j].x,
+                            choice.transformRect.y + choice.exitPointOffsetList[j].y);
+                        if (!choice.leftToRight)
+                        {
+                            startPoint = new Vector2(choice.transformRect.x + choice.enterPointOffset.x,
+                                choice.transformRect.y + choice.enterPointOffset.y + +(21 * j));
+                            startMultiplicator = -1;
+                        }
 
-            //        break;
-            //    case NodeType.Choice:
-            //        for (int j = 0; j < sceneKit.nodes[i].AnswerChoice.Count; j++)
-            //        {
-            //            if (sceneKit.nodes[sceneKit.nodes[i].AnswerChoice[j]].NextNodeNumber != -1)
-            //            {
-            //                DialogueNode node = sceneKit.nodes[sceneKit.nodes[sceneKit.nodes[i].AnswerChoice[j]].NextNodeNumber];
+                        Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
+                            nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                        if (!nextNode.leftToRight)
+                        {
+                            endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
+                                nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                            endMultiplicator = -1;
+                        }
 
+                        DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.white);
+                    }
+                }
+            }
+            else if(node is EventNode eventNode)
+            {
+                if (eventNode.NextNodeNumber != -1)
+                {
+                    Vector2 startPoint = new Vector2(eventNode.transformRect.x + eventNode.exitPointOffset.x,
+                        sceneKit.nodes[i].transformRect.y + eventNode.exitPointOffset.y);
+                    if (!eventNode.leftToRight)
+                    {
+                        startPoint = new Vector2(eventNode.transformRect.x + eventNode.enterPointOffset.x, eventNode.transformRect.y +
+                        eventNode.enterPointOffset.y);
+                        startMultiplicator = -1;
+                    }
 
-            //                Vector2 startPoint = new Vector2(sceneKit.nodes[i].transformRect.x + sceneKit.nodes[i].ExitPointsOffset[j].x, sceneKit.nodes[i].transformRect.y +
-            //                    sceneKit.nodes[i].ExitPointsOffset[j].y);
+                    DialogueNode nextNode = sceneKit.nodes[eventNode.NextNodeNumber];
 
-            //                if (!sceneKit.nodes[i].leftToRight)
-            //                {
-            //                    startPoint = new Vector2(sceneKit.nodes[i].transformRect.x + 1, sceneKit.nodes[i].transformRect.y +
-            //                    sceneKit.nodes[i].ExitPointsOffset[j].y);
-            //                    startMultiplicator = -1;
-            //                }
+                    Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
+                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                    if (!nextNode.leftToRight)
+                    {
+                        endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
+                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                        endMultiplicator = -1;
+                    }
 
-            //                Vector2 endPoint;
+                    DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.yellow);
+                }
+            }
+            else if(node is ConditionNode condition)
+            {
+                if (condition.PositiveNextNumber != -1)
+                {
+                    DialogueNode nextNode = sceneKit.nodes[condition.PositiveNextNumber];
+                    Vector2 startPoint = new Vector2(condition.transformRect.x + condition.positiveExitPointOffset.x,
+                        condition.transformRect.y + condition.positiveExitPointOffset.y);
+                    if (!condition.leftToRight)
+                    {
+                        startPoint = new Vector2(condition.transformRect.x - 1, condition.transformRect.y +
+                            condition.positiveExitPointOffset.y);
+                        startMultiplicator = -1;
+                    }
 
-            //                if (node.leftToRight)
-            //                {
-            //                    endPoint = new Vector2(node.transformRect.x - node.enterPointOffset.x, node.transformRect.y + node.enterPointOffset.y);
-            //                    endMultiplicator = 1;
-            //                }
-            //                else
-            //                {
-            //                    endPoint = new Vector2(node.transformRect.x + node.RightPointOffset.x, node.transformRect.y + node.RightPointOffset.y);
-            //                    endMultiplicator = -1;
-            //                }
+                    Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
+                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                    if (!nextNode.leftToRight)
+                    {
+                        endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
+                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                        endMultiplicator = -1;
+                    }
 
-            //                DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.white);
-            //            }
-            //        }
-            //        break;
-            //    case NodeType.Event:
-            //        if (sceneKit.nodes[i].NextNodeNumber != -1)
-            //        {
-            //            DialogueNode node = sceneKit.nodes[sceneKit.nodes[i].NextNodeNumber];
+                    DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.green);
+                }
+                if (condition.NegativeNextNumber != -1)
+                {
+                    startMultiplicator = endMultiplicator = 1;
+                    DialogueNode nextNode = sceneKit.nodes[condition.NegativeNextNumber];
+                    Vector2 startPoint = new Vector2(condition.transformRect.x + condition.negativeExitPointOffset.x,
+                        condition.transformRect.y + condition.negativeExitPointOffset.y);
+                    if (!sceneKit.nodes[i].leftToRight)
+                    {
+                        startPoint = new Vector2(condition.transformRect.x - 1,
+                            condition.transformRect.y + condition.negativeExitPointOffset.y);
+                        startMultiplicator = -1;
+                    }
 
-            //            Vector2 startPoint = new Vector2(sceneKit.nodes[i].transformRect.x + sceneKit.nodes[i].RightPointOffset.x, sceneKit.nodes[i].transformRect.y +
-            //                sceneKit.nodes[i].RightPointOffset.y);
-            //            if (!sceneKit.nodes[i].leftToRight)
-            //            {
-            //                startPoint = new Vector2(sceneKit.nodes[i].transformRect.x + sceneKit.nodes[i].enterPointOffset.x, sceneKit.nodes[i].transformRect.y +
-            //                sceneKit.nodes[i].enterPointOffset.y);
-            //                startMultiplicator = -1;
-            //            }
+                    Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
+                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                    if (!nextNode.leftToRight)
+                    {
+                        endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
+                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                        endMultiplicator = -1;
+                    }
 
-            //            Vector2 endPoint = new Vector2(node.transformRect.x + node.enterPointOffset.x, node.transformRect.y + node.enterPointOffset.y);
-            //            if (!node.leftToRight)
-            //            {
-            //                endPoint = new Vector2(node.transformRect.x + node.RightPointOffset.x, node.transformRect.y + node.RightPointOffset.y);
-            //                endMultiplicator = -1;
-            //            }
-
-            //            DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.yellow);
-            //        }
-            //        break;
-            //    case NodeType.Condition:
-            //        if (sceneKit.nodes[i].PositiveNextNumber != -1)
-            //        {
-            //            DialogueNode node = sceneKit.nodes[sceneKit.nodes[i].PositiveNextNumber];
-
-            //            Vector2 startPoint = new Vector2(sceneKit.nodes[i].transformRect.x + sceneKit.nodes[i].PositiveExitPointOffset.x,
-            //                sceneKit.nodes[i].transformRect.y + sceneKit.nodes[i].PositiveExitPointOffset.y);
-            //            if (!sceneKit.nodes[i].leftToRight)
-            //            {
-            //                startPoint = new Vector2(sceneKit.nodes[i].transformRect.x - 1, sceneKit.nodes[i].transformRect.y +
-            //                    sceneKit.nodes[i].PositiveExitPointOffset.y);
-            //                startMultiplicator = -1;
-            //            }
-
-            //            Vector2 endPoint = new Vector2(node.transformRect.x + node.enterPointOffset.x, node.transformRect.y + node.enterPointOffset.y);
-            //            if (!node.leftToRight)
-            //            {
-            //                endPoint = new Vector2(node.transformRect.x + node.RightPointOffset.x, node.transformRect.y + node.RightPointOffset.y);
-            //                endMultiplicator = -1;
-            //            }
-
-            //            DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.green);
-            //        }
-            //        if (sceneKit.nodes[i].NegativeNextNumber != -1)
-            //        {
-            //            DialogueNode node = sceneKit.nodes[sceneKit.nodes[i].NegativeNextNumber];
-
-            //            Vector2 startPoint = new Vector2(sceneKit.nodes[i].transformRect.x + sceneKit.nodes[i].NegativeExitPointOffset.x,
-            //                sceneKit.nodes[i].transformRect.y + sceneKit.nodes[i].NegativeExitPointOffset.y);
-            //            if (!sceneKit.nodes[i].leftToRight)
-            //            {
-            //                startPoint = new Vector2(sceneKit.nodes[i].transformRect.x - 1, sceneKit.nodes[i].transformRect.y +
-            //                    sceneKit.nodes[i].NegativeExitPointOffset.y);
-            //                startMultiplicator = -1;
-            //            }
-
-            //            Vector2 endPoint = new Vector2(node.transformRect.x + node.enterPointOffset.x, node.transformRect.y + node.enterPointOffset.y);
-            //            if (!node.leftToRight)
-            //            {
-            //                endPoint = new Vector2(node.transformRect.x + node.RightPointOffset.x, node.transformRect.y + node.RightPointOffset.y);
-            //                endMultiplicator = -1;
-            //            }
-
-            //            DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.red);
-            //        }
-            //        break;
-            //}
-            #endregion
+                    DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.red);
+                }
+            }
         }
     }
     private void DrawCurve(Vector2 start, Vector2 end, int startM, int endM, Color color)

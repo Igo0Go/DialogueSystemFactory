@@ -8,7 +8,17 @@ public class LinkNode : DialogueNode
     /// <summary>
     /// Индекс узла, на который нужно перенаправить ход диалога
     /// </summary>
-    public int NextNodeNumber => nextNodesNumbers[0];
+    public int NextNodeNumber
+    {
+        get
+        {
+            return nextNodesNumbers[0];
+        }
+        set
+        {
+            nextNodesNumbers[0] = value;
+        }
+    }
     /// <summary>
     /// Смещение выхода
     /// </summary>
