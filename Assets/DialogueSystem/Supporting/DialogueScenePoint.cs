@@ -9,16 +9,9 @@ public class DialogueScenePoint : MonoBehaviour
     [Tooltip("Контроллер персонажей")] public DialogueTeamDirector teamDirector;
     [Tooltip("Схема диалога")] public DialogueSceneKit scene;
     [Tooltip("Подсказка, которая будет высвечиваться.")] public string tip;
+    [Tooltip("Префаб интерфейса для диалога")] public DialogueUIController dialogueUIController;
+    [Tooltip("Текст подсказки"), SerializeField] public string tipString;
 
-    [Space(20), Header("UI"), Tooltip("Панель для субтитров")] public GameObject subsPanel;
-    [Tooltip("Текст субтитров")] public Text subsText;
-    [Tooltip("Панель для сообщения")] public GameObject messagePanel;
-    [Tooltip("Текст сообщения")] public Text messageText;
-    [Tooltip("Текст пропуска")] public GameObject skipTip;
-    [Tooltip("Варианты ответа")] public List<AnswerUI> answers = new List<AnswerUI>();
-    [Tooltip("Панель-подсказка")] public GameObject tipPanel;
-    [Tooltip("UI-Текст посдказки")] public Text tipText;
-    [Tooltip("Текст подсказки")] public string tipString;
 
     [Space(10), Header("Постановка сцены"), Tooltip("Позиции, куда будут поставлены игроки")]
     public List<DialogueActorPointItem> actorsPoints = new List<DialogueActorPointItem>();
@@ -59,14 +52,10 @@ public class DialogueScenePoint : MonoBehaviour
     {
         skip = 0;
         dialogueStatus = DialogueState.Disactive;
-        subsPanel.SetActive(false);
         audioSource.playOnAwake = false;
         audioSource.Stop();
         currentIndex = scene.firstNodeIndex;
-        skipTip.SetActive(false);
-
-        CheckVariants(false);
-        HideMessage();
+        dialogueUIController.CheckVariants(false);
     }
 
     void Update()
@@ -79,6 +68,9 @@ public class DialogueScenePoint : MonoBehaviour
     }
 
     #region Управление диалогом
+    /// <summary>
+    /// Перевести персонажей в состояние диалога и запустить цепочку узлов со стартового
+    /// </summary>
     public void StartScene()
     {
         CloseTip();
@@ -93,6 +85,10 @@ public class DialogueScenePoint : MonoBehaviour
             StartNode(currentIndex);
         }
     }
+    /// <summary>
+    /// Запустить узел по указанному индексу
+    /// </summary>
+    /// <param name="nodeIndex">индекс запускаемого узла</param>
     public void StartNode(int nodeIndex)
     {
         StopAllCoroutines();
@@ -100,7 +96,7 @@ public class DialogueScenePoint : MonoBehaviour
 
         currentIndex = nodeIndex; 
         node = scene.nodes[nodeIndex];
-        CheckVariants(false);
+        dialogueUIController.CheckVariants(false);
 
         if (node is LinkNode link)
         {
@@ -146,7 +142,7 @@ public class DialogueScenePoint : MonoBehaviour
                 dialogueStatus = DialogueState.WaitChoose;
                 for (int i = 0; i < choice.answers.Count; i++)
                 {
-                    ShowVariants(answers[i], choice.answers[i]);
+                    dialogueUIController.ShowVariants(dialogueUIController.answers[i], choice.answers[i]);
                 }
             }
         }
@@ -212,8 +208,7 @@ public class DialogueScenePoint : MonoBehaviour
         {
             if (eventNode.useMessage)
             {
-                messagePanel.SetActive(true);
-                messageText.text = eventNode.messageText;
+                dialogueUIController.UseMessage(eventNode.messageText);
                 StartCoroutine(HideMessageCoroutine(4));
             }
 
@@ -266,49 +261,19 @@ public class DialogueScenePoint : MonoBehaviour
         }
     }
     /// <summary>
-    /// Срабатывает, когда игрок нажимает кнопку выбора варианта ответа. В параметр передаётся номер этой кнопки.
+    /// Выйти из диалога, вернув персонажей к свободному состянию. В случае, если диалог одноразовый, он удалится.
+    /// Иначе перезагрузится на начальный узел. Весь прогресс диалога хранится в самом файле диалога, поэтому будет учитываться при
+    /// повторной активации сцены
     /// </summary>
-    /// <param name="number">номер нажатой кнопки</param>
-    public void UseAnswer(int number)
-    {
-        answerNumber = number;
-        StartNode(node.nextNodesNumbers[answerNumber]);
-    }
-
-    public void CloseSkipTip()
-    {
-        skipTip.SetActive(false);
-        skip = 0;
-    }
-
-    private void CheckReplic()
-    {
-        switch (dialogueStatus)
-        {
-            case DialogueState.TalkReplic:
-                CheckTalkReplicState();
-                break;
-            case DialogueState.LastClick:
-                if (skip == 2)
-                {
-                    skip = 0;
-                    ExitScene();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void StopScene()
+    public void ExitScene()
     {
         currentIndex = -1;
         sceneCamera.parent = null;
         sceneCamera.position = camPosBufer;
         sceneCamera.rotation = camRotBufer;
-        subsPanel.SetActive(false);
-        skipTip.SetActive(false);
-        CheckVariants(false);
+        dialogueUIController.subsPanel.SetActive(false);
+        dialogueUIController.skipTip.SetActive(false);
+        dialogueUIController.CheckVariants(false);
         if (useAnimations)
         {
             foreach (var item in actors)
@@ -328,7 +293,26 @@ public class DialogueScenePoint : MonoBehaviour
         RemoveAnswerEvents();
         CloseTip();
     }
-    private void ExitScene()
+
+    private void CheckReplic()
+    {
+        switch (dialogueStatus)
+        {
+            case DialogueState.TalkReplic:
+                CheckTalkReplicState();
+                break;
+            case DialogueState.LastClick:
+                if (skip == 2)
+                {
+                    skip = 0;
+                    FinalDialogue();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    private void FinalDialogue()
     {
         if (useNetwork)
         {
@@ -336,36 +320,44 @@ public class DialogueScenePoint : MonoBehaviour
         }
         else
         {
-            StopScene();
+            ExitScene();
         }
     }
     #endregion
 
     #region Вспомогательные
     /// <summary>
+    /// Срабатывает, когда игрок нажимает кнопку выбора варианта ответа. В параметр передаётся номер этой кнопки.
+    /// </summary>
+    /// <param name="number">номер нажатой кнопки</param>
+    public void UseAnswer(int number)
+    {
+        answerNumber = number;
+        StartNode(node.nextNodesNumbers[answerNumber]);
+    }
+    /// <summary>
     /// Показать подсказку - зона диалога
     /// </summary>
     public void ShowTip()
     {
-        tipPanel.SetActive(true);
-        Debug.Log("1 "+ tipString);
-        tipText.text = tipString;
-        Debug.Log("2 "+ tipString);
-
+        dialogueUIController.tipPanel.SetActive(true);
     }
     /// <summary>
     /// Скрыть подсказку - зона диалога
     /// </summary>
     public void CloseTip()
     {
-        tipText.text = string.Empty;
-        tipPanel.SetActive(false);
+        dialogueUIController.tipPanel.SetActive(true);
+    }
+    /// <summary>
+    /// Скрыть панель пропуска реплики
+    /// </summary>
+    public void CloseSkipTip()
+    {
+        dialogueUIController.skipTip.SetActive(false);
+        skip = 0;
     }
 
-    //public int GetNodeIndexByAnswer(int choiseNodeIndex, int answerNumber)
-    //{
-    //    //return scene.nodes[choiseNodeIndex].AnswerChoice[answerNumber];
-    //}
     private Transform FindPointByRole(DialogueCharacter role)
     {
         foreach (var item in actorsPoints)
@@ -388,28 +380,16 @@ public class DialogueScenePoint : MonoBehaviour
         }
         return false;
     }
-
-    private void CheckVariants(bool value)
-    {
-        foreach (var item in answers)
-        {
-            item.variantButton.SetActive(value);
-        }
-    }
-    private void HideMessage()
-    {
-        messagePanel.SetActive(false);
-    }
     private void AddAnswerEvents()
     {
-        foreach (var item in answers)
+        foreach (var item in dialogueUIController. answers)
         {
             item.variantButton.GetComponent<AnswerButtonReactor>().TakeAnswerEvent += UseAnswer;
         }
     }
     private void RemoveAnswerEvents()
     {
-        foreach (var item in answers)
+        foreach (var item in dialogueUIController.answers)
         {
             item.variantButton.GetComponent<AnswerButtonReactor>().TakeAnswerEvent -= UseAnswer;
         }
@@ -440,10 +420,8 @@ public class DialogueScenePoint : MonoBehaviour
 
         dialogueStatus = DialogueState.TalkReplic;
 
-        subsPanel.SetActive(true);
-        subsText.color = info.character.color;
-        subsText.text = info.replicaText;
-
+        dialogueUIController.subsPanel.SetActive(true);
+        dialogueUIController.PrepareSubs(info);
         if (useAnimations)
         {
             if (FindController(info.character))
@@ -456,17 +434,6 @@ public class DialogueScenePoint : MonoBehaviour
             }
         }
     }
-    private void ShowVariants(AnswerUI answer, AnswerItem item)
-    {
-        ReplicInfo inf = item.answerReplica;
-        if (!inf.replicaText.Equals(string.Empty))
-        {
-            answer.variantButton.SetActive(true);
-            answer.variantText.color = inf.character.color;
-            answer.variantText.text = inf.replicaText;
-        }
-    }
-
     private void CheckTalkReplicState()
     {
         if (useVoice)
@@ -478,7 +445,7 @@ public class DialogueScenePoint : MonoBehaviour
                 CloseSkipTip();
                 if (node.finalNode)
                 {
-                    ExitScene();
+                    FinalDialogue();
                     dialogueStatus = DialogueState.Disactive;
                 }
                 else
@@ -506,7 +473,7 @@ public class DialogueScenePoint : MonoBehaviour
                 if (node.finalNode)
                 {
                     skip = 0;
-                    ExitScene();
+                    FinalDialogue();
                 }
                 else
                 {
@@ -532,12 +499,12 @@ public class DialogueScenePoint : MonoBehaviour
             t += Time.deltaTime;
             yield return null;
         }
-        HideMessage();
+        dialogueUIController.HideMessage();
     }
     private IEnumerator ShowSkipTipAfterTimeCoroutine()
     {
         yield return new WaitForSeconds(2);
-        skipTip.SetActive(true);
+        dialogueUIController.skipTip.SetActive(true);
         skip = 1;
     }
     private IEnumerator StopInSceneEventCoroutine(float time)
@@ -551,7 +518,7 @@ public class DialogueScenePoint : MonoBehaviour
 
         if (node.finalNode)
         {
-            ExitScene();
+            FinalDialogue();
             dialogueStatus = DialogueState.Disactive;
         }
         else
