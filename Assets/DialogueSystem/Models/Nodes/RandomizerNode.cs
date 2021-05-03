@@ -4,6 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Узел-рандомизатор
 /// </summary>
+[System.Serializable]
 public class RandomizerNode : DialogueNode
 {
     /// <summary>
@@ -33,6 +34,8 @@ public class RandomizerNode : DialogueNode
         }
     }
 
+    public List<bool> accessList;
+
     /// <summary>
     /// Создать узел-рандомизатор с указанным индексом в указанной позиции
     /// </summary>
@@ -40,10 +43,11 @@ public class RandomizerNode : DialogueNode
     /// <param name="index">индекс узла в схеме</param>
     public RandomizerNode(Vector2 pos, int index) : base(pos, index)
     {
-        transformRect = new Rect(pos.x, pos.y, 150, 65);
+        transformRect = new Rect(pos.x, pos.y, 150, 85);
         colorInEditor = Color.magenta;
         exitPointsOffsetList = new List<Vector2>();
         nextNodesNumbers.Add(-1);
+        accessList = new List<bool>();
     }
 
     protected RandomizerNode() { }
@@ -55,6 +59,7 @@ public class RandomizerNode : DialogueNode
     public void AddLinkNumber(int index)
     {
         nextNodesNumbers.Add(index);
+        accessList.Add(true);
         CheckExitOffsetForRandomLink();
     }
 
@@ -65,6 +70,7 @@ public class RandomizerNode : DialogueNode
     public void RemoveLinkNumber(int numberInList)
     {
         nextNodesNumbers.RemoveAt(numberInList);
+        accessList.RemoveAt(numberInList - 1);
         CheckExitOffsetForRandomLink();
     }
 
@@ -74,15 +80,40 @@ public class RandomizerNode : DialogueNode
     /// <returns>Индекс следующего узла</returns>
     public int GetNextLink()
     {
-        if (nextNodesNumbers.Count == 1)
+        List<int> bufer = new List<int>();
+
+        for (int i = 1; i < nextNodesNumbers.Count; i++)
+        {
+            if (accessList[i - 1])
+            {
+                bufer.Add(i);
+            }
+        }
+
+        if (bufer.Count == 0)
         {
             return defaultNextNodeNumber;
         }
 
-        int resultPositionInList = Random.Range(1, nextNodesNumbers.Count - 1);
-        int resultIndex = nextNodesNumbers[resultPositionInList];
-        nextNodesNumbers.RemoveAt(resultPositionInList);
-        return resultIndex;
+        int resultPositionInList = Random.Range(0, bufer.Count);
+        int resultIndex = bufer[resultPositionInList];
+
+        if(withRemoving)
+        {
+            accessList[resultIndex - 1] = false;
+        }
+        return nextNodesNumbers[resultIndex];
+    }
+
+    /// <summary>
+    /// Открыть доступ ко всем вариантам узла
+    /// </summary>
+    public void ReturnAcces()
+    {
+        for (int i = 0; i < accessList.Count; i++)
+        {
+            accessList[i] = true;
+        }
     }
 
     private void CheckExitOffsetForRandomLink()
@@ -92,28 +123,5 @@ public class RandomizerNode : DialogueNode
         {
             exitPointsOffsetList.Add(exitPointOffset + new Vector2(0, (i-1) * 21));
         }
-    }
-}
-[System.Serializable]
-public class RandomLinlkPair
-{
-    /// <summary>
-    /// Ссылка на следующий узел
-    /// </summary>
-    public int nextNodeIndex;
-
-    /// <summary>
-    /// Доступность следущего узла
-    /// </summary>
-    public bool access;
-
-    /// <summary>
-    /// Создать пару (узел, доступ). По умолчанию узел будет доступен
-    /// </summary>
-    /// <param name="linkIndex">Индекс узла</param>
-    public RandomLinlkPair(int linkIndex)
-    {
-        nextNodeIndex = linkIndex;
-        access = true;
     }
 }

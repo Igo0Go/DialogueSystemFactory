@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
 
 [CustomEditor(typeof(DialogueSceneKit))] 
@@ -14,15 +12,17 @@ public class DialogueSceneKitEditor : Editor
     private void OnEnable()
     {
         sceneKit = (DialogueSceneKit)target;
+        sceneKit.CreateEditorCopy();
     }
 
     public override void OnInspectorGUI()
     {
-        GUILayout.BeginVertical();
-        sceneKit.sceneName=  GUILayout.TextField(sceneKit.sceneName);
-        GUILayout.Label("Количество узлов: " + sceneKit.nodes.Count);
-        GUILayout.Space(20);
-        GUILayout.BeginHorizontal();
+        EditorGUILayout.BeginVertical();
+        EditorGUILayout.LabelField("Название сцены: " + sceneKit.sceneName);
+        EditorGUILayout.LabelField("Количество узлов рабочей копии: " + sceneKit.Nodes.Count);
+        EditorGUILayout.LabelField("Количество узлов хранилища: " + sceneKit.savedNodes.Count);
+        EditorGUILayout.Space(20);
+        EditorGUILayout.BeginHorizontal();
         if(GUILayout.Button("Редактировать", GUILayout.MinWidth(80)))
         {
             DialogueSceneEditor sceneEditor = DialogueSceneEditor.GetEditor();
@@ -32,9 +32,22 @@ public class DialogueSceneKitEditor : Editor
         }
         if (GUILayout.Button("Сохранить", GUILayout.MinWidth(80)))
         {
+            sceneKit.SaveAllNodes();
             EditorUtility.SetDirty(sceneKit);
         }
-        GUILayout.Space(80);
+
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Загрузить", GUILayout.MinWidth(80)))
+        {
+            sceneKit.LoadAllNodes();
+            EditorUtility.SetDirty(sceneKit);
+        }
+        if (GUILayout.Button("Восстановить", GUILayout.MinWidth(80)))
+        {
+            sceneKit.RepairSavedNodes();
+            EditorUtility.SetDirty(sceneKit);
+        }
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
 
@@ -45,7 +58,7 @@ public class DialogueSceneKitEditor : Editor
         GUILayout.Label("Ракурсы камеры:");
         if (GUILayout.Button("+", GUILayout.MaxWidth(20), GUILayout.MinWidth(20)))
         {
-            sceneKit.camerasPositions.Add("Новый ракурс " + (sceneKit.camerasPositions.Count + 1));
+            sceneKit.CreateCameraPoint();
         }
         GUILayout.EndHorizontal();
         camScroll = GUILayout.BeginScrollView(camScroll);

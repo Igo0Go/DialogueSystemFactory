@@ -4,21 +4,11 @@ using UnityEngine;
 
 public class DialogueEventReactorSample : DialogueEventReactor
 {
-    public List<SampleModule> modules;
+    [SerializeField]
+    private string message;
 
     public override void OnEvent()
     {
-        foreach (var item in modules)
-        {
-            item.Use();
-        }
+        Debug.Log(message);
     }
-}
-
-public abstract class SampleModule : MonoBehaviour //класс-пример
-{
-    /// <summary>
-    /// каждый новый модуль может производить какое-то действие
-    /// </summary>
-    public abstract void Use();
 }

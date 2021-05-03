@@ -3,6 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Узел-условие
 /// </summary>
+[System.Serializable]
 public class ConditionNode : DialogueNode
 {
     #region Поля и свойства

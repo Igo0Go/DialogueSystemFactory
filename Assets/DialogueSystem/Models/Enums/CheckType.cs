@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[System.Serializable]
-public enum CheckType
+﻿public enum CheckType
 {
     Equlas = 0,
     NotEqulas = 1,

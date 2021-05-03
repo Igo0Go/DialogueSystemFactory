@@ -5,7 +5,7 @@ using UnityEngine;
 /// Узел диалоговой схемы
 /// </summary>
 [System.Serializable]
-public abstract class DialogueNode
+public class DialogueNode
 {
     #region Поля и свойства
 
@@ -119,6 +119,5 @@ public abstract class DialogueNode
             }
         }
     }
-
     #endregion
 }

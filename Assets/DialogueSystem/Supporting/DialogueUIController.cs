@@ -5,21 +5,22 @@ using UnityEngine.UI;
 
 public class DialogueUIController : MonoBehaviour
 {
-    [Tooltip("Варианты ответа")] public List<AnswerUI> answers = new List<AnswerUI>();
     [Tooltip("Панель для субтитров")] public GameObject subsPanel;
     [Tooltip("Текст субтитров")] public Text subsText;
     [Tooltip("Текст пропуска")] public GameObject skipTip;
     [Tooltip("Панель-подсказка")] public GameObject tipPanel;
-
-
-    [Tooltip("Панель для сообщения")] private UISlidePanel messagePanel;
-    [Tooltip("Текст сообщения"), SerializeField] private Text messageText;
     [Tooltip("UI-Текст посдказки"), SerializeField] private Text tipText;
+    [Tooltip("Панель для сообщения"), SerializeField] private UISlidePanel messagePanel;
+    [Tooltip("Текст сообщения"), SerializeField] private Text messageText;
+    [Tooltip("Варианты ответа")] public List<AnswerUI> answers = new List<AnswerUI>();
+
+
 
     private void Start()
     {
         skipTip.SetActive(false);
         subsPanel.SetActive(false);
+        tipPanel.SetActive(false);
     }
 
     public void SetTipString(string tipString)

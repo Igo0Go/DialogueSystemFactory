@@ -4,6 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Узел - выбор
 /// </summary>
+[System.Serializable]
 public class ChoiceNode : DialogueNode
 {
     #region Поля
@@ -91,6 +92,7 @@ public class ChoiceNode : DialogueNode
 /// <summary>
 /// Пакет информации о варианте ответа
 /// </summary>
+[System.Serializable]
 public class AnswerItem
 {
     /// <summary>

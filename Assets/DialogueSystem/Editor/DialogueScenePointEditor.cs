@@ -104,8 +104,8 @@ public class DialogueScenePointEditor : Editor
     {
         GUILayout.BeginVertical();
         GUILayout.Label("UI");
-        point.dialogueUIController = (DialogueUIController)EditorGUILayout.ObjectField(point.scene, typeof(DialogueUIController),
-            allowSceneObjects: true, GUILayout.MaxWidth(120));
+        point.dialogueUIController = (DialogueUIController)EditorGUILayout.ObjectField(point.dialogueUIController,
+            typeof(DialogueUIController), allowSceneObjects: true, GUILayout.MaxWidth(120));
         GUILayout.EndVertical();
     }
     private void DrawSceneMenu()
@@ -382,7 +382,7 @@ public class DialogueScenePointEditor : Editor
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Не использовать озвучку в диалоге");
+        GUILayout.Label("Использовать озвучку в диалоге");
         GUILayout.Space(5);
         EditorGUI.BeginChangeCheck();
         point.useVoice = EditorGUILayout.Toggle(point.useVoice);
@@ -428,6 +428,12 @@ public class DialogueScenePointEditor : Editor
             EditorUtility.SetDirty(point);
         }
         GUILayout.EndHorizontal();
+
+        if(GUILayout.Button("Вернуть доступ случайных узлов"))
+        {
+            point.ReturnAccessForAllRandomizerNodes();
+            EditorUtility.SetDirty(point);
+        }
 
         GUILayout.EndVertical();
     }

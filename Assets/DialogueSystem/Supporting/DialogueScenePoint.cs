@@ -12,7 +12,6 @@ public class DialogueScenePoint : MonoBehaviour
     [Tooltip("Префаб интерфейса для диалога")] public DialogueUIController dialogueUIController;
     [Tooltip("Текст подсказки"), SerializeField] public string tipString;
 
-
     [Space(10), Header("Постановка сцены"), Tooltip("Позиции, куда будут поставлены игроки")]
     public List<DialogueActorPointItem> actorsPoints = new List<DialogueActorPointItem>();
     [Tooltip("Основная камера")] public Transform sceneCamera;
@@ -51,6 +50,7 @@ public class DialogueScenePoint : MonoBehaviour
     void Start()
     {
         skip = 0;
+        scene.LoadAllNodes();
         dialogueStatus = DialogueState.Disactive;
         audioSource.playOnAwake = false;
         audioSource.Stop();
@@ -71,6 +71,7 @@ public class DialogueScenePoint : MonoBehaviour
     /// <summary>
     /// Перевести персонажей в состояние диалога и запустить цепочку узлов со стартового
     /// </summary>
+    [ContextMenu("Начать диалог")]
     public void StartScene()
     {
         CloseTip();
@@ -91,11 +92,11 @@ public class DialogueScenePoint : MonoBehaviour
     /// <param name="nodeIndex">индекс запускаемого узла</param>
     public void StartNode(int nodeIndex)
     {
-        StopAllCoroutines();
-        skip = 1;
+        StopCoroutine(ShowSkipTipAfterTimeCoroutine());
+        skip = 0;
 
         currentIndex = nodeIndex; 
-        node = scene.nodes[nodeIndex];
+        node = scene.Nodes[nodeIndex];
         dialogueUIController.CheckVariants(false);
 
         if (node is LinkNode link)
@@ -267,6 +268,7 @@ public class DialogueScenePoint : MonoBehaviour
     /// </summary>
     public void ExitScene()
     {
+        StopAllCoroutines();
         currentIndex = -1;
         sceneCamera.parent = null;
         sceneCamera.position = camPosBufer;
@@ -286,6 +288,7 @@ public class DialogueScenePoint : MonoBehaviour
         teamDirector.OnChooseAnswer -= UseAnswer;
         if(once)
         {
+            dialogueUIController.HideMessage();
             ClearPlayersBuffer?.Invoke();
             GetComponent<BoxCollider>().enabled = false;
             Destroy(gameObject, 6);
@@ -357,6 +360,22 @@ public class DialogueScenePoint : MonoBehaviour
         dialogueUIController.skipTip.SetActive(false);
         skip = 0;
     }
+    /// <summary>
+    /// Возвращает доступ ко всем случайным выходов узлов-рандомайзеров
+    /// </summary>
+    public void ReturnAccessForAllRandomizerNodes()
+    {
+        scene.LoadAllNodes();
+        foreach (var item in scene.Nodes)
+        {
+            if (item is RandomizerNode randomizer)
+            {
+                randomizer.ReturnAcces();
+            }
+        }
+        scene.SaveAllNodes();
+    }
+
 
     private Transform FindPointByRole(DialogueCharacter role)
     {
@@ -503,7 +522,7 @@ public class DialogueScenePoint : MonoBehaviour
     }
     private IEnumerator ShowSkipTipAfterTimeCoroutine()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(1);
         dialogueUIController.skipTip.SetActive(true);
         skip = 1;
     }

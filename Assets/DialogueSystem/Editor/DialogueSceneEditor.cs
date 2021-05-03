@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
-using UnityEditor.EventSystems;
 
 public class DialogueSceneEditor : EditorWindow
 {
@@ -71,7 +68,7 @@ public class DialogueSceneEditor : EditorWindow
         if (sceneKit != null)
         {
             GUILayout.Label("Сцена: " + sceneKit.sceneName);
-            GUILayout.Label("Узлов: " + sceneKit.nodes.Count);
+            GUILayout.Label("Узлов: " + sceneKit.Nodes.Count);
         }
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
@@ -85,7 +82,8 @@ public class DialogueSceneEditor : EditorWindow
         nodeType = (DialogueNodeType)EditorGUILayout.EnumPopup(nodeType, GUILayout.MaxWidth(100), GUILayout.MinWidth(100));
         if (GUILayout.Button("Создать узел", GUILayout.MaxWidth(100), GUILayout.MinWidth(100)))
         {
-            CreateNode();
+            Vector2 pos = new Vector2(position.width / 2 + scrollPosition.x, position.height / 2 + scrollPosition.y);
+            sceneKit.CreateNode(nodeType, pos);
         }
         DrawCameraPositionsMenu();
         DrawInSceneEventsMenu();
@@ -104,14 +102,13 @@ public class DialogueSceneEditor : EditorWindow
         scrollPosition = GUI.BeginScrollView(new Rect(0, mainInfoYSize, position.width, position.height - mainInfoYSize), scrollPosition,
             scrollViewRect, false, false);
         DrawRelations();
-        for (int i = 0; i < sceneKit.nodes.Count; i++)
+        for (int i = 0; i < sceneKit.Nodes.Count; i++)
         {
-            DrawNode(sceneKit.nodes[i]);
+            DrawNode(sceneKit.Nodes[i]);
         }
         GUI.EndScrollView();
     }
-    #endregion
-    #region Служебные методы
+
     private void DrawCameraPositionsMenu()
     {
         GUILayout.BeginHorizontal(GUILayout.MaxWidth(320), GUILayout.MinWidth(200));
@@ -119,7 +116,7 @@ public class DialogueSceneEditor : EditorWindow
         if (GUILayout.Button("+", GUILayout.MaxWidth(20), GUILayout.MinWidth(20)))
         {
             sceneKit.camerasPositions.Add("Новый ракурс " + (sceneKit.camerasPositions.Count + 1));
-            currentCamPos = sceneKit.camerasPositions.Count-1;
+            currentCamPos = sceneKit.camerasPositions.Count - 1;
         }
         if (sceneKit.camerasPositions.Count > 0)
         {
@@ -137,7 +134,7 @@ public class DialogueSceneEditor : EditorWindow
                 if (currentCamPos > sceneKit.camerasPositions.Count - 1)
                     currentCamPos = 0;
             }
-            
+
             if (GUILayout.Button("X", GUILayout.MaxWidth(20), GUILayout.MinWidth(20)))
             {
                 sceneKit.camerasPositions.Remove(sceneKit.camerasPositions[currentCamPos]);
@@ -150,7 +147,7 @@ public class DialogueSceneEditor : EditorWindow
     }
     private void DrawInSceneEventsMenu()
     {
-        GUILayout.BeginHorizontal(GUILayout.MaxWidth(sceneKit.inSceneInvokeObjects.Count>0? 360 : 100), GUILayout.MinWidth(100));
+        GUILayout.BeginHorizontal(GUILayout.MaxWidth(sceneKit.inSceneInvokeObjects.Count > 0 ? 360 : 100), GUILayout.MinWidth(100));
         GUILayout.Label("События в сцене:");
         if (GUILayout.Button("+", GUILayout.MaxWidth(20), GUILayout.MinWidth(20)))
         {
@@ -195,7 +192,7 @@ public class DialogueSceneEditor : EditorWindow
             node.transformRect = new Rect(node.transformRect.x, 0, node.transformRect.width, node.transformRect.height);
         }
 
-        Rect nodeTransform = new Rect(node.transformRect.x + 5, node.transformRect.y+33, 30, 25);
+        Rect nodeTransform = new Rect(node.transformRect.x + 5, node.transformRect.y + 33, 30, 25);
 
         EditorGUI.DrawRect(nodeTransform, node.colorInEditor);
         EditorGUI.LabelField(nodeTransform, node.index.ToString()); ;
@@ -239,7 +236,7 @@ public class DialogueSceneEditor : EditorWindow
             {
                 node.leftToRight = !node.leftToRight;
             }
-            bufer = new Rect(nodeTransform.x + nodeTransform.width - node.enterPointOffset.x -21,
+            bufer = new Rect(nodeTransform.x + nodeTransform.width - node.enterPointOffset.x - 21,
                 nodeTransform.y + node.enterPointOffset.y, 20, 20);
         }
         if (GUI.Button(bufer, "O"))
@@ -250,7 +247,7 @@ public class DialogueSceneEditor : EditorWindow
             }
         }
 
-        if(node is ReplicaNode replicaNode)
+        if (node is ReplicaNode replicaNode)
         {
             bufer = new Rect(nodeTransform.x + nodeTransform.width - 21, nodeTransform.y + 1, 24, 20);
             bufer.x -= 21;
@@ -260,7 +257,7 @@ public class DialogueSceneEditor : EditorWindow
             }
             DrawReplica(replicaNode, nodeTransform);
         }
-        else if(node is ChoiceNode choiceNode)
+        else if (node is ChoiceNode choiceNode)
         {
             bufer = new Rect(nodeTransform.x + nodeTransform.width - 21, nodeTransform.y + 1, 24, 20);
             bufer.x -= 21;
@@ -666,8 +663,8 @@ public class DialogueSceneEditor : EditorWindow
                 }
                 bufer = new Rect(bufer.x + 21, bufer.y, nodeTransform.width - 70, 20);
                 EditorGUI.LabelField(bufer, randomizer.nextNodesNumbers[i] == -1 ? "пусто" : randomizer.nextNodesNumbers[i].ToString());
-                bufer = new Rect(nodeTransform.x + randomizer.exitPointsOffsetList[i-1].x,
-                    nodeTransform.y + randomizer.exitPointsOffsetList[i-1].y + 21, 20, 20);
+                bufer = new Rect(nodeTransform.x + randomizer.exitPointsOffsetList[i - 1].x,
+                    nodeTransform.y + randomizer.exitPointsOffsetList[i - 1].y + 21, 20, 20);
                 if (GUI.Button(bufer, ">"))
                 {
                     beginRelationNodeBufer = randomizer;
@@ -684,8 +681,8 @@ public class DialogueSceneEditor : EditorWindow
                 }
                 bufer = new Rect(bufer.x + 21, bufer.y, nodeTransform.width - 70, 20);
                 EditorGUI.LabelField(bufer, randomizer.nextNodesNumbers[i] == -1 ? "пусто" : randomizer.nextNodesNumbers[i].ToString());
-                bufer = new Rect(nodeTransform.x + randomizer.exitPointsOffsetList[i-1].x - 21,
-                    nodeTransform.y + randomizer.exitPointsOffsetList[i-1].y + 21, 20, 20);
+                bufer = new Rect(nodeTransform.x + randomizer.exitPointsOffsetList[i - 1].x - 21,
+                    nodeTransform.y + randomizer.exitPointsOffsetList[i - 1].y + 21, 20, 20);
                 if (GUI.Button(bufer, "x"))
                 {
                     randomizer.RemoveLinkNumber(i);
@@ -703,8 +700,187 @@ public class DialogueSceneEditor : EditorWindow
             randomizer.transformRect = new Rect(randomizer.transformRect.x, randomizer.transformRect.y,
                 randomizer.transformRect.width, randomizer.transformRect.height + 22);
         }
+        bufer = new Rect(bufer.x, bufer.y +21, bufer.width, bufer.height);
+        randomizer.withRemoving = EditorGUI.ToggleLeft(bufer, "Без повторов", randomizer.withRemoving);
     }
 
+    private void DrawRelations()
+    {
+        for (int i = 0; i < sceneKit.Nodes.Count; i++)
+        {
+            int startMultiplicator, endMultiplicator;
+            startMultiplicator = endMultiplicator = 1;
+
+            DialogueNode node = sceneKit.Nodes[i];
+
+            if (node is ReplicaNode replica)
+            {
+                if (replica.NextNodeNumber != -1)
+                {
+                    DialogueNode nextNode = sceneKit.Nodes[replica.NextNodeNumber];
+
+                    Vector2 startPoint = new Vector2(replica.transformRect.x + replica.exitPointOffset.x,
+                        replica.transformRect.y + replica.exitPointOffset.y);
+                    if (!replica.leftToRight)
+                    {
+                        startPoint = new Vector2(replica.transformRect.x + replica.enterPointOffset.x,
+                            replica.transformRect.y + replica.enterPointOffset.y);
+                        startMultiplicator = -1;
+                    }
+
+                    Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
+                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                    if (!nextNode.leftToRight)
+                    {
+                        endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
+                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                        endMultiplicator = -1;
+                    }
+
+                    DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.white);
+                }
+            }
+            else if (node is ChoiceNode choice)
+            {
+                for (int j = 0; j < choice.nextNodesNumbers.Count; j++)
+                {
+                    if (choice.nextNodesNumbers[j] != -1)
+                    {
+                        DialogueNode nextNode = sceneKit.Nodes[choice.nextNodesNumbers[j]];
+
+                        Vector2 startPoint = new Vector2(choice.transformRect.x + choice.exitPointOffsetList[j].x,
+                            choice.transformRect.y + choice.exitPointOffsetList[j].y);
+                        if (!choice.leftToRight)
+                        {
+                            startPoint = new Vector2(choice.transformRect.x + choice.enterPointOffset.x,
+                                choice.transformRect.y + choice.enterPointOffset.y + +(21 * j));
+                            startMultiplicator = -1;
+                        }
+
+                        Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
+                            nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                        if (!nextNode.leftToRight)
+                        {
+                            endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
+                                nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                            endMultiplicator = -1;
+                        }
+
+                        DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.white);
+                    }
+                }
+            }
+            else if (node is EventNode eventNode)
+            {
+                if (eventNode.NextNodeNumber != -1)
+                {
+                    Vector2 startPoint = new Vector2(eventNode.transformRect.x + eventNode.exitPointOffset.x,
+                        sceneKit.Nodes[i].transformRect.y + eventNode.exitPointOffset.y);
+                    if (!eventNode.leftToRight)
+                    {
+                        startPoint = new Vector2(eventNode.transformRect.x + eventNode.enterPointOffset.x, eventNode.transformRect.y +
+                        eventNode.enterPointOffset.y);
+                        startMultiplicator = -1;
+                    }
+
+                    DialogueNode nextNode = sceneKit.Nodes[eventNode.NextNodeNumber];
+
+                    Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
+                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                    if (!nextNode.leftToRight)
+                    {
+                        endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
+                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                        endMultiplicator = -1;
+                    }
+
+                    DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.yellow);
+                }
+            }
+            else if (node is ConditionNode condition)
+            {
+                if (condition.PositiveNextNumber != -1)
+                {
+                    DialogueNode nextNode = sceneKit.Nodes[condition.PositiveNextNumber];
+                    Vector2 startPoint = new Vector2(condition.transformRect.x + condition.positiveExitPointOffset.x,
+                        condition.transformRect.y + condition.positiveExitPointOffset.y);
+                    if (!condition.leftToRight)
+                    {
+                        startPoint = new Vector2(condition.transformRect.x - 1, condition.transformRect.y +
+                            condition.positiveExitPointOffset.y);
+                        startMultiplicator = -1;
+                    }
+
+                    Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
+                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                    if (!nextNode.leftToRight)
+                    {
+                        endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
+                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                        endMultiplicator = -1;
+                    }
+
+                    DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.green);
+                }
+                if (condition.NegativeNextNumber != -1)
+                {
+                    startMultiplicator = endMultiplicator = 1;
+                    DialogueNode nextNode = sceneKit.Nodes[condition.NegativeNextNumber];
+                    Vector2 startPoint = new Vector2(condition.transformRect.x + condition.negativeExitPointOffset.x,
+                        condition.transformRect.y + condition.negativeExitPointOffset.y);
+                    if (!sceneKit.Nodes[i].leftToRight)
+                    {
+                        startPoint = new Vector2(condition.transformRect.x - 1,
+                            condition.transformRect.y + condition.negativeExitPointOffset.y);
+                        startMultiplicator = -1;
+                    }
+
+                    Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
+                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                    if (!nextNode.leftToRight)
+                    {
+                        endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
+                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                        endMultiplicator = -1;
+                    }
+
+                    DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.red);
+                }
+            }
+        }
+    }
+    private void DrawCurve(Vector2 start, Vector2 end, int startM, int endM, Color color)
+    {
+        Vector3 bufer1, bufer2;
+        Vector2 startMultiplicator, endMultiplicator;
+        startMultiplicator.x = startM * Mathf.Abs(end.x - start.x) / 2;
+        endMultiplicator.x = endM * Mathf.Abs(end.x - start.x) / 2;
+        startMultiplicator.y = endMultiplicator.y = 0;
+
+        if (start.x * startM > end.x * endM)
+        {
+            if (start.y > end.y)
+            {
+                startMultiplicator.x = endMultiplicator.x = Mathf.Abs(end.x - start.x) / 2;
+                startMultiplicator.x *= startM;
+                endMultiplicator.x *= endM;
+            }
+            else
+            {
+                startMultiplicator.x = endMultiplicator.x = (Mathf.Abs(end.x - start.x) / 2) + 100;
+                startMultiplicator.x *= startM;
+                endMultiplicator.x *= endM;
+            }
+        }
+
+        bufer1 = new Vector3(start.x + startMultiplicator.x, start.y + startMultiplicator.y + mainInfoYSize, 0);
+        bufer2 = new Vector3(end.x - endMultiplicator.x, end.y - endMultiplicator.y + mainInfoYSize, 0);
+
+        Handles.DrawBezier(new Vector3(start.x + 5, start.y + 10 + mainInfoYSize, 0), new Vector3(end.x, end.y + 10 + mainInfoYSize, 0),
+            bufer1, bufer2, color, null, 3);
+    }
+    #endregion
+    #region Служебные методы
     private void AddRelation(DialogueNode node)
     {
         if(beginRelationNodeBufer is ReplicaNode replica)
@@ -732,7 +908,7 @@ public class DialogueSceneEditor : EditorWindow
                 sceneKit.ClearNextRelations(eventNode);
             }
             eventNode.NextNodeNumber = node.index;
-            sceneKit.AddInPreviousRelations(eventNode, sceneKit.nodes[eventNode.NextNodeNumber]);
+            sceneKit.AddInPreviousRelations(eventNode, sceneKit.Nodes[eventNode.NextNodeNumber]);
         }
         else if(beginRelationNodeBufer is ConditionNode condition)
         {
@@ -743,7 +919,7 @@ public class DialogueSceneEditor : EditorWindow
                     sceneKit.ClearOneNextNumber(condition, exitBufer);
                 }
                 condition.PositiveNextNumber = node.index;
-                sceneKit.AddInPreviousRelations(condition, sceneKit.nodes[condition.PositiveNextNumber]);
+                sceneKit.AddInPreviousRelations(condition, sceneKit.Nodes[condition.PositiveNextNumber]);
             }
             else
             {
@@ -752,7 +928,7 @@ public class DialogueSceneEditor : EditorWindow
                     sceneKit.ClearOneNextNumber(condition, exitBufer);
                 }
                 condition.NegativeNextNumber = node.index;
-                sceneKit.AddInPreviousRelations(condition, sceneKit.nodes[condition.NegativeNextNumber]);
+                sceneKit.AddInPreviousRelations(condition, sceneKit.Nodes[condition.NegativeNextNumber]);
             }
         }
         else if(beginRelationNodeBufer is LinkNode link)
@@ -787,218 +963,6 @@ public class DialogueSceneEditor : EditorWindow
         beginRelationNodeBufer = null;
         exitBufer = 0;
     }
-    private void DrawRelations()
-    {
-        for (int i = 0; i < sceneKit.nodes.Count; i++)
-        {
-            int startMultiplicator, endMultiplicator;
-            startMultiplicator = endMultiplicator = 1;
-
-            DialogueNode node = sceneKit.nodes[i];
-
-            if (node is ReplicaNode replica)
-            {
-                if(replica.NextNodeNumber != -1)
-                {
-                    DialogueNode nextNode = sceneKit.nodes[replica.NextNodeNumber];
-
-                    Vector2 startPoint = new Vector2(replica.transformRect.x + replica.exitPointOffset.x,
-                        replica.transformRect.y + replica.exitPointOffset.y);
-                    if (!replica.leftToRight)
-                    {
-                        startPoint = new Vector2(replica.transformRect.x + replica.enterPointOffset.x,
-                            replica.transformRect.y + replica.enterPointOffset.y);
-                        startMultiplicator = -1;
-                    }
-
-                    Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
-                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
-                    if (!nextNode.leftToRight)
-                    {
-                        endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
-                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
-                        endMultiplicator = -1;
-                    }
-
-                    DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.white);
-                }
-            }
-            else if(node is ChoiceNode choice)
-            {
-                for (int j = 0; j < choice.nextNodesNumbers.Count; j++)
-                {
-                    if(choice.nextNodesNumbers[j] != -1)
-                    {
-                        DialogueNode nextNode = sceneKit.nodes[choice.nextNodesNumbers[j]];
-
-                        Vector2 startPoint = new Vector2(choice.transformRect.x + choice.exitPointOffsetList[j].x,
-                            choice.transformRect.y + choice.exitPointOffsetList[j].y);
-                        if (!choice.leftToRight)
-                        {
-                            startPoint = new Vector2(choice.transformRect.x + choice.enterPointOffset.x,
-                                choice.transformRect.y + choice.enterPointOffset.y + +(21 * j));
-                            startMultiplicator = -1;
-                        }
-
-                        Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
-                            nextNode.transformRect.y + nextNode.enterPointOffset.y);
-                        if (!nextNode.leftToRight)
-                        {
-                            endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
-                                nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
-                            endMultiplicator = -1;
-                        }
-
-                        DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.white);
-                    }
-                }
-            }
-            else if(node is EventNode eventNode)
-            {
-                if (eventNode.NextNodeNumber != -1)
-                {
-                    Vector2 startPoint = new Vector2(eventNode.transformRect.x + eventNode.exitPointOffset.x,
-                        sceneKit.nodes[i].transformRect.y + eventNode.exitPointOffset.y);
-                    if (!eventNode.leftToRight)
-                    {
-                        startPoint = new Vector2(eventNode.transformRect.x + eventNode.enterPointOffset.x, eventNode.transformRect.y +
-                        eventNode.enterPointOffset.y);
-                        startMultiplicator = -1;
-                    }
-
-                    DialogueNode nextNode = sceneKit.nodes[eventNode.NextNodeNumber];
-
-                    Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
-                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
-                    if (!nextNode.leftToRight)
-                    {
-                        endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
-                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
-                        endMultiplicator = -1;
-                    }
-
-                    DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.yellow);
-                }
-            }
-            else if(node is ConditionNode condition)
-            {
-                if (condition.PositiveNextNumber != -1)
-                {
-                    DialogueNode nextNode = sceneKit.nodes[condition.PositiveNextNumber];
-                    Vector2 startPoint = new Vector2(condition.transformRect.x + condition.positiveExitPointOffset.x,
-                        condition.transformRect.y + condition.positiveExitPointOffset.y);
-                    if (!condition.leftToRight)
-                    {
-                        startPoint = new Vector2(condition.transformRect.x - 1, condition.transformRect.y +
-                            condition.positiveExitPointOffset.y);
-                        startMultiplicator = -1;
-                    }
-
-                    Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
-                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
-                    if (!nextNode.leftToRight)
-                    {
-                        endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
-                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
-                        endMultiplicator = -1;
-                    }
-
-                    DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.green);
-                }
-                if (condition.NegativeNextNumber != -1)
-                {
-                    startMultiplicator = endMultiplicator = 1;
-                    DialogueNode nextNode = sceneKit.nodes[condition.NegativeNextNumber];
-                    Vector2 startPoint = new Vector2(condition.transformRect.x + condition.negativeExitPointOffset.x,
-                        condition.transformRect.y + condition.negativeExitPointOffset.y);
-                    if (!sceneKit.nodes[i].leftToRight)
-                    {
-                        startPoint = new Vector2(condition.transformRect.x - 1,
-                            condition.transformRect.y + condition.negativeExitPointOffset.y);
-                        startMultiplicator = -1;
-                    }
-
-                    Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
-                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
-                    if (!nextNode.leftToRight)
-                    {
-                        endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
-                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
-                        endMultiplicator = -1;
-                    }
-
-                    DrawCurve(startPoint, endPoint, startMultiplicator, endMultiplicator, Color.red);
-                }
-            }
-        }
-    }
-    private void DrawCurve(Vector2 start, Vector2 end, int startM, int endM, Color color)
-    {
-        Vector3 bufer1, bufer2;
-        Vector2 startMultiplicator, endMultiplicator;
-        startMultiplicator.x = startM * Mathf.Abs(end.x - start.x) / 2;
-        endMultiplicator.x = endM * Mathf.Abs(end.x - start.x) / 2;
-        startMultiplicator.y = endMultiplicator.y = 0;
-
-        if (start.x * startM > end.x * endM)
-        {
-            if (start.y > end.y)
-            {
-                startMultiplicator.x = endMultiplicator.x = Mathf.Abs(end.x - start.x)/2;
-                startMultiplicator.x *= startM;
-                endMultiplicator.x *= endM;
-            }
-            else
-            {
-                startMultiplicator.x = endMultiplicator.x = (Mathf.Abs(end.x - start.x) / 2) + 100;
-                startMultiplicator.x *= startM;
-                endMultiplicator.x *= endM;
-            }
-        }
-
-        bufer1 = new Vector3(start.x + startMultiplicator.x, start.y + startMultiplicator.y + mainInfoYSize, 0);
-        bufer2 = new Vector3(end.x - endMultiplicator.x, end.y - endMultiplicator.y + mainInfoYSize, 0);
-
-        Handles.DrawBezier(new Vector3(start.x + 5, start.y + 10 + mainInfoYSize, 0), new Vector3(end.x, end.y + 10 + mainInfoYSize, 0),
-            bufer1, bufer2, color, null, 3);
-    }
-
-    private void CreateNode()
-    {
-        Vector2 pos = new Vector2(position.width / 2 + scrollPosition.x, position.height / 2 + scrollPosition.y);
-        int index = sceneKit.nodes.Count;
-        switch (nodeType)
-        {
-            case DialogueNodeType.Replica:
-                sceneKit.nodes.Add(new ReplicaNode(pos, index));
-                break;
-            case DialogueNodeType.Choice:
-                sceneKit.nodes.Add(new ChoiceNode(pos, index));
-                break;
-            case DialogueNodeType.Condition:
-                sceneKit.nodes.Add(new ConditionNode(pos, index));
-                break;
-            case DialogueNodeType.Event:
-                sceneKit.nodes.Add(new EventNode(pos, index));
-                break;
-            case DialogueNodeType.Link:
-                sceneKit.nodes.Add(new LinkNode(pos, index));
-                break;
-            case DialogueNodeType.Randomizer:
-                sceneKit.nodes.Add(new RandomizerNode(pos, index));
-                break;
-            default:
-                break;
-        }
-
-        if(index == 0)
-        {
-            sceneKit.SetAsFirst(sceneKit.nodes[0]);
-        }
-    }
-    /// <summary>
-    /// Позволяет двигать узел
-    /// </summary>
     private void DragNode()
     {
         if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
@@ -1024,18 +988,17 @@ public class DialogueSceneEditor : EditorWindow
             }
         }
     }
-    
     private bool ClickInNode(Vector2 mousePos, out DialogueNode node)
     {
         node = null;
-        for (int i = sceneKit.nodes.Count - 1; i >= 0; i--)
+        for (int i = sceneKit.Nodes.Count - 1; i >= 0; i--)
         {
-            if (mousePos.x > sceneKit.nodes[i].transformRect.x - scrollPosition.x && mousePos.x < sceneKit.nodes[i].transformRect.x
-                - scrollPosition.x + sceneKit.nodes[i].transformRect.width && mousePos.y > sceneKit.nodes[i].transformRect.y -
-                scrollPosition.y + mainInfoYSize && mousePos.y < sceneKit.nodes[i].transformRect.y - scrollPosition.y + mainInfoYSize
-                + sceneKit.nodes[i].transformRect.height)
+            if (mousePos.x > sceneKit.Nodes[i].transformRect.x - scrollPosition.x && mousePos.x < sceneKit.Nodes[i].transformRect.x
+                - scrollPosition.x + sceneKit.Nodes[i].transformRect.width && mousePos.y > sceneKit.Nodes[i].transformRect.y -
+                scrollPosition.y + mainInfoYSize && mousePos.y < sceneKit.Nodes[i].transformRect.y - scrollPosition.y + mainInfoYSize
+                + sceneKit.Nodes[i].transformRect.height)
             {
-                node = sceneKit.nodes[i];
+                node = sceneKit.Nodes[i];
                 clickPoint = mousePos;
                 return true;
             }
@@ -1044,12 +1007,12 @@ public class DialogueSceneEditor : EditorWindow
     }
     private bool ClickInNode(Vector2 mousePos)
     {
-        for (int i = sceneKit.nodes.Count - 1; i >= 0; i--)
+        for (int i = sceneKit.Nodes.Count - 1; i >= 0; i--)
         {
-            if (mousePos.x > sceneKit.nodes[i].transformRect.x - scrollPosition.x && mousePos.x < sceneKit.nodes[i].transformRect.x
-                - scrollPosition.x + sceneKit.nodes[i].transformRect.width && mousePos.y > sceneKit.nodes[i].transformRect.y -
-                scrollPosition.y + mainInfoYSize && mousePos.y < sceneKit.nodes[i].transformRect.y - scrollPosition.y + mainInfoYSize
-                + sceneKit.nodes[i].transformRect.height)
+            if (mousePos.x > sceneKit.Nodes[i].transformRect.x - scrollPosition.x && mousePos.x < sceneKit.Nodes[i].transformRect.x
+                - scrollPosition.x + sceneKit.Nodes[i].transformRect.width && mousePos.y > sceneKit.Nodes[i].transformRect.y -
+                scrollPosition.y + mainInfoYSize && mousePos.y < sceneKit.Nodes[i].transformRect.y - scrollPosition.y + mainInfoYSize
+                + sceneKit.Nodes[i].transformRect.height)
             {
                 clickPoint = mousePos;
                 return true;
@@ -1057,18 +1020,13 @@ public class DialogueSceneEditor : EditorWindow
         }
         return false;
     }
-
-    /// <summary>
-    /// Получает фактические размеры рабочего поля, исходя из расположения узлов
-    /// </summary>
-    /// <returns></returns>
     private Rect GetScrollViewZone()
     {
         Rect rezult = new Rect(scrollViewRect.x, scrollViewRect.y, scrollViewRect.width, scrollViewRect.height);
         float maxX, maxY;
         maxX = maxY = 0;
 
-        foreach (var item in sceneKit.nodes)
+        foreach (var item in sceneKit.Nodes)
         {
             if (maxX < item.transformRect.x + item.transformRect.width)
             {
@@ -1098,9 +1056,6 @@ public class DialogueSceneEditor : EditorWindow
         }
         return rezult;
     }
-    /// <summary>
-    /// осуществляет прокрутку
-    /// </summary>
     private void MouseScroll()
     {
         if (Event.current.type == EventType.MouseDown && Event.current.button == 1)

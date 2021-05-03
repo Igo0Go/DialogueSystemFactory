@@ -3,6 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Узел - реплика
 /// </summary>
+[System.Serializable]
 public class ReplicaNode : DialogueNode
 {
     #region Поля и свойства
@@ -55,6 +56,7 @@ public class ReplicaNode : DialogueNode
 /// <summary>
 /// Класс с информацией по реплике. Применяется как самих репликах, так и в выборах.
 /// </summary>
+[System.Serializable]
 public class ReplicInfo
 {
     /// <summary>

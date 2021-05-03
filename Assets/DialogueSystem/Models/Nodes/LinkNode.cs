@@ -3,6 +3,7 @@ using UnityEngine;
 /// <summary>
 /// Узел-ссылка
 /// </summary>
+[System.Serializable]
 public class LinkNode : DialogueNode
 {
     /// <summary>

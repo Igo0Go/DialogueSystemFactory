@@ -1,17 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ScenarioParameterChanger : SampleModule
+/// <summary>
+/// Вспомогательный класс, который позволяет менять значение параметров вне диалога
+/// </summary>
+public class ScenarioParameterChanger : MonoBehaviour
 {
     [Tooltip("Пакет параметров")] public ParameterPack pack;
     [Tooltip("Название параметра, который нужно изменить")] public string parameterName;
-    [Tooltip("При указанном значении для целочисленных будет идти присвоение поля Value, иначе это поле будет прибавляться к имеющемуся значению параметра")]
+    [Tooltip("При указанном значении для целочисленных будет идти присвоение поля Value, иначе это значение поля будет прибавляться " +
+        "к имеющемуся значению параметра")]
     public bool useNewValue;
     public bool boolValue;
     public int intValue;
 
-    public override void Use()
+    /// <summary>
+    /// Изменить параметр
+    /// </summary>
+    [ContextMenu("Изменить параметр")]
+    public void ChangeParameter()
     {
         if(pack.FindCondition(parameterName, out ScenarioParameter parameter))
         {

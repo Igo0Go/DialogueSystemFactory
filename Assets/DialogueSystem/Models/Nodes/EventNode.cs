@@ -4,6 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Узел - событие
 /// </summary>
+[System.Serializable]
 public class EventNode : DialogueNode
 {
     public readonly Vector2 exitPointOffset = new Vector2(130, 21);
