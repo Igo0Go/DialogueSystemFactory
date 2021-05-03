@@ -385,7 +385,7 @@ MonoBehaviour:
         replicaText: 
     choiceNode:
       index: 3
-      previousNodesNumbers: 02000000
+      previousNodesNumbers: 020000000b000000
       nextNodesNumbers: 040000000500000006000000
       finalNode: 0
       leftToRight: 1
@@ -1385,7 +1385,7 @@ MonoBehaviour:
     linkNode:
       index: 11
       previousNodesNumbers: 090000000c0000000d0000000e000000
-      nextNodesNumbers: ffffffff
+      nextNodesNumbers: 03000000
       finalNode: 0
       leftToRight: 1
       transformRect:
