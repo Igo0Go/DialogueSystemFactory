@@ -1,36 +1,31 @@
-Ôªøusing UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEditor;
 
+[ExecuteInEditMode]
 public class DialogueSceneEditor : EditorWindow
 {
-    #region –ü–æ–ª—è
-
-    /// <summary>
-    /// —Å—Å—ã–ª–∫–∞ –Ω–∞ –¥–∏–∞–ª–æ–≥–æ–≤—É—é —Å—Ö–µ–º—É
-    /// </summary>
+    #region œÓÎˇ
     public DialogueSceneKit sceneKit;
 
+    private List<Rect> windows = new List<Rect>();
     private DialogueNodeType nodeType = DialogueNodeType.Replica;
     private DialogueNode beginRelationNodeBufer;
-    private DialogueNode dragNodeBufer;
-    private Rect buferRect, scrollViewRect;
-    private Vector2 scrollPosition = Vector2.zero;
-    private Vector2 clickPoint;
-
-    private bool dragNode;
-    private bool mouseScroll;
     private int exitBufer;
+
+    private Vector2 scrollPosition = Vector2.zero;
+    private Rect scrollViewRect;
+
     private int currentCamPos = 0;
     private int currentEvent = 0;
 
     private const float mainInfoYSize = 50;
-
     #endregion
 
-    #region –û—Å–Ω–æ–≤–Ω—ã–µ –º–µ—Ç–æ–¥—ã
-
+    #region ŒÒÌÓ‚Ì˚Â ÏÂÚÓ‰˚ ÓÚËÒÓ‚ÍË
     [MenuItem("Window/IgoGoTools/DialogueEditor %>")]
-    public static void Init() 
+    public static void Init()
     {
         DialogueSceneEditor sceneEditor = GetWindow<DialogueSceneEditor>();
         sceneEditor.Show();
@@ -40,82 +35,91 @@ public class DialogueSceneEditor : EditorWindow
         return GetWindow<DialogueSceneEditor>();
     }
 
-    private void OnEnable()
-    {
-        scrollViewRect = new Rect(0, mainInfoYSize, position.width, position.height - mainInfoYSize);
-    }
-
-    private void OnGUI()
+    void OnGUI()
     {
         DrawMainInfo();
         if (sceneKit != null)
         {
             DrawOptions();
-            DrawNodes();
-            DragNode();
+
+
+            scrollViewRect = GetScrollViewZone();
+            scrollPosition = GUI.BeginScrollView(new Rect(0, mainInfoYSize, position.width, position.height - mainInfoYSize), scrollPosition,
+                scrollViewRect, false, false);
+
+            DrawRelations();
+
+            BeginWindows();
+            if (sceneKit != null)
+            {
+                for (int i = 0; i < windows.Count; i++)
+                {
+                    GUI.color = sceneKit.Nodes[i].colorInEditor;
+                    windows[i] = GUI.Window(i, windows[i], DrawNodeWindow, i.ToString());
+                }
+            }
+            EndWindows();
+
+            GUI.EndScrollView();
         }
-        MouseScroll();
     }
-    #endregion
-    #region –ú–µ—Ç–æ–¥—ã –æ—Ç—Ä–∏—Å–æ–≤–∫–∏
+
     private void DrawMainInfo()
     {
-        buferRect = new Rect(0, 0, position.width, 20);
+        Rect buferRect = new Rect(0, 0, position.width, 20);
         GUILayout.BeginVertical();
         GUI.Box(buferRect, GUIContent.none);
         GUILayout.BeginHorizontal();
         sceneKit = (DialogueSceneKit)EditorGUILayout.ObjectField(sceneKit, typeof(DialogueSceneKit), false, GUILayout.MaxWidth(200));
         if (sceneKit != null)
         {
-            GUILayout.Label("–°—Ü–µ–Ω–∞: " + sceneKit.sceneName);
-            GUILayout.Label("–£–∑–ª–æ–≤: " + sceneKit.Nodes.Count);
+            GUILayout.Label("—ˆÂÌ‡: " + sceneKit.sceneName);
+            GUILayout.Label("”ÁÎÓ‚: " + sceneKit.Nodes.Count);
+            if (sceneKit.Nodes.Count != windows.Count)
+            {
+                for (int i = 0; i < sceneKit.Nodes.Count; i++)
+                {
+                    Rect bufer = sceneKit.Nodes[i].transformRect;
+                    Vector2 pos = new Vector2(bufer.x, bufer.y);
+                    windows.Add(new Rect(pos.x, pos.y, bufer.width, bufer.height));
+                }
+            }
         }
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
     }
     private void DrawOptions()
     {
-        buferRect = new Rect(0, 20, position.width, 25);
+        Rect buferRect = new Rect(0, 20, position.width, 25);
         GUILayout.BeginVertical();
         GUI.Box(buferRect, GUIContent.none);
         GUILayout.BeginHorizontal();
         nodeType = (DialogueNodeType)EditorGUILayout.EnumPopup(nodeType, GUILayout.MaxWidth(100), GUILayout.MinWidth(100));
-        if (GUILayout.Button("–°–æ–∑–¥–∞—Ç—å —É–∑–µ–ª", GUILayout.MaxWidth(100), GUILayout.MinWidth(100)))
+        if (GUILayout.Button("—ÓÁ‰‡Ú¸ ÛÁÂÎ", GUILayout.MaxWidth(100), GUILayout.MinWidth(100)))
         {
             Vector2 pos = new Vector2(position.width / 2 + scrollPosition.x, position.height / 2 + scrollPosition.y);
             sceneKit.CreateNode(nodeType, pos);
+            Rect bufer = sceneKit.Nodes[sceneKit.Nodes.Count - 1].transformRect;
+            windows.Add(new Rect(pos.x, pos.y, bufer.width, bufer.height));
         }
         DrawCameraPositionsMenu();
         DrawInSceneEventsMenu();
-        if (GUILayout.Button("–£–¥–∞–ª–∏—Ç—å –≤—Å—ë", GUILayout.MaxWidth(100), GUILayout.MinWidth(100)))
+        if (GUILayout.Button("”‰‡ÎËÚ¸ ‚Ò∏", GUILayout.MaxWidth(100), GUILayout.MinWidth(100)))
         {
             sceneKit.Clear();
         }
         GUILayout.EndHorizontal();
-        
+
         GUILayout.Space(10);
         GUILayout.EndVertical();
     }
-    private void DrawNodes()
-    {                       
-        scrollViewRect = GetScrollViewZone();
-        scrollPosition = GUI.BeginScrollView(new Rect(0, mainInfoYSize, position.width, position.height - mainInfoYSize), scrollPosition,
-            scrollViewRect, false, false);
-        DrawRelations();
-        for (int i = 0; i < sceneKit.Nodes.Count; i++)
-        {
-            DrawNode(sceneKit.Nodes[i]);
-        }
-        GUI.EndScrollView();
-    }
-
     private void DrawCameraPositionsMenu()
     {
         GUILayout.BeginHorizontal(GUILayout.MaxWidth(320), GUILayout.MinWidth(200));
-        GUILayout.Label("–†–∞–∫—É—Ä—Å—ã –∫–∞–º–µ—Ä—ã:");
+        GUILayout.Label("–‡ÍÛÒ˚ Í‡ÏÂ˚:");
         if (GUILayout.Button("+", GUILayout.MaxWidth(20), GUILayout.MinWidth(20)))
         {
-            sceneKit.camerasPositions.Add("–ù–æ–≤—ã–π —Ä–∞–∫—É—Ä—Å " + (sceneKit.camerasPositions.Count + 1));
+            sceneKit.camerasPositions.Add("ÕÓ‚˚È ‡ÍÛÒ " + (sceneKit.camerasPositions.Count + 1));
             currentCamPos = sceneKit.camerasPositions.Count - 1;
         }
         if (sceneKit.camerasPositions.Count > 0)
@@ -148,10 +152,10 @@ public class DialogueSceneEditor : EditorWindow
     private void DrawInSceneEventsMenu()
     {
         GUILayout.BeginHorizontal(GUILayout.MaxWidth(sceneKit.inSceneInvokeObjects.Count > 0 ? 360 : 100), GUILayout.MinWidth(100));
-        GUILayout.Label("–°–æ–±—ã—Ç–∏—è –≤ —Å—Ü–µ–Ω–µ:");
+        GUILayout.Label("—Ó·˚ÚËˇ ‚ ÒˆÂÌÂ:");
         if (GUILayout.Button("+", GUILayout.MaxWidth(20), GUILayout.MinWidth(20)))
         {
-            sceneKit.inSceneInvokeObjects.Add("–ù–æ–≤–æ–µ —Å–æ–±—ã—Ç–∏–µ " + (sceneKit.inSceneInvokeObjects.Count + 1));
+            sceneKit.inSceneInvokeObjects.Add("ÕÓ‚ÓÂ ÒÓ·˚ÚËÂ " + (sceneKit.inSceneInvokeObjects.Count + 1));
             currentEvent = sceneKit.inSceneInvokeObjects.Count - 1;
         }
         if (sceneKit.inSceneInvokeObjects.Count > 0)
@@ -181,54 +185,47 @@ public class DialogueSceneEditor : EditorWindow
         }
         GUILayout.EndHorizontal();
     }
-    private void DrawNode(DialogueNode node)
+    #endregion
+
+    #region ŒÚËÒÓ‚Í‡ ÛÁÎÓ‚
+    private void DrawNodeWindow(int id)
     {
-        if (node.transformRect.x < 0)
-        {
-            node.transformRect = new Rect(0, node.transformRect.y, node.transformRect.width, node.transformRect.height);
-        }
-        if (node.transformRect.y < 0)
-        {
-            node.transformRect = new Rect(node.transformRect.x, 0, node.transformRect.width, node.transformRect.height);
-        }
+        DialogueNode node = sceneKit.Nodes[id];
 
-        Rect nodeTransform = new Rect(node.transformRect.x + 5, node.transformRect.y + 33, 30, 25);
+        Rect windowRect = windows[id];
 
-        EditorGUI.DrawRect(nodeTransform, node.colorInEditor);
-        EditorGUI.LabelField(nodeTransform, node.index.ToString()); ;
+        DrawNodeMainInfo(node, windowRect, id);
 
-        nodeTransform = new Rect(node.transformRect.x, node.transformRect.y + mainInfoYSize, node.transformRect.width,
-            node.transformRect.height);
+        GUI.DragWindow();
+    }
 
-        if (node.index == sceneKit.firstNodeIndex)
-        {
-            EditorGUI.DrawRect(nodeTransform, Color.green);
-        }
-        else
-        {
-            EditorGUI.DrawRect(nodeTransform, node.colorInEditor);
-        }
-        Rect bufer = new Rect(nodeTransform.x + 1, nodeTransform.y + 1, 20, 20);
+    private void DrawNodeMainInfo(DialogueNode node, Rect windowRect, int id)
+    {
+        node.transformRect = windowRect;
+        Rect bufer = new Rect(1, 1, 20, 20);
         if (GUI.Button(bufer, "1"))
         {
             sceneKit.SetAsFirst(node);
             return;
         }
-        bufer = new Rect(nodeTransform.x + nodeTransform.width - 21, nodeTransform.y + 1, 24, 20);
+
+        bufer = new Rect(windowRect.width - 21, 1, 20, 20);
         if (GUI.Button(bufer, "X"))
         {
             sceneKit.Remove(node);
+            windows.RemoveAt(id);
             return;
         }
 
-        bufer = new Rect(nodeTransform.x + 22, nodeTransform.y + 1, 30, 20);
+        bufer = new Rect(22, 1, 30, 20);
         if (node.leftToRight)
         {
             if (GUI.Button(bufer, ">>"))
             {
                 node.leftToRight = !node.leftToRight;
+
             }
-            bufer = new Rect(nodeTransform.x + node.enterPointOffset.x, nodeTransform.y + node.enterPointOffset.y, 20, 20);
+            bufer = new Rect(1, 21, 20, 20);
         }
         else
         {
@@ -236,8 +233,7 @@ public class DialogueSceneEditor : EditorWindow
             {
                 node.leftToRight = !node.leftToRight;
             }
-            bufer = new Rect(nodeTransform.x + nodeTransform.width - node.enterPointOffset.x - 21,
-                nodeTransform.y + node.enterPointOffset.y, 20, 20);
+            bufer = new Rect(windowRect.width - 21, 21, 20, 20);
         }
         if (GUI.Button(bufer, "O"))
         {
@@ -246,190 +242,174 @@ public class DialogueSceneEditor : EditorWindow
                 AddRelation(node);
             }
         }
-
         if (node is ReplicaNode replicaNode)
         {
-            bufer = new Rect(nodeTransform.x + nodeTransform.width - 21, nodeTransform.y + 1, 24, 20);
-            bufer.x -= 21;
-            if (GUI.Button(bufer, "="))
-            {
-                DialogueReplicaEditorWindow.GetReplicaWindow(replicaNode.replicaInformation, sceneKit).Show();
-            }
-            DrawReplica(replicaNode, nodeTransform);
+            DrawReplicInfo(windowRect, replicaNode);
         }
         else if (node is ChoiceNode choiceNode)
         {
-            bufer = new Rect(nodeTransform.x + nodeTransform.width - 21, nodeTransform.y + 1, 24, 20);
-            bufer.x -= 21;
-            if (GUI.Button(bufer, "="))
-            {
-                DialogueChoiceEditorWindow.GetReplicaWindow(choiceNode, sceneKit).Show();
-            }
-            DrawChoice(choiceNode, nodeTransform);
+            DrawChoice(choiceNode, windowRect);
         }
         else if (node is ConditionNode conditionNode)
         {
-            DrawCondition(conditionNode, nodeTransform);
+            DrawCondition(conditionNode, windowRect);
         }
         else if (node is EventNode eventNode)
         {
-            bufer = new Rect(nodeTransform.x + nodeTransform.width - 21, nodeTransform.y + 1, 24, 20);
-            bufer.x -= 21;
-            if (GUI.Button(bufer, "="))
-            {
-                DialogueEventEditorWindow.GetEventWindow(eventNode, sceneKit).Show();
-            }
-            DrawEvent(eventNode, nodeTransform);
+            DrawEvent(eventNode, windowRect);
         }
         else if (node is LinkNode linkNode)
         {
-            DrawLink(linkNode, nodeTransform);
+            DrawLink(linkNode, windowRect);
         }
         else if (node is RandomizerNode randomizer)
         {
-            DrawRandomizer(randomizer, nodeTransform);
+            DrawRandomizer(randomizer, windowRect);
         }
     }
 
-    private void DrawReplica(ReplicaNode replica, Rect nodeTransform)
+    private void DrawReplicInfo(Rect windowRect, ReplicaNode node)
     {
-        Rect bufer;
-        ReplicInfo info = replica.replicaInformation;
-
+        ReplicInfo info = node.replicaInformation;
+        Rect bufer = new Rect(windowRect.width - 42, 1, 24, 20);
+        if (GUI.Button(bufer, "="))
+        {
+            DialogueReplicaEditorWindow.GetReplicaWindow(info, sceneKit).Show();
+        }
         if (info.character != null)
         {
-            bufer = new Rect(nodeTransform.x + 1, nodeTransform.y + nodeTransform.height - 8, nodeTransform.width / 2, 7);
+            bufer = new Rect(1, windowRect.height - 8, windowRect.width / 2, 7);
             EditorGUI.DrawRect(bufer, Color.grey);
-            bufer = new Rect(nodeTransform.x + 2, nodeTransform.y + nodeTransform.height - 7, nodeTransform.width / 2 - 2, 5);
+            bufer = new Rect(2, windowRect.height - 7, windowRect.width / 2 - 2, 5);
             EditorGUI.DrawRect(bufer, info.character.color);
         }
 
-        if (replica.leftToRight)
+        if (node.leftToRight)
         {
-            bufer = new Rect(nodeTransform.x + nodeTransform.width - 63, nodeTransform.y + 1, 21, 21);
-            if (GUI.Button(bufer, replica.finalNode ? "-|" : "->"))
+            bufer = new Rect(windowRect.width - 63, 1, 21, 21);
+            if (GUI.Button(bufer, node.finalNode ? "-|" : "->"))
             {
-                replica.finalNode = !replica.finalNode;
-                if (replica.finalNode)
+                node.finalNode = !node.finalNode;
+                if (node.finalNode)
                 {
-                    sceneKit.ClearNextRelations(replica);
+                    sceneKit.ClearNextRelations(node);
                 }
             }
-            if (!replica.finalNode)
+            if (!node.finalNode)
             {
-                bufer = new Rect(nodeTransform.x + replica.exitPointOffset.x, nodeTransform.y + replica.exitPointOffset.y, 20, 20);
+                bufer = new Rect(node.exitPointOffset.x, node.exitPointOffset.y, 20, 20);
                 if (GUI.Button(bufer, ">"))
                 {
-                    beginRelationNodeBufer = replica;
+                    beginRelationNodeBufer = node;
                     exitBufer = 0;
                 }
             }
-            bufer = new Rect(nodeTransform.x + 21, nodeTransform.y + 22, nodeTransform.width - 39, 20);
-            info.replicaText = EditorGUI.TextField(bufer, info.replicaText);
         }
         else
         {
-            bufer = new Rect(nodeTransform.x + 53, nodeTransform.y + 1, 21, 21);
-            if (GUI.Button(bufer, replica.finalNode ? "|-" : "<-"))
+            bufer = new Rect(windowRect.width - 63, 1, 21, 21);
+            if (GUI.Button(bufer, node.finalNode ? "|-" : "<-"))
             {
-                replica.finalNode = !replica.finalNode;
-                if (replica.finalNode)
+                node.finalNode = !node.finalNode;
+                if (node.finalNode)
                 {
-                    sceneKit.ClearNextRelations(replica);
+                    sceneKit.ClearNextRelations(node);
                 }
             }
-            if (!replica.finalNode)
+            if (!node.finalNode)
             {
-                bufer = new Rect(nodeTransform.x + replica.enterPointOffset.x, nodeTransform.y + replica.enterPointOffset.y, 20, 20);
+                bufer = new Rect(node.enterPointOffset.x, node.enterPointOffset.y, 20, 20);
                 if (GUI.Button(bufer, "<"))
                 {
-                    beginRelationNodeBufer = replica;
+                    beginRelationNodeBufer = node;
                     exitBufer = 0;
                 }
             }
-            bufer = new Rect(nodeTransform.x + 21, nodeTransform.y + 22, nodeTransform.width - 39, 20);
-            info.replicaText = EditorGUI.TextField(bufer, info.replicaText);
         }
+        bufer = new Rect(21, 22, windowRect.width - 39, 20);
+        info.replicaText = EditorGUI.TextField(bufer, info.replicaText);
     }
-    private void DrawChoice(ChoiceNode choice, Rect nodeTransform)
+    private void DrawChoice(ChoiceNode choiceNode, Rect windowRect)
     {
-        Rect bufer;
-        if (choice.character != null)
+        Rect bufer = new Rect(windowRect.width - 42, 1, 24, 20);
+        if (GUI.Button(bufer, "="))
         {
-            bufer = new Rect(nodeTransform.x + 1, nodeTransform.y + nodeTransform.height - 8, nodeTransform.width / 2, 7);
-            EditorGUI.DrawRect(bufer, Color.grey);
-            bufer = new Rect(nodeTransform.x + 2, nodeTransform.y + nodeTransform.height - 7, nodeTransform.width / 2 - 2, 5);
-            EditorGUI.DrawRect(bufer, choice.character.color);
+            DialogueChoiceEditorWindow.GetReplicaWindow(choiceNode, sceneKit).Show();
         }
-        for (int i = 0; i < choice.answers.Count; i++)
+        if (choiceNode.character != null)
         {
-            if (choice.leftToRight)
+            bufer = new Rect(1, windowRect.height - 8, windowRect.width / 2, 7);
+            EditorGUI.DrawRect(bufer, Color.grey);
+            bufer = new Rect(2, windowRect.height - 7, windowRect.width / 2 - 2, 5);
+            EditorGUI.DrawRect(bufer, choiceNode.character.color);
+        }
+        for (int i = 0; i < choiceNode.answers.Count; i++)
+        {
+            if (choiceNode.leftToRight)
             {
-                bufer = new Rect(nodeTransform.x + 21, nodeTransform.y + 21 * (i + 1), 20, 20);
+                bufer = new Rect(21, 21 * (i + 1), 20, 20);
                 if (GUI.Button(bufer, "x"))
                 {
-                    choice.RemoveAnsver(i);
-                    if (choice.answers.Count < 2)
+                    choiceNode.RemoveAnsver(i);
+                    if (choiceNode.answers.Count < 2)
                     {
-                        choice.transformRect = new Rect(choice.transformRect.x, choice.transformRect.y, choice.transformRect.width,
-                            choice.transformRect.height - 22);
+                        windows[choiceNode.index] = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height - 22);
+                        choiceNode.transformRect = windows[choiceNode.index];
                     }
                     break;
                 }
-                bufer = new Rect(bufer.x + 21, bufer.y, nodeTransform.width - 70, 20);
-                choice.answers[i].answerReplica.replicaText = EditorGUI.TextField(bufer, choice.answers[i].answerReplica.replicaText);
-                if (choice.answers[i].answerReplica.character != null)
+                bufer = new Rect(bufer.x + 21, bufer.y, windowRect.width - 70, 20);
+                choiceNode.answers[i].answerReplica.replicaText = EditorGUI.TextField(bufer, choiceNode.answers[i].answerReplica.replicaText);
+                if (choiceNode.answers[i].answerReplica.character != null)
                 {
-                    bufer = new Rect(bufer.x + nodeTransform.width - 70 + 1, bufer.y, 5, 20);
-                    EditorGUI.DrawRect(bufer, choice.answers[i].answerReplica.character.color);
+                    bufer = new Rect(bufer.x + windowRect.width - 70 + 1, bufer.y, 5, 20);
+                    EditorGUI.DrawRect(bufer, choiceNode.answers[i].answerReplica.character.color);
                 }
-                bufer = new Rect(nodeTransform.x + choice.exitPointOffsetList[i].x, nodeTransform.y +
-                    choice.exitPointOffsetList[i].y, 20, 20);
+                bufer = new Rect(choiceNode.exitPointOffsetList[i].x, choiceNode.exitPointOffsetList[i].y, 20, 20);
                 if (GUI.Button(bufer, ">"))
                 {
-                    beginRelationNodeBufer = choice;
+                    beginRelationNodeBufer = choiceNode;
                     exitBufer = i;
                 }
             }
             else
             {
-                bufer = new Rect(nodeTransform.x + 1, nodeTransform.y + 21 * (i + 1), 20, 20);
+                bufer = new Rect(1, 21 * (i + 1), 20, 20);
                 if (GUI.Button(bufer, "<"))
                 {
-                    beginRelationNodeBufer = choice;
+                    beginRelationNodeBufer = choiceNode;
                     exitBufer = i;
                 }
                 bufer = new Rect(bufer.x + 22, bufer.y, 5, 20);
-                if (choice.answers[i].answerReplica.character != null)
+                if (choiceNode.answers[i].answerReplica.character != null)
                 {
-                    EditorGUI.DrawRect(bufer, choice.answers[i].answerReplica.character.color);
+                    EditorGUI.DrawRect(bufer, choiceNode.answers[i].answerReplica.character.color);
                 }
-                bufer = new Rect(bufer.x + 6, bufer.y, nodeTransform.width - 70, 20);
-                choice.answers[i].answerReplica.replicaText = EditorGUI.TextField(bufer, choice.answers[i].answerReplica.replicaText);
-                bufer = new Rect(nodeTransform.x + choice.exitPointOffsetList[i].x - 21, nodeTransform.y +
-                    choice.exitPointOffsetList[i].y, 20, 20);
+                bufer = new Rect(bufer.x + 6, bufer.y, windowRect.width - 70, 20);
+                choiceNode.answers[i].answerReplica.replicaText = EditorGUI.TextField(bufer, choiceNode.answers[i].answerReplica.replicaText);
+                bufer = new Rect(choiceNode.exitPointOffsetList[i].x - 21, choiceNode.exitPointOffsetList[i].y, 20, 20);
                 if (GUI.Button(bufer, "x"))
                 {
-                    choice.RemoveAnsver(i);
-                    if (choice.answers.Count < 2)
+                    choiceNode.RemoveAnsver(i);
+                    if (choiceNode.answers.Count < 2)
                     {
-                        choice.transformRect = new Rect(choice.transformRect.x, choice.transformRect.y,
-                            choice.transformRect.width, choice.transformRect.height - 22);
+                        windows[choiceNode.index] = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height - 22);
+                        choiceNode.transformRect = windows[choiceNode.index];
                     }
                     break;
                 }
             }
         }
-        bufer = new Rect(nodeTransform.x + 21, nodeTransform.y + 21 * (choice.answers.Count + 1), nodeTransform.width - 42, 20);
-        if (choice.answers.Count < choice.answerLimit)
+        bufer = new Rect(21, 21 * (choiceNode.answers.Count + 1), windowRect.width - 42, 20);
+        if (choiceNode.answers.Count < choiceNode.answerLimit)
         {
             if (GUI.Button(bufer, "+"))
             {
-                choice.AddAnswer();
-                if (choice.answers.Count < 3)
+                choiceNode.AddAnswer();
+                if (choiceNode.answers.Count < 3)
                 {
-                    choice.transformRect = new Rect(choice.transformRect.x, choice.transformRect.y, choice.transformRect.width,
-                        choice.transformRect.height + 22);
+                    windows[choiceNode.index] = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height + 22);
+                    choiceNode.transformRect = windows[choiceNode.index];
                 }
             }
         }
@@ -439,26 +419,24 @@ public class DialogueSceneEditor : EditorWindow
         Rect bufer;
         if (conditionNode.leftToRight)
         {
-            bufer = new Rect(nodeTransform.x + conditionNode.positiveExitPointOffset.x,
-                nodeTransform.y + conditionNode.positiveExitPointOffset.y, 30, 20);
+            bufer = new Rect(conditionNode.positiveExitPointOffset.x, conditionNode.positiveExitPointOffset.y, 30, 20);
             if (GUI.Button(bufer, "+>"))
             {
                 beginRelationNodeBufer = conditionNode;
                 exitBufer = 0;
             }
-            bufer = new Rect(nodeTransform.x + conditionNode.negativeExitPointOffset.x,
-                nodeTransform.y + conditionNode.negativeExitPointOffset.y, 30, 20);
+            bufer = new Rect(conditionNode.negativeExitPointOffset.x, conditionNode.negativeExitPointOffset.y, 30, 20);
             if (GUI.Button(bufer, "->"))
             {
                 beginRelationNodeBufer = conditionNode;
                 exitBufer = 1;
             }
-            bufer = new Rect(nodeTransform.x + 21, nodeTransform.y + 21, 130, 20);
+            bufer = new Rect(21, 21, 130, 20);
             conditionNode.parameter = (ParameterPack)EditorGUI.ObjectField(bufer,
                 conditionNode.parameter, typeof(ParameterPack), allowSceneObjects: true);
             if (conditionNode.parameter != null)
             {
-                bufer = new Rect(nodeTransform.x + 1, nodeTransform.y + 42, 82, 20);
+                bufer = new Rect(1, 42, 82, 20);
                 conditionNode.conditionNumber = EditorGUI.Popup(bufer, conditionNode.conditionNumber,
                     conditionNode.parameter.GetCharacteristic());
                 bufer = new Rect(bufer.x + 81, bufer.y, 35, 20);
@@ -479,24 +457,24 @@ public class DialogueSceneEditor : EditorWindow
         }
         else
         {
-            bufer = new Rect(nodeTransform.x + 1, nodeTransform.y + conditionNode.positiveExitPointOffset.y, 30, 20);
+            bufer = new Rect(1, conditionNode.positiveExitPointOffset.y, 30, 20);
             if (GUI.Button(bufer, "<+"))
             {
-                beginRelationNodeBufer = conditionNode;
-                exitBufer = 0;
+                //beginRelationNodeBufer = conditionNode;
+                //exitBufer = 0;
             }
-            bufer = new Rect(nodeTransform.x + 1, nodeTransform.y + conditionNode.negativeExitPointOffset.y, 30, 20);
+            bufer = new Rect(1, conditionNode.negativeExitPointOffset.y, 30, 20);
             if (GUI.Button(bufer, "<-"))
             {
-                beginRelationNodeBufer = conditionNode;
-                exitBufer = 1;
+                //beginRelationNodeBufer = conditionNode;
+                //exitBufer = 1;
             }
-            bufer = new Rect(nodeTransform.x + 31, nodeTransform.y + 21, 130, 20);
+            bufer = new Rect(31, 21, 130, 20);
             conditionNode.parameter = (ParameterPack)EditorGUI.ObjectField(bufer, conditionNode.parameter,
                 typeof(ParameterPack), allowSceneObjects: true);
             if (conditionNode.parameter != null)
             {
-                bufer = new Rect(nodeTransform.x + 31, nodeTransform.y + 42, 82, 20);
+                bufer = new Rect(31, 42, 82, 20);
                 conditionNode.conditionNumber = EditorGUI.Popup(bufer, conditionNode.conditionNumber,
                     conditionNode.parameter.GetCharacteristic());
                 bufer = new Rect(bufer.x + 81, bufer.y, 35, 20);
@@ -516,12 +494,17 @@ public class DialogueSceneEditor : EditorWindow
             }
         }
     }
-    private void DrawEvent(EventNode eventNode, Rect nodeTransform)
+    private void DrawEvent(EventNode eventNode, Rect windowRect)
     {
-        Rect bufer;
+        Rect bufer = new Rect(windowRect.width - 21, 1, 24, 20);
+        bufer.x -= 21;
+        if (GUI.Button(bufer, "="))
+        {
+            DialogueEventEditorWindow.GetEventWindow(eventNode, sceneKit).Show();
+        }
         if (eventNode.leftToRight)
         {
-            bufer = new Rect(nodeTransform.x + nodeTransform.width - 63, nodeTransform.y + 1, 21, 21);
+            bufer = new Rect(windowRect.width - 63, 1, 21, 21);
             if (GUI.Button(bufer, eventNode.finalNode ? "-|" : "->"))
             {
                 eventNode.finalNode = !eventNode.finalNode;
@@ -532,7 +515,7 @@ public class DialogueSceneEditor : EditorWindow
             }
             if (!eventNode.finalNode)
             {
-                bufer = new Rect(nodeTransform.x + eventNode.exitPointOffset.x, nodeTransform.y + eventNode.exitPointOffset.y, 20, 20);
+                bufer = new Rect(eventNode.exitPointOffset.x, eventNode.exitPointOffset.y, 20, 20);
                 if (GUI.Button(bufer, ">"))
                 {
                     beginRelationNodeBufer = eventNode;
@@ -542,7 +525,7 @@ public class DialogueSceneEditor : EditorWindow
         }
         else
         {
-            bufer = new Rect(nodeTransform.x + 53, nodeTransform.y + 1, 21, 21);
+            bufer = new Rect(windowRect.width - 63, 1, 21, 21);
             if (GUI.Button(bufer, eventNode.finalNode ? "|-" : "<-"))
             {
                 eventNode.finalNode = !eventNode.finalNode;
@@ -553,7 +536,7 @@ public class DialogueSceneEditor : EditorWindow
             }
             if (!eventNode.finalNode)
             {
-                bufer = new Rect(nodeTransform.x + eventNode.enterPointOffset.x, nodeTransform.y + eventNode.enterPointOffset.y, 20, 20);
+                bufer = new Rect(eventNode.enterPointOffset.x, eventNode.enterPointOffset.y, 20, 20);
                 if (GUI.Button(bufer, "<"))
                 {
                     beginRelationNodeBufer = eventNode;
@@ -562,14 +545,14 @@ public class DialogueSceneEditor : EditorWindow
             }
         }
 
-        bufer = new Rect(nodeTransform.x + 21, nodeTransform.y + 21, 110, 20);
+        bufer = new Rect(21, 21, 110, 20);
         eventNode.parameter = (ParameterPack)EditorGUI.ObjectField(bufer, eventNode.parameter,
             typeof(ParameterPack), allowSceneObjects: true);
         if (eventNode.parameter != null)
         {
             if (eventNode.changeParameter)
             {
-                bufer = new Rect(nodeTransform.x + 1, bufer.y + 21, 80, 20);
+                bufer = new Rect(1, bufer.y + 21, 80, 20);
                 eventNode.changeingParameterIndex = EditorGUI.Popup(bufer, eventNode.changeingParameterIndex,
                     eventNode.parameter.GetCharacteristic());
 
@@ -591,12 +574,12 @@ public class DialogueSceneEditor : EditorWindow
         }
         if (eventNode.useMessage)
         {
-            bufer = new Rect(nodeTransform.x + 21, bufer.y + 21, 100, 20);
+            bufer = new Rect(21, bufer.y + 21, 100, 20);
             eventNode.messageText = EditorGUI.TextArea(bufer, eventNode.messageText);
         }
         if (eventNode.inSceneInvoke)
         {
-            bufer = new Rect(nodeTransform.x + nodeTransform.width - 21, nodeTransform.y + 63, 20, 20);
+            bufer = new Rect(windowRect.width - 21, 63, 20, 20);
             EditorGUI.LabelField(bufer, "#");
         }
     }
@@ -605,7 +588,7 @@ public class DialogueSceneEditor : EditorWindow
         Rect bufer;
         if (linkNode.leftToRight)
         {
-            bufer = new Rect(nodeTransform.x + linkNode.exitPointOffset.x, nodeTransform.y + linkNode.exitPointOffset.y, 20, 20);
+            bufer = new Rect(linkNode.exitPointOffset.x, linkNode.exitPointOffset.y, 20, 20);
             if (GUI.Button(bufer, ">"))
             {
                 beginRelationNodeBufer = linkNode;
@@ -614,23 +597,23 @@ public class DialogueSceneEditor : EditorWindow
         }
         else
         {
-            bufer = new Rect(nodeTransform.x + linkNode.enterPointOffset.x, nodeTransform.y + linkNode.enterPointOffset.y, 20, 20);
+            bufer = new Rect(linkNode.enterPointOffset.x, linkNode.enterPointOffset.y, 20, 20);
             if (GUI.Button(bufer, "<"))
             {
                 beginRelationNodeBufer = linkNode;
                 exitBufer = 0;
             }
         }
-        bufer = new Rect(nodeTransform.x + 21, nodeTransform.y + 22, nodeTransform.width - 39, 20);
-        EditorGUI.DrawRect(bufer, Color.white);
-        EditorGUI.LabelField(bufer, linkNode.NextNodeNumber == -1 ? "–ø—É—Å—Ç–æ" : linkNode.NextNodeNumber.ToString());
+        bufer = new Rect(21, 22, nodeTransform.width - 39, 20);
+        GUI.color = Color.white;
+        EditorGUI.LabelField(bufer, linkNode.NextNodeNumber == -1 ? "ÔÛÒÚÓ" : linkNode.NextNodeNumber.ToString());
     }
-    private void DrawRandomizer(RandomizerNode randomizer, Rect nodeTransform)
+    private void DrawRandomizer(RandomizerNode randomizer, Rect windowRect)
     {
         Rect bufer;
         if (randomizer.leftToRight)
         {
-            bufer = new Rect(nodeTransform.x + randomizer.exitPointOffset.x, nodeTransform.y + randomizer.exitPointOffset.y, 20, 20);
+            bufer = new Rect(randomizer.exitPointOffset.x, randomizer.exitPointOffset.y, 20, 20);
             if (GUI.Button(bufer, ">"))
             {
                 beginRelationNodeBufer = randomizer;
@@ -639,32 +622,32 @@ public class DialogueSceneEditor : EditorWindow
         }
         else
         {
-            bufer = new Rect(nodeTransform.x + randomizer.enterPointOffset.x, nodeTransform.y + randomizer.enterPointOffset.y, 20, 20);
+            bufer = new Rect(randomizer.enterPointOffset.x, randomizer.enterPointOffset.y, 20, 20);
             if (GUI.Button(bufer, "<"))
             {
                 beginRelationNodeBufer = randomizer;
                 exitBufer = -1;
             }
         }
-        bufer = new Rect(nodeTransform.x + 21, nodeTransform.y + 22, nodeTransform.width - 39, 20);
+        bufer = new Rect(21, 22, windowRect.width - 39, 20);
         EditorGUI.DrawRect(bufer, Color.white);
-        EditorGUI.LabelField(bufer, randomizer.defaultNextNodeNumber == -1 ? "–ø—É—Å—Ç–æ" : randomizer.defaultNextNodeNumber.ToString());
+        EditorGUI.LabelField(bufer, randomizer.defaultNextNodeNumber == -1 ? "ÔÛÒÚÓ" : randomizer.defaultNextNodeNumber.ToString());
         for (int i = 1; i < randomizer.nextNodesNumbers.Count; i++)
         {
             if (randomizer.leftToRight)
             {
-                bufer = new Rect(nodeTransform.x + 21, nodeTransform.y + 21 * (i + 1), 20, 20);
+                bufer = new Rect(21, 21 * (i + 1), 20, 20);
                 if (GUI.Button(bufer, "x"))
                 {
                     randomizer.RemoveLinkNumber(i);
-                    randomizer.transformRect = new Rect(randomizer.transformRect.x, randomizer.transformRect.y,
-                        randomizer.transformRect.width, randomizer.transformRect.height - 22);
+                    windows[randomizer.index] = new Rect(windows[randomizer.index].x, windows[randomizer.index].y,
+                        windows[randomizer.index].width, windows[randomizer.index].height - 22);
+                    randomizer.transformRect = windows[randomizer.index];
                     break;
                 }
-                bufer = new Rect(bufer.x + 21, bufer.y, nodeTransform.width - 70, 20);
-                EditorGUI.LabelField(bufer, randomizer.nextNodesNumbers[i] == -1 ? "–ø—É—Å—Ç–æ" : randomizer.nextNodesNumbers[i].ToString());
-                bufer = new Rect(nodeTransform.x + randomizer.exitPointsOffsetList[i - 1].x,
-                    nodeTransform.y + randomizer.exitPointsOffsetList[i - 1].y + 21, 20, 20);
+                bufer = new Rect(bufer.x + 21, bufer.y, windowRect.width - 70, 20);
+                EditorGUI.LabelField(bufer, randomizer.nextNodesNumbers[i] == -1 ? "ÔÛÒÚÓ" : randomizer.nextNodesNumbers[i].ToString());
+                bufer = new Rect(randomizer.exitPointsOffsetList[i - 1].x, randomizer.exitPointsOffsetList[i - 1].y + 21, 20, 20);
                 if (GUI.Button(bufer, ">"))
                 {
                     beginRelationNodeBufer = randomizer;
@@ -673,37 +656,39 @@ public class DialogueSceneEditor : EditorWindow
             }
             else
             {
-                bufer = new Rect(nodeTransform.x + 1, nodeTransform.y + 21 * (i + 1), 20, 20);
+                bufer = new Rect(1, 21 * (i + 1), 20, 20);
                 if (GUI.Button(bufer, "<"))
                 {
                     beginRelationNodeBufer = randomizer;
                     exitBufer = i;
                 }
-                bufer = new Rect(bufer.x + 21, bufer.y, nodeTransform.width - 70, 20);
-                EditorGUI.LabelField(bufer, randomizer.nextNodesNumbers[i] == -1 ? "–ø—É—Å—Ç–æ" : randomizer.nextNodesNumbers[i].ToString());
-                bufer = new Rect(nodeTransform.x + randomizer.exitPointsOffsetList[i - 1].x - 21,
-                    nodeTransform.y + randomizer.exitPointsOffsetList[i - 1].y + 21, 20, 20);
+                bufer = new Rect(bufer.x + 21, bufer.y, windowRect.width - 70, 20);
+                EditorGUI.LabelField(bufer, randomizer.nextNodesNumbers[i] == -1 ? "ÔÛÒÚÓ" : randomizer.nextNodesNumbers[i].ToString());
+                bufer = new Rect(randomizer.exitPointsOffsetList[i - 1].x - 21, randomizer.exitPointsOffsetList[i - 1].y + 21, 20, 20);
                 if (GUI.Button(bufer, "x"))
                 {
                     randomizer.RemoveLinkNumber(i);
-                    randomizer.transformRect = new Rect(randomizer.transformRect.x, randomizer.transformRect.y,
-                        randomizer.transformRect.width, randomizer.transformRect.height - 22);
+                    windows[randomizer.index] = new Rect(windows[randomizer.index].x, windows[randomizer.index].y,
+                        windows[randomizer.index].width, windows[randomizer.index].height - 22);
+                    randomizer.transformRect = windows[randomizer.index];
                     break;
                 }
             }
         }
-        bufer = new Rect(nodeTransform.x + 21, nodeTransform.y + 21 * (randomizer.nextNodesNumbers.Count + 1),
-            nodeTransform.width - 42, 20);
+        bufer = new Rect(21, 21 * (randomizer.nextNodesNumbers.Count + 1), windowRect.width - 42, 20);
         if (GUI.Button(bufer, "+"))
         {
             randomizer.AddLinkNumber(-1);
-            randomizer.transformRect = new Rect(randomizer.transformRect.x, randomizer.transformRect.y,
-                randomizer.transformRect.width, randomizer.transformRect.height + 22);
+            windows[randomizer.index] = new Rect(windows[randomizer.index].x, windows[randomizer.index].y,
+                windows[randomizer.index].width, windows[randomizer.index].height + 22);
+            randomizer.transformRect = windows[randomizer.index];
         }
-        bufer = new Rect(bufer.x, bufer.y +21, bufer.width, bufer.height);
-        randomizer.withRemoving = EditorGUI.ToggleLeft(bufer, "–ë–µ–∑ –ø–æ–≤—Ç–æ—Ä–æ–≤", randomizer.withRemoving);
+        bufer = new Rect(bufer.x, bufer.y + 21, bufer.width, bufer.height);
+        randomizer.withRemoving = EditorGUI.ToggleLeft(bufer, "¡ÂÁ ÔÓ‚ÚÓÓ‚", randomizer.withRemoving);
     }
+    #endregion
 
+    #region ¬ÒÔÓÏÓ„‡ÚÂÎ¸Ì˚Â ÏÂÚÓ‰˚
     private void DrawRelations()
     {
         for (int i = 0; i < sceneKit.Nodes.Count; i++)
@@ -873,17 +858,16 @@ public class DialogueSceneEditor : EditorWindow
             }
         }
 
-        bufer1 = new Vector3(start.x + startMultiplicator.x, start.y + startMultiplicator.y + mainInfoYSize, 0);
-        bufer2 = new Vector3(end.x - endMultiplicator.x, end.y - endMultiplicator.y + mainInfoYSize, 0);
+        bufer1 = new Vector3(start.x + startMultiplicator.x, start.y + startMultiplicator.y, 0);
+        bufer2 = new Vector3(end.x - endMultiplicator.x, end.y - endMultiplicator.y, 0);
 
-        Handles.DrawBezier(new Vector3(start.x + 5, start.y + 10 + mainInfoYSize, 0), new Vector3(end.x, end.y + 10 + mainInfoYSize, 0),
+        Handles.DrawBezier(new Vector3(start.x, start.y, 0), new Vector3(end.x, end.y, 0),
             bufer1, bufer2, color, null, 3);
     }
-    #endregion
-    #region –°–ª—É–∂–µ–±–Ω—ã–µ –º–µ—Ç–æ–¥—ã
+
     private void AddRelation(DialogueNode node)
     {
-        if(beginRelationNodeBufer is ReplicaNode replica)
+        if (beginRelationNodeBufer is ReplicaNode replica)
         {
             if (replica.NextNodeNumber != -1)
             {
@@ -892,16 +876,16 @@ public class DialogueSceneEditor : EditorWindow
             replica.NextNodeNumber = node.index;
             sceneKit.AddInPreviousRelations(beginRelationNodeBufer, node);
         }
-        else if(beginRelationNodeBufer is ChoiceNode choice)
+        else if (beginRelationNodeBufer is ChoiceNode choice)
         {
-            if(choice.nextNodesNumbers[exitBufer] != -1)
+            if (choice.nextNodesNumbers[exitBufer] != -1)
             {
                 sceneKit.ClearOneNextNumber(choice, exitBufer);
             }
             choice.nextNodesNumbers[exitBufer] = node.index;
             sceneKit.AddInPreviousRelations(choice, node);
         }
-        else if(beginRelationNodeBufer is EventNode eventNode)
+        else if (beginRelationNodeBufer is EventNode eventNode)
         {
             if (eventNode.NextNodeNumber != -1)
             {
@@ -910,7 +894,7 @@ public class DialogueSceneEditor : EditorWindow
             eventNode.NextNodeNumber = node.index;
             sceneKit.AddInPreviousRelations(eventNode, sceneKit.Nodes[eventNode.NextNodeNumber]);
         }
-        else if(beginRelationNodeBufer is ConditionNode condition)
+        else if (beginRelationNodeBufer is ConditionNode condition)
         {
             if (exitBufer == 0)
             {
@@ -931,7 +915,7 @@ public class DialogueSceneEditor : EditorWindow
                 sceneKit.AddInPreviousRelations(condition, sceneKit.Nodes[condition.NegativeNextNumber]);
             }
         }
-        else if(beginRelationNodeBufer is LinkNode link)
+        else if (beginRelationNodeBufer is LinkNode link)
         {
             if (link.NextNodeNumber != -1)
             {
@@ -940,11 +924,11 @@ public class DialogueSceneEditor : EditorWindow
             link.NextNodeNumber = node.index;
             sceneKit.AddInPreviousRelations(link, node);
         }
-        else if(beginRelationNodeBufer is RandomizerNode randomizer)
+        else if (beginRelationNodeBufer is RandomizerNode randomizer)
         {
             if (exitBufer == -1)
             {
-                if(randomizer.defaultNextNodeNumber != -1)
+                if (randomizer.defaultNextNodeNumber != -1)
                 {
                     sceneKit.ClearOneNextNumber(randomizer, 0);
                 }
@@ -962,63 +946,6 @@ public class DialogueSceneEditor : EditorWindow
         }
         beginRelationNodeBufer = null;
         exitBufer = 0;
-    }
-    private void DragNode()
-    {
-        if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
-        {
-            if (ClickInNode(Event.current.mousePosition, out dragNodeBufer))
-            {
-                dragNode = true;
-            }
-        }
-        if (dragNode)
-        {
-            if (Event.current.type == EventType.MouseDrag && dragNodeBufer != null)
-            {
-                Vector2 offset = Event.current.delta;
-                buferRect = new Rect(dragNodeBufer.transformRect.x + offset.x, dragNodeBufer.transformRect.y + offset.y, dragNodeBufer.transformRect.width,
-                    dragNodeBufer.transformRect.height);
-                dragNodeBufer.transformRect = buferRect;
-                return;
-            }
-            if (Event.current.type == EventType.MouseUp && Event.current.button == 0 && dragNodeBufer != null)
-            {
-                dragNode = false;
-            }
-        }
-    }
-    private bool ClickInNode(Vector2 mousePos, out DialogueNode node)
-    {
-        node = null;
-        for (int i = sceneKit.Nodes.Count - 1; i >= 0; i--)
-        {
-            if (mousePos.x > sceneKit.Nodes[i].transformRect.x - scrollPosition.x && mousePos.x < sceneKit.Nodes[i].transformRect.x
-                - scrollPosition.x + sceneKit.Nodes[i].transformRect.width && mousePos.y > sceneKit.Nodes[i].transformRect.y -
-                scrollPosition.y + mainInfoYSize && mousePos.y < sceneKit.Nodes[i].transformRect.y - scrollPosition.y + mainInfoYSize
-                + sceneKit.Nodes[i].transformRect.height)
-            {
-                node = sceneKit.Nodes[i];
-                clickPoint = mousePos;
-                return true;
-            }
-        }
-        return false;
-    }
-    private bool ClickInNode(Vector2 mousePos)
-    {
-        for (int i = sceneKit.Nodes.Count - 1; i >= 0; i--)
-        {
-            if (mousePos.x > sceneKit.Nodes[i].transformRect.x - scrollPosition.x && mousePos.x < sceneKit.Nodes[i].transformRect.x
-                - scrollPosition.x + sceneKit.Nodes[i].transformRect.width && mousePos.y > sceneKit.Nodes[i].transformRect.y -
-                scrollPosition.y + mainInfoYSize && mousePos.y < sceneKit.Nodes[i].transformRect.y - scrollPosition.y + mainInfoYSize
-                + sceneKit.Nodes[i].transformRect.height)
-            {
-                clickPoint = mousePos;
-                return true;
-            }
-        }
-        return false;
     }
     private Rect GetScrollViewZone()
     {
@@ -1042,7 +969,7 @@ public class DialogueSceneEditor : EditorWindow
         {
             rezult = new Rect(rezult.x, rezult.y, rezult.width + 200, rezult.height);
         }
-        else if(maxX < rezult.x + rezult.width - 200)
+        else if (maxX < rezult.x + rezult.width - 200)
         {
             rezult = new Rect(rezult.x, rezult.y, rezult.width - 200, rezult.height);
         }
@@ -1055,27 +982,6 @@ public class DialogueSceneEditor : EditorWindow
             rezult = new Rect(rezult.x, rezult.y, rezult.width, rezult.height - 200);
         }
         return rezult;
-    }
-    private void MouseScroll()
-    {
-        if (Event.current.type == EventType.MouseDown && Event.current.button == 1)
-        {
-            if (!ClickInNode(Event.current.mousePosition))
-            {
-                mouseScroll = true;
-                clickPoint = Event.current.mousePosition;
-            }
-        }
-        if (mouseScroll)
-        {
-            Vector2 offset = Event.current.mousePosition - clickPoint;
-            clickPoint = Event.current.mousePosition;
-            scrollPosition += offset;
-        }
-        if (Event.current.type == EventType.MouseUp && Event.current.button == 1)
-        {
-            mouseScroll = false;
-        }
     }
     #endregion
 }

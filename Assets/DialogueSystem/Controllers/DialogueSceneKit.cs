@@ -152,7 +152,10 @@ public class DialogueSceneKit : ScriptableObject
         for (int i = 0; i < from.nextNodesNumbers.Count; i++)
         {
             if(from.nextNodesNumbers[i] > -1)
+            {
                 Nodes[from.nextNodesNumbers[i]].RemoveThisNodeFromPrevious(from);
+                from.nextNodesNumbers[i] = -1;
+            }
         }
     }
     /// <summary>

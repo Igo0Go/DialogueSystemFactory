@@ -20,7 +20,8 @@ public class DialogueSceneKitEditor : Editor
         EditorGUILayout.BeginVertical();
         EditorGUILayout.LabelField("Название сцены: " + sceneKit.sceneName);
         EditorGUILayout.LabelField("Количество узлов рабочей копии: " + sceneKit.Nodes.Count);
-        EditorGUILayout.LabelField("Количество узлов хранилища: " + sceneKit.savedNodes.Count);
+        if(sceneKit.savedNodes != null)
+            EditorGUILayout.LabelField("Количество узлов хранилища: " + sceneKit.savedNodes.Count);
         EditorGUILayout.Space(20);
         EditorGUILayout.BeginHorizontal();
         if(GUILayout.Button("Редактировать", GUILayout.MinWidth(80)))
