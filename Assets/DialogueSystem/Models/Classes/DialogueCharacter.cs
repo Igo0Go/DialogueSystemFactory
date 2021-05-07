@@ -34,6 +34,22 @@ public class DialogueCharacter : ScriptableObject
         }
         return resultIndex;
     }
+
+    /// <summary>
+    /// Получить список названий параметров персонажа
+    /// </summary>
+    /// <returns></returns>
+    public string[] GetStatsName()
+    {
+        string[] result = new string[characterStats.Count];
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            result[i] = characterStats[i].statName;
+        }
+
+        return result;
+    }
 }
 
 [System.Serializable]

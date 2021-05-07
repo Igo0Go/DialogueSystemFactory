@@ -62,7 +62,8 @@ public class EventNode : DialogueNode
     /// <summary>
     /// Каую операцию проводить с параметром
     /// </summary>
-    public OperationType operation;
+    public OperationType parameterOperation;
+
     #endregion
 
     #region Событие в сцене
@@ -85,6 +86,34 @@ public class EventNode : DialogueNode
     /// ракурс камеры при фиксации на событии в ИГРОВОЙ сцене
     /// </summary>
     public int eventCamPositionNumber;
+    #endregion
+
+    #region Изменение пакета персонажа
+
+    /// <summary>
+    /// Пакет персанажа
+    /// </summary>
+    public DialogueCharacter character;
+
+    /// <summary>
+    /// Менять ли характеристики персонажа
+    /// </summary>
+    public bool changeCharacter;
+
+    /// <summary>
+    /// Каую операцию проводить с параметром
+    /// </summary>
+    public OperationType characterOperation;
+
+    /// <summary>
+    ///Какой параметр персонажа изменить 
+    /// </summary>
+    public int changeCharacterStatIndex;
+
+    /// <summary>
+    ///На какое значение изменить параметр персонажа 
+    /// </summary>
+    public int changeCharacterStatValue;
     #endregion
 
     #region Конструкторы

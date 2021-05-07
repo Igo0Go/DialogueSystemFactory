@@ -5,6 +5,5 @@
     WaitChoose = 2,
     WaitEvent = 3,
     ChooseComplete = 4,
-    EventComplete = 5,
-    LastClick = 6
+    LastClick = 5
 }

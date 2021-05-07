@@ -548,6 +548,7 @@ public class DialogueSceneEditor : EditorWindow
         bufer = new Rect(21, 21, 110, 20);
         eventNode.parameter = (ParameterPack)EditorGUI.ObjectField(bufer, eventNode.parameter,
             typeof(ParameterPack), allowSceneObjects: true);
+
         if (eventNode.parameter != null)
         {
             if (eventNode.changeParameter)
@@ -566,7 +567,7 @@ public class DialogueSceneEditor : EditorWindow
                 else
                 {
                     bufer = new Rect(bufer.x + 81, bufer.y, 40, 20);
-                    eventNode.operation = (OperationType)EditorGUI.Popup(bufer, (int)eventNode.operation, new string[2] { "==", "+=" });
+                    eventNode.parameterOperation = (OperationType)EditorGUI.Popup(bufer, (int)eventNode.parameterOperation, new string[2] { "==", "+=" });
                     bufer = new Rect(bufer.x + 41, bufer.y, 20, 20);
                     eventNode.changeIntValue = EditorGUI.IntField(bufer, eventNode.changeIntValue);
                 }

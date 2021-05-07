@@ -218,28 +218,39 @@ public class DialogueScenePoint : MonoBehaviour
         }
         else if(node is EventNode eventNode)
         {
+            if(eventNode.changeCharacter)
+            {
+                eventNode.character.characterStats[eventNode.changeCharacterStatIndex].statValue += eventNode.changeCharacterStatValue;
+                if(!eventNode.useMessage && !eventNode.changeParameter && !eventNode.inSceneInvoke)
+                {
+                    currentIndex = eventNode.NextNodeNumber;
+                    StartNode(currentIndex);
+                }
+            }
+
             if (eventNode.useMessage)
             {
                 dialogueUIController.UseMessage(eventNode.messageText);
                 StartCoroutine(HideMessageCoroutine(4));
             }
 
-
             if (!eventNode.changeParameter && !eventNode.inSceneInvoke)
             {
-                dialogueStatus = DialogueState.EventComplete;
+                currentIndex = eventNode.NextNodeNumber;
+                StartNode(currentIndex);
             }
             else
             {
                 if (eventNode.changeParameter)
                 {
-                    if (eventNode.parameter.GetType(eventNode.changeingParameterIndex, out ParameterType type) && type == ParameterType.Bool)
+                    if (eventNode.parameter.GetType(eventNode.changeingParameterIndex, out ParameterType type) &&
+                        type == ParameterType.Bool)
                     {
                         eventNode.parameter.SetBool(eventNode.changeingParameterIndex, eventNode.targetBoolValue);
                     }
                     else
                     {
-                        if (eventNode.operation == OperationType.AddValue)
+                        if (eventNode.parameterOperation == OperationType.AddValue)
                         {
                             eventNode.parameter.SetInt(eventNode.changeingParameterIndex,
                                 eventNode.parameter.GetInt(eventNode.changeingParameterIndex) + eventNode.changeIntValue);
@@ -251,7 +262,8 @@ public class DialogueScenePoint : MonoBehaviour
                     }
                     if (!eventNode.inSceneInvoke)
                     {
-                        dialogueStatus = DialogueState.EventComplete;
+                        currentIndex = eventNode.NextNodeNumber;
+                        StartNode(currentIndex);
                     }
                 }
                 if (eventNode.inSceneInvoke)

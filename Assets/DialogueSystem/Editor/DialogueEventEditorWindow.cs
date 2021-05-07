@@ -27,6 +27,8 @@ public class DialogueEventEditorWindow : EditorWindow
         EditorGUILayout.BeginVertical();
         eventNode.parameter = (ParameterPack)EditorGUILayout.ObjectField(eventNode.parameter, typeof(ParameterPack),
             allowSceneObjects: true);
+        eventNode.character = (DialogueCharacter)EditorGUILayout.ObjectField(eventNode.character, typeof(DialogueCharacter),
+            allowSceneObjects: true);
 
         if (eventNode.parameter != null)
         {
@@ -109,6 +111,25 @@ public class DialogueEventEditorWindow : EditorWindow
         {
             eventNode.messageText = EditorGUILayout.TextArea(eventNode.messageText, GUILayout.MaxWidth(position.width - 10));
         }
+
+        if (eventNode.character != null)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Менять параметр персонажа");
+            eventNode.changeCharacter = EditorGUILayout.Toggle(eventNode.changeCharacter);
+            EditorGUILayout.EndHorizontal();
+
+            if (eventNode.changeCharacter)
+            {
+                EditorGUILayout.BeginHorizontal();
+                eventNode.changeCharacterStatIndex = EditorGUILayout.Popup(eventNode.changeCharacterStatIndex,
+                    eventNode.character.GetStatsName(), GUILayout.MinWidth(80));
+                EditorGUILayout.LabelField("Сместить на", GUILayout.MaxWidth(80));
+                eventNode.changeCharacterStatValue = EditorGUILayout.IntField(eventNode.changeCharacterStatValue);
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
         EditorGUILayout.EndVertical();
     }
 
