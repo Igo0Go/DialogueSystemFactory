@@ -20,4 +20,4 @@ MonoBehaviour:
   - statName: "\u0421\u043C\u0435\u043B\u043E\u0441\u0442\u044C"
     statValue: 0
   - statName: "\u0423\u043C"
-    statValue: 100
+    statValue: -20
