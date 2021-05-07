@@ -59,6 +59,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -174,6 +175,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -290,6 +292,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -411,6 +414,10 @@ MonoBehaviour:
           camPositionNumber: 0
           replicaText: "\u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C
             \u0443\u0441\u043B\u043E\u0432\u0438\u0435"
+        answerStats:
+        - 0
+        - 0
+        - 0
       - answerTip: 
         answerReplica:
           alreadyUsed: 0
@@ -420,6 +427,10 @@ MonoBehaviour:
           camPositionNumber: 0
           replicaText: "\u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C
             \u0441\u043E\u0431\u044B\u0442\u0438\u0435"
+        answerStats:
+        - 0
+        - 0
+        - 0
       - answerTip: 
         answerReplica:
           alreadyUsed: 0
@@ -429,7 +440,12 @@ MonoBehaviour:
           camPositionNumber: 0
           replicaText: "\u041F\u043E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C
             \u0440\u0430\u043D\u0434\u043E\u043C\u0430\u0439\u0437\u0435\u0440"
+        answerStats:
+        - 0
+        - 0
+        - 0
       defaultCameraPositionIndex: 0
+      useStats: 1
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -546,6 +562,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -661,6 +678,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -778,6 +796,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -896,6 +915,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -1006,6 +1026,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -1116,6 +1137,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 9
       previousNodesNumbers: 07000000
@@ -1226,6 +1248,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -1339,6 +1362,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -1450,6 +1474,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -1561,6 +1586,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -1672,6 +1698,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -1786,6 +1813,7 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+      useStats: 0
     eventNode:
       index: 0
       previousNodesNumbers: 

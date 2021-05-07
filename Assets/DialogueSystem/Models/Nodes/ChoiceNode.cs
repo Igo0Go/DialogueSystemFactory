@@ -28,6 +28,11 @@ public class ChoiceNode : DialogueNode
     /// </summary>
     public int defaultCameraPositionIndex;
 
+    /// <summary>
+    /// »спользовать ли идеальные характеристики персонажа дл€ автовыбора ответа
+    /// </summary>
+    public bool useStats = false;
+
     public readonly int answerLimit = 3;
     private readonly Vector2 exitOffset = new Vector3(180, 21);
     #endregion
@@ -104,6 +109,12 @@ public class AnswerItem
     /// –еальна€ реплика ответа
     /// </summary>
     public ReplicInfo answerReplica;
+
+    /// <summary>
+    /// ƒл€ каждого ответа можно задать идеальные характеристики, которые берутьс€ из характеристик выбирающего. ¬ случае работы бота
+    /// выбор будет сделан в пользу того ответа, к идеальным характеристикам которого персонаж ближе
+    /// </summary>
+    public List<float> answerStats;
 
     public AnswerItem()
     {

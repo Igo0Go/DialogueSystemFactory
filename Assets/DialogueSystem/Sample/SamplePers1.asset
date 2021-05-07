@@ -14,3 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Pers1
   color: {r: 0.22639632, g: 1, b: 0, a: 1}
+  characterStats:
+  - statName: "\u0414\u043E\u0431\u0440\u043E\u0442\u0430"
+    statValue: 0
+  - statName: "\u0421\u043C\u0435\u043B\u043E\u0441\u0442\u044C"
+    statValue: 0
+  - statName: "\u0421\u0442\u0440\u0430\u0445"
+    statValue: 0
