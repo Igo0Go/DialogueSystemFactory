@@ -19,11 +19,16 @@ public class DialogueSceneKitEditor : Editor
     {
         EditorGUILayout.BeginVertical();
         EditorGUILayout.LabelField("Название сцены: " + sceneKit.sceneName);
+        GUI.color = Color.cyan;
         EditorGUILayout.LabelField("Количество узлов рабочей копии: " + sceneKit.Nodes.Count);
         if(sceneKit.savedNodes != null)
+        {
+            GUI.color = Color.yellow;
             EditorGUILayout.LabelField("Количество узлов хранилища: " + sceneKit.savedNodes.Count);
+        }
         EditorGUILayout.Space(20);
         EditorGUILayout.BeginHorizontal();
+        GUI.color = Color.cyan;
         if(GUILayout.Button("Редактировать", GUILayout.MinWidth(80)))
         {
             DialogueSceneEditor sceneEditor = DialogueSceneEditor.GetEditor();
@@ -31,6 +36,7 @@ public class DialogueSceneKitEditor : Editor
             sceneEditor.minSize = new Vector2(400, 300);
             sceneEditor.Show();
         }
+        GUI.color = Color.yellow;
         if (GUILayout.Button("Сохранить", GUILayout.MinWidth(80)))
         {
             sceneKit.SaveAllNodes();
@@ -39,11 +45,13 @@ public class DialogueSceneKitEditor : Editor
 
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
+        GUI.color = Color.red;
         if (GUILayout.Button("Загрузить", GUILayout.MinWidth(80)))
         {
             sceneKit.LoadAllNodes();
             EditorUtility.SetDirty(sceneKit);
         }
+        GUI.color = Color.magenta;
         if (GUILayout.Button("Восстановить", GUILayout.MinWidth(80)))
         {
             sceneKit.RepairSavedNodes();
@@ -53,7 +61,7 @@ public class DialogueSceneKitEditor : Editor
         GUILayout.EndVertical();
 
         GUILayout.Space(20);
-
+        GUI.color = Color.white;
         GUILayout.BeginVertical();
         GUILayout.BeginHorizontal();
         GUILayout.Label("Ракурсы камеры:");

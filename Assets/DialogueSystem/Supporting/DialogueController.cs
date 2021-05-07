@@ -7,6 +7,7 @@ public class DialogueController : MonoBehaviour
 {
     public Transform playerTransform;
     public DialogueCharacter dialogueCharacter;
+    public bool useAutoChoice = false;
 
     protected Animator anim;
 

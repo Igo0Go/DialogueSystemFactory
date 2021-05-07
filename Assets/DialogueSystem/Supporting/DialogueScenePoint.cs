@@ -133,6 +133,17 @@ public class DialogueScenePoint : MonoBehaviour
         }
         else if (node is ChoiceNode choice)
         {
+            if(FindController(choice.character))
+            {
+                if(activeDialogueController.useAutoChoice)
+                {
+                    currentIndex = choice.character.GetAutoChoiceAnswerIndex(choice.answers);
+                    StartNode(choice.nextNodesNumbers[currentIndex]);
+                    return;
+                }
+            }
+
+
             sceneCamera.position = cameraPoints[choice.defaultCameraPositionIndex].position;
             sceneCamera.rotation = cameraPoints[choice.defaultCameraPositionIndex].rotation;
             sceneCamera.parent = cameraPoints[choice.defaultCameraPositionIndex];

@@ -20,7 +20,8 @@ public class DialogueSceneKit : ScriptableObject
     /// </summary>
     public void CreateEditorCopy()
     {
-        editorCopy = new List<DialogueNodePack>(savedNodes);
+        if(savedNodes != null)
+            editorCopy = new List<DialogueNodePack>(savedNodes);
     }
     /// <summary>
     /// Восстановить хранилище из временной копии

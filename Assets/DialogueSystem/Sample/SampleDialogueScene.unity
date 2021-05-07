@@ -1941,6 +1941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1215026479}
   dialogueCharacter: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+  useAutoChoice: 0
 --- !u!95 &1215026478
 Animator:
   serializedVersion: 3
@@ -2473,6 +2474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 1498763453}
   dialogueCharacter: {fileID: 11400000, guid: deeb9ec5bb40a8a4fbdba6722ddc7a6a, type: 2}
+  useAutoChoice: 1
 --- !u!95 &1498763452
 Animator:
   serializedVersion: 3
@@ -3002,7 +3004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamDirector: {fileID: 2029697414}
-  scene: {fileID: 11400000, guid: 1d0f4a7b8fa2be443b210396059b9c1a, type: 2}
+  scene: {fileID: 11400000, guid: ced5af2f30e345e4096d30cd9427bcf0, type: 2}
   tip: 
   dialogueUIController: {fileID: 380731142}
   tipString: "\u0414\u0438\u0430\u043B\u043E\u0433 \u0437\u0434\u0435\u0441\u044C"
