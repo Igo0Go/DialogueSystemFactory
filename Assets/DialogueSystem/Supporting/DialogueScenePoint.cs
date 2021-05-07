@@ -453,6 +453,8 @@ public class DialogueScenePoint : MonoBehaviour
         sceneCamera.position = cameraPoints[info.camPositionNumber].position;
         sceneCamera.rotation = cameraPoints[info.camPositionNumber].rotation;
         sceneCamera.parent = cameraPoints[info.camPositionNumber];
+        
+        FindController(info.character);
 
         if (useVoice)
         {
