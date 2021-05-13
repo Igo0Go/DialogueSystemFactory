@@ -54,7 +54,7 @@ public class DialogueSceneEditor : EditorWindow
             {
                 for (int i = 0; i < windows.Count; i++)
                 {
-                    GUI.color = sceneKit.Nodes[i].colorInEditor;
+                    GUI.color = i == sceneKit.firstNodeIndex? Color.green : sceneKit.Nodes[i].colorInEditor;
                     windows[i] = GUI.Window(i, windows[i], DrawNodeWindow, i.ToString());
                 }
             }

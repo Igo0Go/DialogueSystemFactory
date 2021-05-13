@@ -66,8 +66,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 458
-        y: 8.5
+        x: 449
+        y: 23.5
         width: 150
         height: 90
       colorInEditor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -144,8 +144,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 15
-        y: 111.5
+        x: 4
+        y: 93.5
         width: 150
         height: 50
       colorInEditor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
@@ -282,8 +282,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 205
-        y: 98.5
+        x: 182
+        y: 92.5
         width: 200
         height: 94
       colorInEditor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
@@ -455,8 +455,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 455
-        y: 113.5
+        x: 443
+        y: 118.5
         width: 150
         height: 90
       colorInEditor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -571,8 +571,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 461
-        y: 221.5
+        x: 448
+        y: 214.5
         width: 150
         height: 90
       colorInEditor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -958,8 +958,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 1164
-        y: 104.5
+        x: 1158
+        y: 115.5
         width: 150
         height: 90
       colorInEditor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -1074,8 +1074,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 1166
-        y: 219.5
+        x: 1159
+        y: 221.5
         width: 150
         height: 90
       colorInEditor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
@@ -1268,8 +1268,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 925
-        y: 4.5
+        x: 951
+        y: 2.5
         width: 150
         height: 50
       colorInEditor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
@@ -1384,8 +1384,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 927
-        y: 103.5
+        x: 946
+        y: 116.5
         width: 150
         height: 50
       colorInEditor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
@@ -1500,8 +1500,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 932
-        y: 219.5
+        x: 947
+        y: 221.5
         width: 150
         height: 50
       colorInEditor: {r: 0.5, g: 0.5, b: 0.5, a: 1}

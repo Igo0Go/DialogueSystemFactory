@@ -480,56 +480,29 @@ public class DialogueScenePoint : MonoBehaviour
     }
     private void CheckTalkReplicState()
     {
-        if (useVoice)
+        if (skip == 2)
         {
-            if (!audioSource.isPlaying || skip == 2)
-            {
-                audioSource.Stop();
+            if (useAnimations)
                 activeDialogueController.StopReplic();
-                CloseSkipTip();
-                if (node.finalNode)
-                {
-                    FinalDialogue();
-                    dialogueStatus = DialogueState.Disactive;
-                }
-                else
-                {
-                    currentIndex = node.nextNodesNumbers[0];
-                    if (useNetwork)
-                    {
-                        ActivateNodeWithIDEvent?.Invoke(currentIndex);
-                    }
-                    else
-                    {
-                        StartNode(currentIndex);
-                    }
-                }
-            }
-        }
-        else
-        {
-            if (skip == 2)
-            {
-                if (useAnimations)
-                    activeDialogueController.StopReplic();
-                CloseSkipTip();
+            if (useVoice && audioSource.isPlaying)
+                audioSource.Stop();
+            CloseSkipTip();
 
-                if (node.finalNode)
+            if (node.finalNode)
+            {
+                skip = 0;
+                FinalDialogue();
+            }
+            else
+            {
+                currentIndex = node.nextNodesNumbers[0];
+                if (useNetwork)
                 {
-                    skip = 0;
-                    FinalDialogue();
+                    ActivateNodeWithIDEvent?.Invoke(currentIndex);
                 }
                 else
                 {
-                    currentIndex = node.nextNodesNumbers[0];
-                    if (useNetwork)
-                    {
-                        ActivateNodeWithIDEvent?.Invoke(currentIndex);
-                    }
-                    else
-                    {
-                        StartNode(currentIndex);
-                    }
+                    StartNode(currentIndex);
                 }
             }
         }
