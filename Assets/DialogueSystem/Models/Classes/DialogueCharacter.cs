@@ -10,6 +10,7 @@ public class DialogueCharacter : ScriptableObject
     [TextArea(10,100)]
     public string description;
     public List<CharacterStat> characterStats;
+    private List<float> savedCharacterStats;
 
     /// <summary>
     /// Получить вариант ответа 
@@ -50,6 +51,32 @@ public class DialogueCharacter : ScriptableObject
         }
 
         return result;
+    }
+
+    [ContextMenu("Сохранить значения характеристик")]
+    private void SaveStatsValue()
+    {
+        savedCharacterStats = new List<float>();
+        if (characterStats != null && characterStats.Count > 0)
+        {
+            foreach (var item in characterStats)
+            {
+                savedCharacterStats.Add(item.statValue);
+            }
+        }
+    }
+
+    [ContextMenu("Загрузить значения характеристик")]
+    private void LoadStatsValue()
+    {
+        if (characterStats != null && characterStats.Count > 0 &&
+            savedCharacterStats != null && savedCharacterStats.Count > 0)
+        {
+            for (int i = 0; i < characterStats.Count && i < savedCharacterStats.Count; i++)
+            {
+                characterStats[i].statValue = savedCharacterStats[i];
+            }
+        }
     }
 }
 
