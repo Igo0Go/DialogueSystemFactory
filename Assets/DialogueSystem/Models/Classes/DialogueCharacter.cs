@@ -7,7 +7,8 @@ public class DialogueCharacter : ScriptableObject
 {
     public string characterName;
     public Color color;
-
+    [TextArea(10,100)]
+    public string description;
     public List<CharacterStat> characterStats;
 
     /// <summary>

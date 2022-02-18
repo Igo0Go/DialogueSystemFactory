@@ -571,8 +571,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 448
-        y: 214.5
+        x: 438
+        y: 222.5
         width: 150
         height: 90
       colorInEditor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}

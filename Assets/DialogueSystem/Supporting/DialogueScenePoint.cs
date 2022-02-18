@@ -143,7 +143,6 @@ public class DialogueScenePoint : MonoBehaviour
                 }
             }
 
-
             sceneCamera.position = cameraPoints[choice.defaultCameraPositionIndex].position;
             sceneCamera.rotation = cameraPoints[choice.defaultCameraPositionIndex].rotation;
             sceneCamera.parent = cameraPoints[choice.defaultCameraPositionIndex];
