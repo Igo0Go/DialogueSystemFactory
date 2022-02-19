@@ -295,8 +295,9 @@ public class DialogueScenePoint : MonoBehaviour
         sceneCamera.parent = null;
         sceneCamera.position = camPosBufer;
         sceneCamera.rotation = camRotBufer;
-        dialogueUIController.subsPanel.SetActive(false);
-        dialogueUIController.skipTip.SetActive(false);
+        dialogueUIController.HideSubs();
+        dialogueUIController.SetNamePanelState(false);
+        dialogueUIController.SetSkipTipState(false);
         dialogueUIController.CheckVariants(false);
         if (useAnimations)
         {
@@ -365,21 +366,21 @@ public class DialogueScenePoint : MonoBehaviour
     /// </summary>
     public void ShowTip()
     {
-        dialogueUIController.tipPanel.SetActive(true);
+        dialogueUIController.SetInfoTipState(true);
     }
     /// <summary>
     /// Скрыть подсказку - зона диалога
     /// </summary>
     public void CloseTip()
     {
-        dialogueUIController.tipPanel.SetActive(true);
+        dialogueUIController.SetInfoTipState(true);
     }
     /// <summary>
     /// Скрыть панель пропуска реплики
     /// </summary>
     public void CloseSkipTip()
     {
-        dialogueUIController.skipTip.SetActive(false);
+        dialogueUIController.SetSkipTipState(false);
         skip = 0;
     }
     /// <summary>
@@ -463,7 +464,6 @@ public class DialogueScenePoint : MonoBehaviour
 
         dialogueStatus = DialogueState.TalkReplic;
 
-        dialogueUIController.subsPanel.SetActive(true);
         dialogueUIController.PrepareSubs(info);
         if (useAnimations)
         {
@@ -520,7 +520,7 @@ public class DialogueScenePoint : MonoBehaviour
     private IEnumerator ShowSkipTipAfterTimeCoroutine()
     {
         yield return new WaitForSeconds(1);
-        dialogueUIController.skipTip.SetActive(true);
+        dialogueUIController.SetSkipTipState(true);
         skip = 1;
     }
     private IEnumerator StopInSceneEventCoroutine(float time)
