@@ -29,8 +29,8 @@ public class DialogueUIController : MonoBehaviour
     [SerializeField]
     private Text messageText;
 
-    [Tooltip("Варианты ответа")]
-    public List<AnswerUI> answers = new List<AnswerUI>();
+    [Tooltip("Контейнер с вариантами ответа")]
+    public AnswerContainer answerContainer;
 
     [SerializeField]
     [Tooltip("Выводить ли имя говорящего во время реплик")]
@@ -81,22 +81,5 @@ public class DialogueUIController : MonoBehaviour
     public void HideMessage()
     {
         messagePanel.HidePanel();
-    }
-    public void CheckVariants(bool value)
-    {
-        foreach (var item in answers)
-        {
-            item.variantButton.SetActive(value);
-        }
-    }
-    public void ShowVariants(AnswerUI answer, AnswerItem item)
-    {
-        ReplicInfo inf = item.answerReplica;
-        if (!inf.replicaText.Equals(string.Empty))
-        {
-            answer.variantButton.SetActive(true);
-            answer.variantText.color = inf.character.color;
-            answer.variantText.text = inf.replicaText;
-        }
     }
 }

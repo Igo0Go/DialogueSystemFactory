@@ -33,7 +33,7 @@ public class ChoiceNode : DialogueNode
     /// </summary>
     public bool useStats = false;
 
-    public readonly int answerLimit = 3;
+    public readonly int answerLimit = 20;
     private readonly Vector2 exitOffset = new Vector3(180, 21);
     #endregion
 
@@ -66,7 +66,7 @@ public class ChoiceNode : DialogueNode
     {
         if(answers.Count < answerLimit)
         {
-            answers.Add(new AnswerItem());
+            answers.Add(new AnswerItem(character));
             CheckExitOffset();
         }
     }
@@ -106,9 +106,9 @@ public class AnswerItem
     public string answerTip;
 
     /// <summary>
-    /// Реальная реплика ответа
+    /// Роль говорящего
     /// </summary>
-    public ReplicInfo answerReplica;
+    public DialogueCharacter character;
 
     /// <summary>
     /// Для каждого ответа можно задать идеальные характеристики, которые беруться из характеристик выбирающего. В случае работы бота
@@ -116,9 +116,8 @@ public class AnswerItem
     /// </summary>
     public List<float> answerStats;
 
-    public AnswerItem()
+    public AnswerItem(DialogueCharacter dialogueCharacter)
     {
-        answerReplica = new ReplicInfo();
-
+        character = dialogueCharacter;
     }
 }

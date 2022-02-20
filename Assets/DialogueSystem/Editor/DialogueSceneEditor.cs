@@ -342,76 +342,68 @@ public class DialogueSceneEditor : EditorWindow
             EditorGUI.DrawRect(bufer, Color.grey);
             bufer = new Rect(2, windowRect.height - 7, windowRect.width / 2 - 2, 5);
             EditorGUI.DrawRect(bufer, choiceNode.character.color);
-        }
-        for (int i = 0; i < choiceNode.answers.Count; i++)
-        {
-            if (choiceNode.leftToRight)
+            for (int i = 0; i < choiceNode.answers.Count; i++)
             {
-                bufer = new Rect(21, 21 * (i + 1), 20, 20);
-                if (GUI.Button(bufer, "x"))
+                if (choiceNode.leftToRight)
                 {
-                    choiceNode.RemoveAnsver(i);
-                    if (choiceNode.answers.Count < 2)
+                    bufer = new Rect(21, 21 * (i + 1), 20, 20);
+                    if (GUI.Button(bufer, "x"))
                     {
-                        windows[choiceNode.index] = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height - 22);
+                        choiceNode.RemoveAnsver(i);
+                        if (choiceNode.answers.Count < choiceNode.answerLimit - 1)
+                        {
+                            windows[choiceNode.index] = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height - 22);
+                            choiceNode.transformRect = windows[choiceNode.index];
+                        }
+                        break;
+                    }
+                    bufer = new Rect(bufer.x + 21, bufer.y, windowRect.width - 70, 20);
+                    choiceNode.answers[i].answerTip = EditorGUI.TextField(bufer, choiceNode.answers[i].answerTip);
+                    bufer = new Rect(choiceNode.exitPointOffsetList[i].x, choiceNode.exitPointOffsetList[i].y, 20, 20);
+                    if (GUI.Button(bufer, ">"))
+                    {
+                        beginRelationNodeBufer = choiceNode;
+                        exitBufer = i;
+                    }
+                }
+                else
+                {
+                    bufer = new Rect(1, 21 * (i + 1), 20, 20);
+                    if (GUI.Button(bufer, "<"))
+                    {
+                        beginRelationNodeBufer = choiceNode;
+                        exitBufer = i;
+                    }
+                    bufer = new Rect(bufer.x + 22, bufer.y, 5, 20);
+                    bufer = new Rect(bufer.x + 6, bufer.y, windowRect.width - 70, 20);
+                    choiceNode.answers[i].answerTip = EditorGUI.TextField(bufer, choiceNode.answers[i].answerTip);
+                    bufer = new Rect(choiceNode.exitPointOffsetList[i].x - 21, choiceNode.exitPointOffsetList[i].y, 20, 20);
+                    if (GUI.Button(bufer, "x"))
+                    {
+                        choiceNode.RemoveAnsver(i);
+                        if (choiceNode.answers.Count < choiceNode.answerLimit - 1)
+                        {
+                            windows[choiceNode.index] = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height - 22);
+                            choiceNode.transformRect = windows[choiceNode.index];
+                        }
+                        break;
+                    }
+                }
+            }
+            bufer = new Rect(21, 21 * (choiceNode.answers.Count + 1), windowRect.width - 42, 20);
+            if (choiceNode.answers.Count < choiceNode.answerLimit)
+            {
+                if (GUI.Button(bufer, "+"))
+                {
+                    choiceNode.AddAnswer();
+                    if (choiceNode.answers.Count < choiceNode.answerLimit)
+                    {
+                        windows[choiceNode.index] = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height + 22);
                         choiceNode.transformRect = windows[choiceNode.index];
                     }
-                    break;
-                }
-                bufer = new Rect(bufer.x + 21, bufer.y, windowRect.width - 70, 20);
-                choiceNode.answers[i].answerReplica.replicaText = EditorGUI.TextField(bufer, choiceNode.answers[i].answerReplica.replicaText);
-                if (choiceNode.answers[i].answerReplica.character != null)
-                {
-                    bufer = new Rect(bufer.x + windowRect.width - 70 + 1, bufer.y, 5, 20);
-                    EditorGUI.DrawRect(bufer, choiceNode.answers[i].answerReplica.character.color);
-                }
-                bufer = new Rect(choiceNode.exitPointOffsetList[i].x, choiceNode.exitPointOffsetList[i].y, 20, 20);
-                if (GUI.Button(bufer, ">"))
-                {
-                    beginRelationNodeBufer = choiceNode;
-                    exitBufer = i;
                 }
             }
-            else
-            {
-                bufer = new Rect(1, 21 * (i + 1), 20, 20);
-                if (GUI.Button(bufer, "<"))
-                {
-                    beginRelationNodeBufer = choiceNode;
-                    exitBufer = i;
-                }
-                bufer = new Rect(bufer.x + 22, bufer.y, 5, 20);
-                if (choiceNode.answers[i].answerReplica.character != null)
-                {
-                    EditorGUI.DrawRect(bufer, choiceNode.answers[i].answerReplica.character.color);
-                }
-                bufer = new Rect(bufer.x + 6, bufer.y, windowRect.width - 70, 20);
-                choiceNode.answers[i].answerReplica.replicaText = EditorGUI.TextField(bufer, choiceNode.answers[i].answerReplica.replicaText);
-                bufer = new Rect(choiceNode.exitPointOffsetList[i].x - 21, choiceNode.exitPointOffsetList[i].y, 20, 20);
-                if (GUI.Button(bufer, "x"))
-                {
-                    choiceNode.RemoveAnsver(i);
-                    if (choiceNode.answers.Count < 2)
-                    {
-                        windows[choiceNode.index] = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height - 22);
-                        choiceNode.transformRect = windows[choiceNode.index];
-                    }
-                    break;
-                }
-            }
-        }
-        bufer = new Rect(21, 21 * (choiceNode.answers.Count + 1), windowRect.width - 42, 20);
-        if (choiceNode.answers.Count < choiceNode.answerLimit)
-        {
-            if (GUI.Button(bufer, "+"))
-            {
-                choiceNode.AddAnswer();
-                if (choiceNode.answers.Count < 3)
-                {
-                    windows[choiceNode.index] = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height + 22);
-                    choiceNode.transformRect = windows[choiceNode.index];
-                }
-            }
+
         }
     }
     private void DrawCondition(ConditionNode conditionNode, Rect nodeTransform)

@@ -55,7 +55,7 @@ public class DialogueScenePoint : MonoBehaviour
         audioSource.playOnAwake = false;
         audioSource.Stop();
         currentIndex = scene.firstNodeIndex;
-        dialogueUIController.CheckVariants(false);
+        dialogueUIController.answerContainer.ClearAllAnswers();
     }
 
     void Update()
@@ -78,8 +78,6 @@ public class DialogueScenePoint : MonoBehaviour
         camPosBufer = sceneCamera.position;
         camRotBufer = sceneCamera.rotation;
 
-        AddAnswerEvents();
-
         if (currentIndex >= 0)
         {
             PreparePlayersToDialogue();
@@ -97,7 +95,7 @@ public class DialogueScenePoint : MonoBehaviour
 
         currentIndex = nodeIndex; 
         node = scene.Nodes[nodeIndex];
-        dialogueUIController.CheckVariants(false);
+        dialogueUIController.answerContainer.ClearAllAnswers();
 
         if (node is LinkNode link)
         {
@@ -151,10 +149,8 @@ public class DialogueScenePoint : MonoBehaviour
             if (!useNetwork || playerRole.Equals(choice.character))
             {
                 dialogueStatus = DialogueState.WaitChoose;
-                for (int i = 0; i < choice.answers.Count; i++)
-                {
-                    dialogueUIController.ShowVariants(dialogueUIController.answers[i], choice.answers[i]);
-                }
+
+                dialogueUIController.answerContainer.PrepareAllAnswers(choice.answers, this);
             }
         }
         else if(node is ConditionNode condition)
@@ -298,7 +294,7 @@ public class DialogueScenePoint : MonoBehaviour
         dialogueUIController.HideSubs();
         dialogueUIController.SetNamePanelState(false);
         dialogueUIController.SetSkipTipState(false);
-        dialogueUIController.CheckVariants(false);
+        dialogueUIController.answerContainer.ClearAllAnswers();
         if (useAnimations)
         {
             foreach (var item in actors)
@@ -316,7 +312,7 @@ public class DialogueScenePoint : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
             Destroy(gameObject, 6);
         }
-        RemoveAnswerEvents();
+        dialogueUIController.answerContainer.ClearAllAnswers();
         CloseTip();
     }
 
@@ -422,20 +418,7 @@ public class DialogueScenePoint : MonoBehaviour
         }
         return false;
     }
-    private void AddAnswerEvents()
-    {
-        foreach (var item in dialogueUIController. answers)
-        {
-            item.variantButton.GetComponent<AnswerButtonReactor>().TakeAnswerEvent += UseAnswer;
-        }
-    }
-    private void RemoveAnswerEvents()
-    {
-        foreach (var item in dialogueUIController.answers)
-        {
-            item.variantButton.GetComponent<AnswerButtonReactor>().TakeAnswerEvent -= UseAnswer;
-        }
-    }
+
     private void PreparePlayersToDialogue()
     {
         teamDirector.OnChooseAnswer += UseAnswer;

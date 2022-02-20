@@ -34,7 +34,8 @@ public class DialogueChoiceEditorWindow : EditorWindow
 
         EditorGUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Ракурс:");
-        choiceNode.defaultCameraPositionIndex = EditorGUILayout.Popup(choiceNode.defaultCameraPositionIndex, kit.camerasPositions.ToArray());
+        choiceNode.defaultCameraPositionIndex = EditorGUILayout.Popup(choiceNode.defaultCameraPositionIndex,
+            kit.camerasPositions.ToArray());
         EditorGUILayout.EndHorizontal();
 
         if(choiceNode.character != null)
@@ -71,11 +72,7 @@ public class DialogueChoiceEditorWindow : EditorWindow
 
             }
             EditorGUILayout.BeginHorizontal();
-            choiceNode.answers[i].answerReplica.replicaText = EditorGUILayout.TextField(choiceNode.answers[i].answerReplica.replicaText);
-            if (GUILayout.Button("="))
-            {
-                DialogueReplicaEditorWindow.GetReplicaWindow(choiceNode.answers[i].answerReplica, kit).Show();
-            }
+            choiceNode.answers[i].answerTip = EditorGUILayout.TextField(choiceNode.answers[i].answerTip);
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndVertical();
         }
