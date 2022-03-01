@@ -151,7 +151,7 @@ public class DialogueScenePoint : MonoBehaviour
             {
                 dialogueStatus = DialogueState.WaitChoose;
 
-                dialogueUIController.answerContainer.PrepareAllAnswers(choice.answers, this);
+                dialogueUIController.answerContainer.PrepareAllAnswers(choice.answers, this, choice.character);
             }
         }
         else if(node is ConditionNode condition)

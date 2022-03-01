@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+
 [System.Serializable]
 [CreateAssetMenu(menuName = "IgoGoTools/DialogueCharacter")]
 public class DialogueCharacter : ScriptableObject
@@ -28,7 +29,7 @@ public class DialogueCharacter : ScriptableObject
         {
             answers[i].answerForAutoChoise = false;
 
-            if(answers[i].useAutoChoiseForThisAnswer)
+            if(answers[i].useAutoChoiseForThisAnswer && !answers[i].answerStats.Exists(o=> (int)o.mode > 1))
             {
                 answerPoint = new MultidimensionalPoint(answers[i], this);
                 float bufer = persPoint.GetDistance(answerPoint);

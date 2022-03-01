@@ -54,7 +54,7 @@ public class DialogueChoiceEditorWindow : EditorWindow
                 choiceNode.answers[i].answerTip = EditorGUILayout.TextField(choiceNode.answers[i].answerTip);
                 if (i > 0)
                 {
-                    choiceNode.answers[i].useAutoChoiseForThisAnswer = EditorGUILayout.ToggleLeft("Автовыбор",
+                    choiceNode.answers[i].useAutoChoiseForThisAnswer = EditorGUILayout.ToggleLeft("Настройки",
                         choiceNode.answers[i].useAutoChoiseForThisAnswer);
                 }
                 EditorGUILayout.EndHorizontal();

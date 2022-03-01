@@ -140,7 +140,7 @@ public class StatItem
     }
 }
 
-public enum AnswerStatMode
+public enum AnswerStatMode : int
 {
     Игнорируется = 0,
     Цель = 1,
