@@ -38,18 +38,29 @@ public class DialogueChoiceEditorWindow : EditorWindow
 
         if (choiceNode.character != null)
         {
-                for (int i = 0; i < choiceNode.answers.Count; i++)
+            for (int i = 0; i < choiceNode.answers.Count; i++)
+            {
+                if (choiceNode.answers[i].answerStats == null ||
+                    choiceNode.character.characterStats.Count != choiceNode.answers[i].answerStats.Count)
                 {
-                    if (choiceNode.answers[i].answerStats == null ||
-                        choiceNode.character.characterStats.Count != choiceNode.answers[i].answerStats.Count)
+                    choiceNode.answers[i].answerStats = new List<StatItem>();
+                    for (int j = 0; j < choiceNode.character.characterStats.Count; j++)
                     {
-                        choiceNode.answers[i].answerStats = new List<StatItem>();
-                        for (int j = 0; j < choiceNode.character.characterStats.Count; j++)
-                        {
-                            choiceNode.answers[i].answerStats.Add(new StatItem(0));
-                        }
+                        choiceNode.answers[i].answerStats.Add(new StatItem(0));
                     }
+                }
 
+                EditorGUILayout.BeginHorizontal();
+                choiceNode.answers[i].answerTip = EditorGUILayout.TextField(choiceNode.answers[i].answerTip);
+                if (i > 0)
+                {
+                    choiceNode.answers[i].useAutoChoiseForThisAnswer = EditorGUILayout.ToggleLeft("Автовыбор",
+                        choiceNode.answers[i].useAutoChoiseForThisAnswer);
+                }
+                EditorGUILayout.EndHorizontal();
+
+                if(choiceNode.answers[i].useAutoChoiseForThisAnswer)
+                {
                     for (int j = 0; j < choiceNode.character.characterStats.Count; j++)
                     {
                         EditorGUILayout.BeginHorizontal();
@@ -64,10 +75,9 @@ public class DialogueChoiceEditorWindow : EditorWindow
                         }
                         EditorGUILayout.EndHorizontal();
                     }
-
-                    choiceNode.answers[i].answerTip = EditorGUILayout.TextField(choiceNode.answers[i].answerTip);
-                    EditorGUILayout.Space(10);
                 }
+                EditorGUILayout.Space(10);
+            }
         }
         EditorGUILayout.EndScrollView();
     }

@@ -96,6 +96,11 @@ public class ChoiceNode : DialogueNode
 public class AnswerItem
 {
     /// <summary>
+    /// Для это варианта доступен автовыбор
+    /// </summary>
+    public bool useAutoChoiseForThisAnswer = true;
+
+    /// <summary>
     /// Этот вариант будет выбран автоматически
     /// </summary>
     public bool answerForAutoChoise = false;

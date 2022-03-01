@@ -20,19 +20,23 @@ public class DialogueCharacter : ScriptableObject
     public int GetAutoChoiceAnswerIndex(List<AnswerItem> answers)
     {
         float resultDistance = float.MaxValue;
-        int resultIndex = -1;
+        int resultIndex = 0;
 
         MultidimensionalPoint persPoint = new MultidimensionalPoint(characterStats);
         MultidimensionalPoint answerPoint;
         for (int i = 0; i < answers.Count; i++)
         {
             answers[i].answerForAutoChoise = false;
-            answerPoint = new MultidimensionalPoint(answers[i]);
-            float bufer = persPoint.GetDistance(answerPoint);
-            if (bufer < resultDistance)
+
+            if(answers[i].useAutoChoiseForThisAnswer)
             {
-                resultDistance = bufer;
-                resultIndex = i;
+                answerPoint = new MultidimensionalPoint(answers[i], this);
+                float bufer = persPoint.GetDistance(answerPoint);
+                if (bufer < resultDistance)
+                {
+                    resultDistance = bufer;
+                    resultIndex = i;
+                }
             }
         }
         answers[resultIndex].answerForAutoChoise = true;
@@ -94,12 +98,20 @@ public class MultidimensionalPoint
 {
     List<float> coordinate;
 
-    public MultidimensionalPoint(AnswerItem answer)
+    public MultidimensionalPoint(AnswerItem answer, DialogueCharacter dialogueCharacter)
     {
         coordinate = new List<float>();
-        foreach (var item in answer.answerStats)
+
+        for (int i = 0; i < answer.answerStats.Count; i++)
         {
-            coordinate.Add(item.value);
+            if (answer.answerStats[i].mode == AnswerStatMode.Цель)
+            {
+                coordinate.Add(answer.answerStats[i].value);
+            }
+            else if (answer.answerStats[i].mode == AnswerStatMode.Игнорируется)
+            {
+                coordinate.Add(dialogueCharacter.characterStats[i].statValue);
+            }
         }
     }
     public MultidimensionalPoint(List<CharacterStat> stats)
