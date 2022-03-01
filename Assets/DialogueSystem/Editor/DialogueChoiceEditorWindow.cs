@@ -26,38 +26,27 @@ public class DialogueChoiceEditorWindow : EditorWindow
 
     private void DrawChoice()
     {
-        EditorGUILayout.BeginVertical();
         verticalScrollPosition = EditorGUILayout.BeginScrollView(verticalScrollPosition);
 
         choiceNode.character = (DialogueCharacter)EditorGUILayout.ObjectField(choiceNode.character, typeof(DialogueCharacter),
             allowSceneObjects: true);
 
-        EditorGUILayout.BeginHorizontal();
+
         EditorGUILayout.LabelField("Ракурс:");
         choiceNode.defaultCameraPositionIndex = EditorGUILayout.Popup(choiceNode.defaultCameraPositionIndex,
             kit.camerasPositions.ToArray());
-        EditorGUILayout.EndHorizontal();
 
-        if(choiceNode.character != null)
+        if (choiceNode.character != null)
         {
-            choiceNode.useStats = EditorGUILayout.Toggle("Использовать автовыбор", choiceNode.useStats);
-        }
-
-        for (int i = 0; i < choiceNode.answers.Count; i++)
-        {
-            EditorGUILayout.Space(20);
-            EditorGUILayout.BeginVertical();
-            if (choiceNode.character != null)
-            {
-                if (choiceNode.useStats)
+                for (int i = 0; i < choiceNode.answers.Count; i++)
                 {
-                    if(choiceNode.answers[i].answerStats == null ||
+                    if (choiceNode.answers[i].answerStats == null ||
                         choiceNode.character.characterStats.Count != choiceNode.answers[i].answerStats.Count)
                     {
-                        choiceNode.answers[i].answerStats = new List<float>();
+                        choiceNode.answers[i].answerStats = new List<StatItem>();
                         for (int j = 0; j < choiceNode.character.characterStats.Count; j++)
                         {
-                            choiceNode.answers[i].answerStats.Add(0);
+                            choiceNode.answers[i].answerStats.Add(new StatItem(0));
                         }
                     }
 
@@ -65,18 +54,21 @@ public class DialogueChoiceEditorWindow : EditorWindow
                     {
                         EditorGUILayout.BeginHorizontal();
                         EditorGUILayout.LabelField(choiceNode.character.characterStats[j].statName);
-                        choiceNode.answers[i].answerStats[j] = EditorGUILayout.Slider(choiceNode.answers[i].answerStats[j], -100, 100);
+                        choiceNode.answers[i].answerStats[j].mode =
+                            (AnswerStatMode)EditorGUILayout.EnumPopup(choiceNode.answers[i].answerStats[j].mode);
+
+                        if (choiceNode.answers[i].answerStats[j].mode > 0)
+                        {
+                            choiceNode.answers[i].answerStats[j].value =
+                                EditorGUILayout.Slider(choiceNode.answers[i].answerStats[j].value, -100, 100);
+                        }
                         EditorGUILayout.EndHorizontal();
                     }
-                }
 
-            }
-            EditorGUILayout.BeginHorizontal();
-            choiceNode.answers[i].answerTip = EditorGUILayout.TextField(choiceNode.answers[i].answerTip);
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndVertical();
+                    choiceNode.answers[i].answerTip = EditorGUILayout.TextField(choiceNode.answers[i].answerTip);
+                    EditorGUILayout.Space(10);
+                }
         }
         EditorGUILayout.EndScrollView();
-        EditorGUILayout.EndVertical();
     }
 }

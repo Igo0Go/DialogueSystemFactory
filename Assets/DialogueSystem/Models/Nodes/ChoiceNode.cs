@@ -28,11 +28,6 @@ public class ChoiceNode : DialogueNode
     /// </summary>
     public int defaultCameraPositionIndex;
 
-    /// <summary>
-    /// Использовать ли идеальные характеристики персонажа для автовыбора ответа
-    /// </summary>
-    public bool useStats = false;
-
     public readonly int answerLimit = 20;
     private readonly Vector2 exitOffset = new Vector3(180, 21);
     #endregion
@@ -101,6 +96,11 @@ public class ChoiceNode : DialogueNode
 public class AnswerItem
 {
     /// <summary>
+    /// Этот вариант будет выбран автоматически
+    /// </summary>
+    public bool answerForAutoChoise = false;
+
+    /// <summary>
     /// Текст, который будет выводиться на кнопке выбора реплики (может отличаться от реальной реплики, к примеру, для сокращения)
     /// </summary>
     public string answerTip;
@@ -114,10 +114,33 @@ public class AnswerItem
     /// Для каждого ответа можно задать идеальные характеристики, которые беруться из характеристик выбирающего. В случае работы бота
     /// выбор будет сделан в пользу того ответа, к идеальным характеристикам которого персонаж ближе
     /// </summary>
-    public List<float> answerStats;
+    public List<StatItem> answerStats;
 
     public AnswerItem(DialogueCharacter dialogueCharacter)
     {
         character = dialogueCharacter;
     }
+}
+
+[System.Serializable]
+public class StatItem
+{
+    public float value = 0;
+    public AnswerStatMode mode;
+
+    public StatItem(float value)
+    {
+        mode = AnswerStatMode.Цель;
+        this.value = value;
+    }
+}
+
+public enum AnswerStatMode
+{
+    Игнорируется = 0,
+    Цель = 1,
+    БольшеИлиРавно = 2,
+    МеньшеИлиРавно = 3,
+    Больше = 4,
+    Меньше = 5
 }

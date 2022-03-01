@@ -62,7 +62,7 @@ public class DialogueSceneEditor : EditorWindow
 
             GUI.EndScrollView();
         }
-    }
+    }   
 
     private void DrawMainInfo()
     {
@@ -107,6 +107,7 @@ public class DialogueSceneEditor : EditorWindow
         if (GUILayout.Button("Удалить всё", GUILayout.MaxWidth(100), GUILayout.MinWidth(100)))
         {
             sceneKit.Clear();
+            windows.Clear();
         }
         GUILayout.EndHorizontal();
 
@@ -191,6 +192,14 @@ public class DialogueSceneEditor : EditorWindow
     private void DrawNodeWindow(int id)
     {
         DialogueNode node = sceneKit.Nodes[id];
+
+        if (windows[id].x < 0 || windows[id].y < 0)
+        {
+            windows[id] = new Rect(windows[id].x > 0? windows[id].x : 0,
+                windows[id].y > 0 ? windows[id].y : 0,
+                windows[id].width,
+                windows[id].height);
+        }
 
         Rect windowRect = windows[id];
 

@@ -133,9 +133,10 @@ public class DialogueScenePoint : MonoBehaviour
         {
             if(FindController(choice.character))
             {
-                if(activeDialogueController.useAutoChoice)
+                currentIndex = choice.character.GetAutoChoiceAnswerIndex(choice.answers);
+
+                if (activeDialogueController.useAutoChoice)
                 {
-                    currentIndex = choice.character.GetAutoChoiceAnswerIndex(choice.answers);
                     StartNode(choice.nextNodesNumbers[currentIndex]);
                     return;
                 }

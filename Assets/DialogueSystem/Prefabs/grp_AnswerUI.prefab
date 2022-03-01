@@ -235,9 +235,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef76574cbbc91b84fb812c977476f4c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  variantButton: {fileID: 7178159269113958201}
   variantText: {fileID: 7178159267719381159}
-  answerNumber: 0
+  variantAutoChoiseMarker: {fileID: 7178159267683249870}
 --- !u!1 &7178159269113958201
 GameObject:
   m_ObjectHideFlags: 0

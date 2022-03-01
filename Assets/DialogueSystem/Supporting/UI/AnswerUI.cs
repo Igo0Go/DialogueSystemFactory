@@ -5,6 +5,7 @@ using UnityEngine.Events;
 public class AnswerUI : MonoBehaviour
 {
     [Tooltip("Текст варианта")] public Text variantText;
+    [Tooltip("Текст варианта")] public Image variantAutoChoiseMarker;
 
     private int answerNumber = 0;
     private UnityEvent<int> TakeAnswerEvent = new UnityEvent<int>();
@@ -14,6 +15,7 @@ public class AnswerUI : MonoBehaviour
         variantText.text = item.answerTip;
         variantText.color = item.character.color;
         answerNumber = number;
+        variantAutoChoiseMarker.enabled = item.answerForAutoChoise;
         TakeAnswerEvent.AddListener(scenePoint.UseAnswer);
     }
 

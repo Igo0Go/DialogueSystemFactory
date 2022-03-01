@@ -26,6 +26,7 @@ public class DialogueCharacter : ScriptableObject
         MultidimensionalPoint answerPoint;
         for (int i = 0; i < answers.Count; i++)
         {
+            answers[i].answerForAutoChoise = false;
             answerPoint = new MultidimensionalPoint(answers[i]);
             float bufer = persPoint.GetDistance(answerPoint);
             if (bufer < resultDistance)
@@ -34,6 +35,7 @@ public class DialogueCharacter : ScriptableObject
                 resultIndex = i;
             }
         }
+        answers[resultIndex].answerForAutoChoise = true;
         return resultIndex;
     }
 
@@ -97,7 +99,7 @@ public class MultidimensionalPoint
         coordinate = new List<float>();
         foreach (var item in answer.answerStats)
         {
-            coordinate.Add(item);
+            coordinate.Add(item.value);
         }
     }
     public MultidimensionalPoint(List<CharacterStat> stats)
