@@ -96,14 +96,14 @@ public class ChoiceNode : DialogueNode
 public class AnswerItem
 {
     /// <summary>
-    /// Для это варианта доступен автовыбор
+    /// Метка, показывающая, что данный вариант будет выбран системой автовыбора
     /// </summary>
-    public bool useAutoChoiseForThisAnswer = true;
+    public bool variantForAutoChoise;
 
     /// <summary>
-    /// Этот вариант будет выбран автоматически
+    /// Настройки для этого варианта ответа
     /// </summary>
-    public bool answerForAutoChoise = false;
+    public AnswerMode answerMode = AnswerMode.AutoChoise;
 
     /// <summary>
     /// Текст, который будет выводиться на кнопке выбора реплики (может отличаться от реальной реплики, к примеру, для сокращения)
@@ -114,6 +114,11 @@ public class AnswerItem
     /// Роль говорящего
     /// </summary>
     public DialogueCharacter character;
+
+    /// <summary>
+    /// Пакет для работы с диалоговоым параметром
+    /// </summary>
+    public ConditionItem conditionItem;
 
     /// <summary>
     /// Для каждого ответа можно задать идеальные характеристики, которые беруться из характеристик выбирающего. В случае работы бота
@@ -140,6 +145,13 @@ public class StatItem
     }
 }
 
+public enum AnswerMode
+{
+    Manual = 0,
+    AutoChoise = 1,
+    Condition = 2
+}
+
 public enum AnswerStatMode : int
 {
     Игнорируется = 0,
@@ -147,5 +159,5 @@ public enum AnswerStatMode : int
     БольшеИлиРавно = 2,
     МеньшеИлиРавно = 3,
     Больше = 4,
-    Меньше = 5
+    Меньше = 5,
 }

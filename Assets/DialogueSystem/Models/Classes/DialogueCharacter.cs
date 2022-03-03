@@ -27,20 +27,21 @@ public class DialogueCharacter : ScriptableObject
         MultidimensionalPoint answerPoint;
         for (int i = 0; i < answers.Count; i++)
         {
-            answers[i].answerForAutoChoise = false;
-
-            if(answers[i].useAutoChoiseForThisAnswer && !answers[i].answerStats.Exists(o=> (int)o.mode > 1))
+            if(answers[i].answerMode == AnswerMode.AutoChoise)
             {
-                answerPoint = new MultidimensionalPoint(answers[i], this);
-                float bufer = persPoint.GetDistance(answerPoint);
-                if (bufer < resultDistance)
+                if (!answers[i].answerStats.Exists(o => (int)o.mode > 1))
                 {
-                    resultDistance = bufer;
-                    resultIndex = i;
+                    answerPoint = new MultidimensionalPoint(answers[i], this);
+                    float bufer = persPoint.GetDistance(answerPoint);
+                    if (bufer < resultDistance)
+                    {
+                        resultDistance = bufer;
+                        resultIndex = i;
+                    }
                 }
             }
         }
-        answers[resultIndex].answerForAutoChoise = true;
+        answers[resultIndex].variantForAutoChoise = true;
         return resultIndex;
     }
 

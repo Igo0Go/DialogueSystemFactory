@@ -15,7 +15,7 @@ public class AnswerUI : MonoBehaviour
         variantText.text = item.answerTip;
         variantText.color = item.character.color;
         answerNumber = number;
-        variantAutoChoiseMarker.enabled = item.answerForAutoChoise;
+        variantAutoChoiseMarker.enabled = item.variantForAutoChoise;
         TakeAnswerEvent.AddListener(scenePoint.UseAnswer);
     }
 

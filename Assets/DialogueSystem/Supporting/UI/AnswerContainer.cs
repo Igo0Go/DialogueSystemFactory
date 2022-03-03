@@ -54,26 +54,33 @@ public class AnswerContainer : MonoBehaviour
 
         for (int i = 0; i < answerItem.answerStats.Count; i++)
         {
-            switch (answerItem.answerStats[i].mode)
+            if(answerItem.answerMode == AnswerMode.AutoChoise)
             {
-                case AnswerStatMode.Игнорируется:
-                    break;
-                case AnswerStatMode.Цель:
-                    break;
-                case AnswerStatMode.БольшеИлиРавно:
-                    result = character.characterStats[i].statValue >= answerItem.answerStats[i].value;
-                    break;
-                case AnswerStatMode.МеньшеИлиРавно:
-                    result = character.characterStats[i].statValue <= answerItem.answerStats[i].value;
-                    break;
-                case AnswerStatMode.Больше:
-                    result = character.characterStats[i].statValue > answerItem.answerStats[i].value;
-                    break;
-                case AnswerStatMode.Меньше:
-                    result = character.characterStats[i].statValue < answerItem.answerStats[i].value;
-                    break;
-                default:
-                    break;
+                switch (answerItem.answerStats[i].mode)
+                {
+                    case AnswerStatMode.Игнорируется:
+                        break;
+                    case AnswerStatMode.Цель:
+                        break;
+                    case AnswerStatMode.БольшеИлиРавно:
+                        result = character.characterStats[i].statValue >= answerItem.answerStats[i].value;
+                        break;
+                    case AnswerStatMode.МеньшеИлиРавно:
+                        result = character.characterStats[i].statValue <= answerItem.answerStats[i].value;
+                        break;
+                    case AnswerStatMode.Больше:
+                        result = character.characterStats[i].statValue > answerItem.answerStats[i].value;
+                        break;
+                    case AnswerStatMode.Меньше:
+                        result = character.characterStats[i].statValue < answerItem.answerStats[i].value;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if(answerItem.answerMode == AnswerMode.Condition)
+            {
+                result = answerItem.conditionItem.CheckCondition();
             }
 
             if (!result)

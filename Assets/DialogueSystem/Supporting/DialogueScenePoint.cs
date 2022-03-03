@@ -156,9 +156,9 @@ public class DialogueScenePoint : MonoBehaviour
         }
         else if(node is ConditionNode condition)
         {
-            if (condition.parameter.GetType(condition.conditionNumber, out ParameterType type) && type == ParameterType.Bool)
+            if (condition.conditionItem.parameter.GetType(condition.conditionItem.conditionNumber, out ParameterType type) && type == ParameterType.Bool)
             {
-                if (condition.parameter.Check(condition.conditionNumber, condition.checkType, condition.checkBoolValue))
+                if (condition.conditionItem.parameter.Check(condition.conditionItem.conditionNumber, condition.conditionItem.checkType, condition.conditionItem.checkBoolValue))
                 {
                     currentIndex = condition.PositiveNextNumber;
                     if (useNetwork)
@@ -185,9 +185,9 @@ public class DialogueScenePoint : MonoBehaviour
             }
             else
             {
-                if (condition.parameter.GetType(condition.conditionNumber, out type) && type == ParameterType.Int)
+                if (condition.conditionItem.parameter.GetType(condition.conditionItem.conditionNumber, out type) && type == ParameterType.Int)
                 {
-                    if (condition.parameter.Check(condition.conditionNumber, condition.checkType, condition.checkIntValue))
+                    if (condition.conditionItem.parameter.Check(condition.conditionItem.conditionNumber, condition.conditionItem.checkType, condition.conditionItem.checkIntValue))
                     {
                         if (useNetwork)
                         {
@@ -210,6 +210,16 @@ public class DialogueScenePoint : MonoBehaviour
                         }
                     }
                 }
+            }
+
+            currentIndex = condition.conditionItem.CheckCondition()? condition.PositiveNextNumber : condition.NegativeNextNumber;
+            if (useNetwork)
+            {
+                ActivateNodeWithIDEvent?.Invoke(currentIndex);
+            }
+            else
+            {
+                StartNode(currentIndex);
             }
         }
         else if(node is EventNode eventNode)

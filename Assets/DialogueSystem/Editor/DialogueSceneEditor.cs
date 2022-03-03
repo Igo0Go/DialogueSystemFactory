@@ -433,26 +433,26 @@ public class DialogueSceneEditor : EditorWindow
                 exitBufer = 1;
             }
             bufer = new Rect(21, 21, 130, 20);
-            conditionNode.parameter = (ParameterPack)EditorGUI.ObjectField(bufer,
-                conditionNode.parameter, typeof(ParameterPack), allowSceneObjects: true);
-            if (conditionNode.parameter != null)
+            conditionNode.conditionItem.parameter = (ParameterPack)EditorGUI.ObjectField(bufer,
+                conditionNode.conditionItem.parameter, typeof(ParameterPack), allowSceneObjects: true);
+            if (conditionNode.conditionItem.parameter != null)
             {
                 bufer = new Rect(1, 42, 82, 20);
-                conditionNode.conditionNumber = EditorGUI.Popup(bufer, conditionNode.conditionNumber,
-                    conditionNode.parameter.GetCharacteristic());
+                conditionNode.conditionItem.conditionNumber = EditorGUI.Popup(bufer, conditionNode.conditionItem.conditionNumber,
+                    conditionNode.conditionItem.parameter.GetCharacteristic());
                 bufer = new Rect(bufer.x + 81, bufer.y, 35, 20);
-                if (conditionNode.parameter.parametres[conditionNode.conditionNumber].type == ParameterType.Bool)
+                if (conditionNode.conditionItem.parameter.parametres[conditionNode.conditionItem.conditionNumber].type == ParameterType.Bool)
                 {
-                    conditionNode.checkType = (CheckType)EditorGUI.Popup(bufer, (int)conditionNode.checkType, new string[2] { "==", "!=" });
+                    conditionNode.conditionItem.checkType = (CheckType)EditorGUI.Popup(bufer, (int)conditionNode.conditionItem.checkType, new string[2] { "==", "!=" });
                     bufer = new Rect(bufer.x + 36, bufer.y, 20, 20);
-                    conditionNode.checkBoolValue = EditorGUI.Toggle(bufer, conditionNode.checkBoolValue);
+                    conditionNode.conditionItem.checkBoolValue = EditorGUI.Toggle(bufer, conditionNode.conditionItem.checkBoolValue);
                 }
                 else
                 {
-                    conditionNode.checkType = (CheckType)EditorGUI.Popup(bufer,
-                        (int)conditionNode.checkType, new string[4] { "==", "!=", ">", "<" });
+                    conditionNode.conditionItem.checkType = (CheckType)EditorGUI.Popup(bufer,
+                        (int)conditionNode.conditionItem.checkType, new string[4] { "==", "!=", ">", "<" });
                     bufer = new Rect(bufer.x + 36, bufer.y, 30, 15);
-                    conditionNode.checkIntValue = EditorGUI.IntField(bufer, conditionNode.checkIntValue);
+                    conditionNode.conditionItem.checkIntValue = EditorGUI.IntField(bufer, conditionNode.conditionItem.checkIntValue);
                 }
             }
         }
@@ -461,36 +461,36 @@ public class DialogueSceneEditor : EditorWindow
             bufer = new Rect(1, conditionNode.positiveExitPointOffset.y, 30, 20);
             if (GUI.Button(bufer, "<+"))
             {
-                //beginRelationNodeBufer = conditionNode;
-                //exitBufer = 0;
+                beginRelationNodeBufer = conditionNode;
+                exitBufer = 0;
             }
             bufer = new Rect(1, conditionNode.negativeExitPointOffset.y, 30, 20);
             if (GUI.Button(bufer, "<-"))
             {
-                //beginRelationNodeBufer = conditionNode;
-                //exitBufer = 1;
+                beginRelationNodeBufer = conditionNode;
+                exitBufer = 1;
             }
             bufer = new Rect(31, 21, 130, 20);
-            conditionNode.parameter = (ParameterPack)EditorGUI.ObjectField(bufer, conditionNode.parameter,
+            conditionNode.conditionItem.parameter = (ParameterPack)EditorGUI.ObjectField(bufer, conditionNode.conditionItem.parameter,
                 typeof(ParameterPack), allowSceneObjects: true);
-            if (conditionNode.parameter != null)
+            if (conditionNode.conditionItem.parameter != null)
             {
                 bufer = new Rect(31, 42, 82, 20);
-                conditionNode.conditionNumber = EditorGUI.Popup(bufer, conditionNode.conditionNumber,
-                    conditionNode.parameter.GetCharacteristic());
+                conditionNode.conditionItem.conditionNumber = EditorGUI.Popup(bufer, conditionNode.conditionItem.conditionNumber,
+                    conditionNode.conditionItem.parameter.GetCharacteristic());
                 bufer = new Rect(bufer.x + 81, bufer.y, 35, 20);
-                if (conditionNode.parameter.parametres[conditionNode.conditionNumber].type == ParameterType.Bool)
+                if (conditionNode.conditionItem.parameter.parametres[conditionNode.conditionItem.conditionNumber].type == ParameterType.Bool)
                 {
-                    conditionNode.checkType = (CheckType)EditorGUI.Popup(bufer, (int)conditionNode.checkType, new string[2] { "==", "!=" });
+                    conditionNode.conditionItem.checkType = (CheckType)EditorGUI.Popup(bufer, (int)conditionNode.conditionItem.checkType, new string[2] { "==", "!=" });
                     bufer = new Rect(bufer.x + 36, bufer.y, 20, 20);
-                    conditionNode.checkBoolValue = EditorGUI.Toggle(bufer, conditionNode.checkBoolValue);
+                    conditionNode.conditionItem.checkBoolValue = EditorGUI.Toggle(bufer, conditionNode.conditionItem.checkBoolValue);
                 }
                 else
                 {
-                    conditionNode.checkType = (CheckType)EditorGUI.Popup(bufer,
-                        (int)conditionNode.checkType, new string[4] { "==", "!=", ">", "<" });
+                    conditionNode.conditionItem.checkType = (CheckType)EditorGUI.Popup(bufer,
+                        (int)conditionNode.conditionItem.checkType, new string[4] { "==", "!=", ">", "<" });
                     bufer = new Rect(bufer.x + 36, bufer.y, 30, 15);
-                    conditionNode.checkIntValue = EditorGUI.IntField(bufer, conditionNode.checkIntValue);
+                    conditionNode.conditionItem.checkIntValue = EditorGUI.IntField(bufer, conditionNode.conditionItem.checkIntValue);
                 }
             }
         }

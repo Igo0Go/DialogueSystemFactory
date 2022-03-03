@@ -9,29 +9,9 @@ public class ConditionNode : DialogueNode
     #region ѕол€ и свойства
 
     /// <summary>
-    /// ѕакет уловий (создаЄтс€ отдельно)
+    /// Ќабор дл€ работы с параметром
     /// </summary>
-    public ParameterPack parameter;
-
-    /// <summary>
-    /// номер провер€емого услови€ (из сиска условий в пакете)
-    /// </summary>
-    public int conditionNumber;
-
-    /// <summary>
-    /// тип проверки услови€ (зависит от типа услови€)
-    /// </summary>
-    public CheckType checkType;
-
-    /// <summary>
-    /// ÷елевое значение дл€ сравнени€ bool
-    /// </summary>
-    public bool checkBoolValue;
-
-    /// <summary>
-    /// ÷елевое значение дл€ сравнени€ int
-    /// </summary>
-    public int checkIntValue;
+    public ConditionItem conditionItem;
 
     /// <summary>
     /// ссылка на следующий узел дл€ позитивного исхода
@@ -87,4 +67,59 @@ public class ConditionNode : DialogueNode
     public ConditionNode(){}
 
     #endregion
+}
+
+[System.Serializable]
+public class ConditionItem
+{
+    /// <summary>
+    /// ѕакет уловий (создаЄтс€ отдельно)
+    /// </summary>
+    public ParameterPack parameter;
+
+    /// <summary>
+    /// номер провер€емого услови€ (из сиска условий в пакете)
+    /// </summary>
+    public int conditionNumber;
+
+    /// <summary>
+    /// тип проверки услови€ (зависит от типа услови€)
+    /// </summary>
+    public CheckType checkType;
+
+    /// <summary>
+    /// ÷елевое значение дл€ сравнени€ bool
+    /// </summary>
+    public bool checkBoolValue;
+
+    /// <summary>
+    /// ÷елевое значение дл€ сравнени€ int
+    /// </summary>
+    public int checkIntValue;
+
+    public bool CheckCondition()
+    {
+        bool result = false;
+
+        if (parameter.GetType(conditionNumber, out ParameterType type) && type == ParameterType.Bool)
+        {
+            if (parameter.Check(conditionNumber, checkType, checkBoolValue))
+            {
+                result = true;
+            }
+        }
+        else
+        {
+            if (parameter.GetType(conditionNumber, out type) && type == ParameterType.Int)
+            {
+                if (parameter.Check(conditionNumber, checkType, checkIntValue))
+                {
+                    result = true;
+                }
+            }
+        }
+
+
+        return result;
+    }
 }
