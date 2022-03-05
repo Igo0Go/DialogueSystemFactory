@@ -418,6 +418,13 @@ public class DialogueSceneEditor : EditorWindow
     private void DrawCondition(ConditionNode conditionNode, Rect nodeTransform)
     {
         Rect bufer;
+
+        if (conditionNode.conditionItem == null)
+        {
+            conditionNode.conditionItem = new ConditionItem();
+            return;
+        }
+
         if (conditionNode.leftToRight)
         {
             bufer = new Rect(conditionNode.positiveExitPointOffset.x, conditionNode.positiveExitPointOffset.y, 30, 20);
