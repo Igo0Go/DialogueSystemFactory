@@ -71,7 +71,8 @@ public class ChoiceNode : DialogueNode
     /// <param name="number">номер варианта в списке ответов</param>
     public void RemoveAnsver(int number)
     {
-        nextNodesNumbers[number] = -1;
+        nextNodesNumbers.RemoveAt(number);
+        nextNodesNumbers.Add(-1);
         answers.RemoveAt(number);
         CheckExitOffset();
     }
