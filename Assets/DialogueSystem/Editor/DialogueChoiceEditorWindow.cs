@@ -58,7 +58,7 @@ public class DialogueChoiceEditorWindow : EditorWindow
                 }
                 EditorGUILayout.EndHorizontal();
 
-                if(choiceNode.answers[i].answerMode == AnswerMode.AutoChoise)
+                if(choiceNode.answers[i].answerMode == AnswerMode.AutoChoiñe)
                 {
                     for (int j = 0; j < choiceNode.character.characterStats.Count; j++)
                     {

@@ -54,7 +54,7 @@ public class AnswerContainer : MonoBehaviour
 
         for (int i = 0; i < answerItem.answerStats.Count; i++)
         {
-            if(answerItem.answerMode == AnswerMode.AutoChoise)
+            if(answerItem.answerMode == AnswerMode.AutoChoiñe)
             {
                 switch (answerItem.answerStats[i].mode)
                 {

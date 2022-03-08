@@ -26,7 +26,7 @@ public class DialogueCharacter : ScriptableObject
         MultidimensionalPoint answerPoint;
         for (int i = 0; i < answers.Count; i++)
         {
-            if(answers[i].answerMode == AnswerMode.AutoChoise)
+            if(answers[i].answerMode == AnswerMode.AutoChoiсe)
             {
                 if (!answers[i].answerStats.Exists(o => (int)o.mode > 1))
                 {

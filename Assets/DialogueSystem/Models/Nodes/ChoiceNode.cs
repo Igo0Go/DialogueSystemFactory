@@ -104,7 +104,7 @@ public class AnswerItem
     /// <summary>
     /// Настройки для этого варианта ответа
     /// </summary>
-    public AnswerMode answerMode = AnswerMode.AutoChoise;
+    public AnswerMode answerMode = AnswerMode.AutoChoiсe;
 
     /// <summary>
     /// Текст, который будет выводиться на кнопке выбора реплики (может отличаться от реальной реплики, к примеру, для сокращения)
@@ -149,7 +149,7 @@ public class StatItem
 public enum AnswerMode
 {
     Manual = 0,
-    AutoChoise = 1,
+    AutoChoiсe = 1,
     Condition = 2
 }
 
