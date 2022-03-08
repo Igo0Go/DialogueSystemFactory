@@ -44,7 +44,25 @@ public class DialogueNode
     /// <summary>
     /// Цвет подложки узла
     /// </summary>
-    public Color colorInEditor;
+    public virtual Color СolorInEditor
+    {
+        get
+        {
+            foreach (var item in nextNodesNumbers)
+            {
+                if (item == -1 && !finalNode)
+                    return Color.red;
+            }
+            return _colorInEditor;
+        }
+        set
+        {
+            _colorInEditor = value;
+        }
+    }
+
+    protected Color _colorInEditor = Color.gray;
+
 
     /// <summary>
     /// Смещение входа

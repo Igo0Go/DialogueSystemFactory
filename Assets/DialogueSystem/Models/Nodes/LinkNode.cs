@@ -33,7 +33,7 @@ public class LinkNode : DialogueNode
     public LinkNode(Vector2 pos, int index) : base(pos, index)
     {
         transformRect = new Rect(pos.x, pos.y, 150, 50);
-        colorInEditor = Color.blue;
+        ÑolorInEditor = Color.blue;
         nextNodesNumbers.Add(-1);
     }
 

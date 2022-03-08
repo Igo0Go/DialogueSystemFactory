@@ -126,7 +126,7 @@ public class EventNode : DialogueNode
     {
         reactorsNumbers = new List<int>();
         transformRect = new Rect(pos.x, pos.y, 150, 90);
-        colorInEditor = Color.yellow;
+        ÑolorInEditor = Color.yellow;
         nextNodesNumbers.Add(-1);
     }
 

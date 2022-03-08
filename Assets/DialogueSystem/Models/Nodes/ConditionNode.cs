@@ -59,7 +59,7 @@ public class ConditionNode : DialogueNode
     {
         transformRect = new Rect(pos.x, pos.y, 180, 65);
         //        _rightPointOffset = new Vector3(160, 21);
-        colorInEditor = Color.cyan;
+        ÑolorInEditor = Color.cyan;
         nextNodesNumbers.Add(-1);
         nextNodesNumbers.Add(-1);
     }

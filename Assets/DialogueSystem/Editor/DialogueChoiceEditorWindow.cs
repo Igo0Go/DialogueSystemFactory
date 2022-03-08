@@ -6,9 +6,6 @@ public class DialogueChoiceEditorWindow : EditorWindow
 {
     public ChoiceNode choiceNode;
     public DialogueSceneKit kit;
-    private DialogueNodeEditorWindow nodeEditorWindow;
-    private Rect bufer;
-    private Vector2 horizontalScrollPosition;
     private Vector2 verticalScrollPosition;
 
     public static DialogueChoiceEditorWindow GetReplicaWindow(ChoiceNode choice, DialogueSceneKit sceneKit)

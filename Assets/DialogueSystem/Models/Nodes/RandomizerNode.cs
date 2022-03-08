@@ -44,7 +44,7 @@ public class RandomizerNode : DialogueNode
     public RandomizerNode(Vector2 pos, int index) : base(pos, index)
     {
         transformRect = new Rect(pos.x, pos.y, 150, 85);
-        colorInEditor = Color.magenta;
+        ÑolorInEditor = Color.magenta;
         exitPointsOffsetList = new List<Vector2>();
         nextNodesNumbers.Add(-1);
         accessList = new List<bool>();

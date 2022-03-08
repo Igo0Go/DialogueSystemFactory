@@ -7,7 +7,28 @@ using UnityEngine;
 [System.Serializable]
 public class ChoiceNode : DialogueNode
 {
-    #region Поля
+    #region Поля и свойства
+
+    /// <summary>
+    /// Цвет подложки узла
+    /// </summary>
+    public override Color СolorInEditor
+    {
+        get
+        {
+            for (int i = 0; i < answers.Count; i++)
+            {
+                if (nextNodesNumbers[i] == -1)
+                    return Color.red;
+            }
+            return _colorInEditor;
+        }
+        set
+        {
+            _colorInEditor = value;
+        }
+    }
+
     /// <summary>
     /// Ролевой пакет выбирающего
     /// </summary>
@@ -41,7 +62,7 @@ public class ChoiceNode : DialogueNode
     public ChoiceNode(Vector2 pos, int index) : base(pos, index)
     {
         transformRect = new Rect(pos.x, pos.y, 200, 50);
-        colorInEditor = Color.grey;
+        СolorInEditor = Color.grey;
         exitPointOffsetList = new List<Vector2>();
         answers = new List<AnswerItem>();
         for (int i = 0; i < answerLimit; i++)
