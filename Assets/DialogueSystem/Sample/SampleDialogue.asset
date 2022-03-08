@@ -156,16 +156,16 @@ MonoBehaviour:
         replicaText: 
     choiceNode:
       index: 1
-      previousNodesNumbers: 000000003100000035000000
-      nextNodesNumbers: 2b0000002c0000002d0000002e0000002f000000300000004a00000002000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      previousNodesNumbers: 000000002f000000330000004c00000063000000
+      nextNodesNumbers: 2a0000002b0000002c0000002d0000002e0000004700000002000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
       finalNode: 0
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 201
-        y: 99.5
+        x: 195
+        y: 76.5
         width: 200
-        height: 226
+        height: 204
       character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
       exitPointOffsetList:
       - {x: 180, y: 21}
@@ -175,7 +175,6 @@ MonoBehaviour:
       - {x: 180, y: 105}
       - {x: 180, y: 126}
       - {x: 180, y: 147}
-      - {x: 180, y: 168}
       answers:
       - variantForAutoChoise: 0
         answerMode: 0
@@ -254,22 +253,7 @@ MonoBehaviour:
           mode: 1
       - variantForAutoChoise: 0
         answerMode: 0
-        answerTip: "\u0421\u0441\u044B\u043B\u043A\u0430"
-        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
-        conditionItem:
-          parameter: {fileID: 0}
-          conditionNumber: 0
-          checkType: 0
-          checkBoolValue: 0
-          checkIntValue: 0
-        answerStats:
-        - value: 0
-          mode: 1
-        - value: 0
-          mode: 1
-      - variantForAutoChoise: 0
-        answerMode: 0
-        answerTip: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
+        answerTip: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0430"
         character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
         conditionItem:
           parameter: {fileID: 0}
@@ -377,8 +361,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 460
-        y: 357.5
+        x: 454
+        y: 311.5
         width: 150
         height: 50
       replicaInformation:
@@ -481,7 +465,7 @@ MonoBehaviour:
   - nodeType: 1
     replicaNode:
       index: 3
-      previousNodesNumbers: 2b000000
+      previousNodesNumbers: 2a000000
       nextNodesNumbers: 04000000
       finalNode: 0
       leftToRight: 1
@@ -1044,7 +1028,7 @@ MonoBehaviour:
     replicaNode:
       index: 8
       previousNodesNumbers: 07000000
-      nextNodesNumbers: 31000000
+      nextNodesNumbers: 2f000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -1173,8 +1157,8 @@ MonoBehaviour:
         replicaText: 
     choiceNode:
       index: 9
-      previousNodesNumbers: 0a000000320000003600000046000000
-      nextNodesNumbers: 0c000000170000003400000035000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      previousNodesNumbers: 0a0000003000000034000000440000005c000000
+      nextNodesNumbers: 0b00000016000000320000005a00000033000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -1182,13 +1166,14 @@ MonoBehaviour:
         x: 844
         y: 163.5
         width: 200
-        height: 138
+        height: 160
       character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
       exitPointOffsetList:
       - {x: 180, y: 21}
       - {x: 180, y: 42}
       - {x: 180, y: 63}
       - {x: 180, y: 84}
+      - {x: 180, y: 105}
       answers:
       - variantForAutoChoise: 0
         answerMode: 1
@@ -1222,7 +1207,7 @@ MonoBehaviour:
           mode: 1
       - variantForAutoChoise: 0
         answerMode: 0
-        answerTip: "\u0421\u043A\u0440\u044B\u0442\u044B\u0435 \u0432\u0430\u0440\u0438\u0430\u043D\u0442\u044B"
+        answerTip: "\u041D\u043E\u0432\u043E\u0435 \u043E\u0442 \u0445\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043A\u0438"
         character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
         conditionItem:
           parameter: {fileID: 0}
@@ -1237,7 +1222,7 @@ MonoBehaviour:
           mode: 1
       - variantForAutoChoise: 0
         answerMode: 0
-        answerTip: "\u041D\u0430\u0437\u0430\u0434"
+        answerTip: "\u041D\u043E\u0432\u043E\u0435 \u043E\u0442 \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430"
         character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
         conditionItem:
           parameter: {fileID: 0}
@@ -1250,6 +1235,17 @@ MonoBehaviour:
           mode: 1
         - value: 0
           mode: 1
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041D\u0430\u0437\u0430\u0434"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats: []
       defaultCameraPositionIndex: 2
     eventNode:
       index: 0
@@ -1328,7 +1324,7 @@ MonoBehaviour:
   - nodeType: 1
     replicaNode:
       index: 10
-      previousNodesNumbers: 2c000000
+      previousNodesNumbers: 2b000000
       nextNodesNumbers: 09000000
       finalNode: 0
       leftToRight: 1
@@ -1439,121 +1435,11 @@ MonoBehaviour:
       exitPointsOffsetList: []
       withRemoving: 0
       accessList: 
-  - nodeType: 5
-    replicaNode:
-      index: 0
-      previousNodesNumbers: 
-      nextNodesNumbers: 
-      finalNode: 0
-      leftToRight: 0
-      transformRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      replicaInformation:
-        alreadyUsed: 0
-        character: {fileID: 0}
-        clip: {fileID: 0}
-        animType: 0
-        camPositionNumber: 0
-        replicaText: 
-    choiceNode:
-      index: 0
-      previousNodesNumbers: 
-      nextNodesNumbers: 
-      finalNode: 0
-      leftToRight: 0
-      transformRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      character: {fileID: 0}
-      exitPointOffsetList: []
-      answers: []
-      defaultCameraPositionIndex: 0
-    eventNode:
-      index: 0
-      previousNodesNumbers: 
-      nextNodesNumbers: 
-      finalNode: 0
-      leftToRight: 0
-      transformRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      useMessage: 0
-      messageText: 
-      parameter: {fileID: 0}
-      changeParameter: 0
-      targetBoolValue: 0
-      changeIntValue: 0
-      changeingParameterIndex: 0
-      parameterOperation: 0
-      inSceneInvoke: 0
-      reactorsNumbers: 
-      eventTime: 0
-      eventCamPositionNumber: 0
-      character: {fileID: 0}
-      changeCharacter: 0
-      characterOperation: 0
-      changeCharacterStatIndex: 0
-      changeCharacterStatValue: 0
-    conditionNode:
-      index: 0
-      previousNodesNumbers: 
-      nextNodesNumbers: 
-      finalNode: 0
-      leftToRight: 0
-      transformRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      conditionItem:
-        parameter: {fileID: 0}
-        conditionNumber: 0
-        checkType: 0
-        checkBoolValue: 0
-        checkIntValue: 0
-    linkNode:
-      index: 11
-      previousNodesNumbers: 43000000
-      nextNodesNumbers: 44000000
-      finalNode: 0
-      leftToRight: 1
-      transformRect:
-        serializedVersion: 2
-        x: 1860
-        y: 385.5
-        width: 150
-        height: 50
-    randomizerNode:
-      index: 0
-      previousNodesNumbers: 
-      nextNodesNumbers: 
-      finalNode: 0
-      leftToRight: 0
-      transformRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      exitPointsOffsetList: []
-      withRemoving: 0
-      accessList: 
   - nodeType: 1
     replicaNode:
-      index: 12
+      index: 11
       previousNodesNumbers: 09000000
-      nextNodesNumbers: 0d000000
+      nextNodesNumbers: 0c000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -1664,9 +1550,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 13
-      previousNodesNumbers: 0c000000
-      nextNodesNumbers: 0e000000
+      index: 12
+      previousNodesNumbers: 0b000000
+      nextNodesNumbers: 0d000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -1777,9 +1663,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 14
-      previousNodesNumbers: 0d000000
-      nextNodesNumbers: 0f000000
+      index: 13
+      previousNodesNumbers: 0c000000
+      nextNodesNumbers: 0e000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -1896,9 +1782,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 15
-      previousNodesNumbers: 0e000000
-      nextNodesNumbers: 10000000
+      index: 14
+      previousNodesNumbers: 0d000000
+      nextNodesNumbers: 0f000000
       finalNode: 0
       leftToRight: 0
       transformRect:
@@ -2009,9 +1895,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 16
-      previousNodesNumbers: 0f000000
-      nextNodesNumbers: 11000000
+      index: 15
+      previousNodesNumbers: 0e000000
+      nextNodesNumbers: 10000000
       finalNode: 0
       leftToRight: 0
       transformRect:
@@ -2126,9 +2012,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 17
-      previousNodesNumbers: 10000000
-      nextNodesNumbers: 12000000
+      index: 16
+      previousNodesNumbers: 0f000000
+      nextNodesNumbers: 11000000
       finalNode: 0
       leftToRight: 0
       transformRect:
@@ -2244,9 +2130,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 18
-      previousNodesNumbers: 11000000
-      nextNodesNumbers: 13000000
+      index: 17
+      previousNodesNumbers: 10000000
+      nextNodesNumbers: 12000000
       finalNode: 0
       leftToRight: 0
       transformRect:
@@ -2354,9 +2240,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 19
-      previousNodesNumbers: 12000000
-      nextNodesNumbers: 14000000
+      index: 18
+      previousNodesNumbers: 11000000
+      nextNodesNumbers: 13000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -2477,9 +2363,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 20
-      previousNodesNumbers: 13000000
-      nextNodesNumbers: 15000000
+      index: 19
+      previousNodesNumbers: 12000000
+      nextNodesNumbers: 14000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -2596,9 +2482,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 21
-      previousNodesNumbers: 14000000
-      nextNodesNumbers: 32000000
+      index: 20
+      previousNodesNumbers: 13000000
+      nextNodesNumbers: 30000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -2727,9 +2613,9 @@ MonoBehaviour:
         camPositionNumber: 0
         replicaText: 
     choiceNode:
-      index: 22
-      previousNodesNumbers: 370000003800000033000000
-      nextNodesNumbers: 1800000021000000260000003900000036000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      index: 21
+      previousNodesNumbers: 350000003600000031000000
+      nextNodesNumbers: 1700000020000000250000003700000034000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -2896,9 +2782,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 23
+      index: 22
       previousNodesNumbers: 09000000
-      nextNodesNumbers: 33000000
+      nextNodesNumbers: 31000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -3014,9 +2900,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 24
-      previousNodesNumbers: 16000000
-      nextNodesNumbers: 19000000
+      index: 23
+      previousNodesNumbers: 15000000
+      nextNodesNumbers: 18000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -3128,9 +3014,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 25
-      previousNodesNumbers: 18000000
-      nextNodesNumbers: 1a000000
+      index: 24
+      previousNodesNumbers: 17000000
+      nextNodesNumbers: 19000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -3240,9 +3126,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 26
-      previousNodesNumbers: 19000000
-      nextNodesNumbers: 1b000000
+      index: 25
+      previousNodesNumbers: 18000000
+      nextNodesNumbers: 1a000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -3357,9 +3243,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 27
-      previousNodesNumbers: 1a000000
-      nextNodesNumbers: 1c000000
+      index: 26
+      previousNodesNumbers: 19000000
+      nextNodesNumbers: 1b000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -3472,9 +3358,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 28
-      previousNodesNumbers: 1b000000
-      nextNodesNumbers: 1d000000
+      index: 27
+      previousNodesNumbers: 1a000000
+      nextNodesNumbers: 1c000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -3586,9 +3472,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 29
-      previousNodesNumbers: 1c000000
-      nextNodesNumbers: 1e000000
+      index: 28
+      previousNodesNumbers: 1b000000
+      nextNodesNumbers: 1d000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -3701,9 +3587,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 30
-      previousNodesNumbers: 1d000000
-      nextNodesNumbers: 1f000000
+      index: 29
+      previousNodesNumbers: 1c000000
+      nextNodesNumbers: 1e000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -3820,9 +3706,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 31
-      previousNodesNumbers: 1e000000
-      nextNodesNumbers: 22000000
+      index: 30
+      previousNodesNumbers: 1d000000
+      nextNodesNumbers: 21000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -3932,9 +3818,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 32
-      previousNodesNumbers: 22000000
-      nextNodesNumbers: 38000000
+      index: 31
+      previousNodesNumbers: 21000000
+      nextNodesNumbers: 36000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -4043,9 +3929,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 33
-      previousNodesNumbers: 16000000
-      nextNodesNumbers: 23000000
+      index: 32
+      previousNodesNumbers: 15000000
+      nextNodesNumbers: 22000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -4163,9 +4049,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 34
-      previousNodesNumbers: 1f000000
-      nextNodesNumbers: 20000000
+      index: 33
+      previousNodesNumbers: 1e000000
+      nextNodesNumbers: 1f000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -4281,9 +4167,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 35
-      previousNodesNumbers: 21000000
-      nextNodesNumbers: 24000000
+      index: 34
+      previousNodesNumbers: 20000000
+      nextNodesNumbers: 23000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -4403,9 +4289,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 36
-      previousNodesNumbers: 23000000
-      nextNodesNumbers: 25000000
+      index: 35
+      previousNodesNumbers: 22000000
+      nextNodesNumbers: 24000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -4523,9 +4409,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 37
-      previousNodesNumbers: 240000002a000000
-      nextNodesNumbers: 37000000
+      index: 36
+      previousNodesNumbers: 2300000029000000
+      nextNodesNumbers: 35000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -4633,9 +4519,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 38
-      previousNodesNumbers: 16000000
-      nextNodesNumbers: 27000000
+      index: 37
+      previousNodesNumbers: 15000000
+      nextNodesNumbers: 26000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -4758,9 +4644,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 39
-      previousNodesNumbers: 26000000
-      nextNodesNumbers: 28000000
+      index: 38
+      previousNodesNumbers: 25000000
+      nextNodesNumbers: 27000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -4881,9 +4767,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 40
-      previousNodesNumbers: 27000000
-      nextNodesNumbers: 29000000
+      index: 39
+      previousNodesNumbers: 26000000
+      nextNodesNumbers: 28000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -4997,9 +4883,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 41
-      previousNodesNumbers: 28000000
-      nextNodesNumbers: 2a000000
+      index: 40
+      previousNodesNumbers: 27000000
+      nextNodesNumbers: 29000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -5112,9 +4998,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 42
-      previousNodesNumbers: 29000000
-      nextNodesNumbers: 25000000
+      index: 41
+      previousNodesNumbers: 28000000
+      nextNodesNumbers: 24000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -5310,7 +5196,7 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 43
+      index: 42
       previousNodesNumbers: 01000000
       nextNodesNumbers: 03000000
       finalNode: 0
@@ -5420,7 +5306,7 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 44
+      index: 43
       previousNodesNumbers: 01000000
       nextNodesNumbers: 0a000000
       finalNode: 0
@@ -5530,9 +5416,9 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 45
+      index: 44
       previousNodesNumbers: 01000000
-      nextNodesNumbers: ffffffff
+      nextNodesNumbers: 48000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -5640,9 +5526,9 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 46
+      index: 45
       previousNodesNumbers: 01000000
-      nextNodesNumbers: ffffffff
+      nextNodesNumbers: 61000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -5750,7 +5636,7 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 47
+      index: 46
       previousNodesNumbers: 01000000
       nextNodesNumbers: ffffffff
       finalNode: 0
@@ -5860,117 +5746,7 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 48
-      previousNodesNumbers: 01000000
-      nextNodesNumbers: ffffffff
-      finalNode: 0
-      leftToRight: 1
-      transformRect:
-        serializedVersion: 2
-        x: 455
-        y: 256.5
-        width: 150
-        height: 50
-    randomizerNode:
-      index: 0
-      previousNodesNumbers: 
-      nextNodesNumbers: 
-      finalNode: 0
-      leftToRight: 0
-      transformRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      exitPointsOffsetList: []
-      withRemoving: 0
-      accessList: 
-  - nodeType: 5
-    replicaNode:
-      index: 0
-      previousNodesNumbers: 
-      nextNodesNumbers: 
-      finalNode: 0
-      leftToRight: 0
-      transformRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      replicaInformation:
-        alreadyUsed: 0
-        character: {fileID: 0}
-        clip: {fileID: 0}
-        animType: 0
-        camPositionNumber: 0
-        replicaText: 
-    choiceNode:
-      index: 0
-      previousNodesNumbers: 
-      nextNodesNumbers: 
-      finalNode: 0
-      leftToRight: 0
-      transformRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      character: {fileID: 0}
-      exitPointOffsetList: []
-      answers: []
-      defaultCameraPositionIndex: 0
-    eventNode:
-      index: 0
-      previousNodesNumbers: 
-      nextNodesNumbers: 
-      finalNode: 0
-      leftToRight: 0
-      transformRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      useMessage: 0
-      messageText: 
-      parameter: {fileID: 0}
-      changeParameter: 0
-      targetBoolValue: 0
-      changeIntValue: 0
-      changeingParameterIndex: 0
-      parameterOperation: 0
-      inSceneInvoke: 0
-      reactorsNumbers: 
-      eventTime: 0
-      eventCamPositionNumber: 0
-      character: {fileID: 0}
-      changeCharacter: 0
-      characterOperation: 0
-      changeCharacterStatIndex: 0
-      changeCharacterStatValue: 0
-    conditionNode:
-      index: 0
-      previousNodesNumbers: 
-      nextNodesNumbers: 
-      finalNode: 0
-      leftToRight: 0
-      transformRect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 0
-        height: 0
-      conditionItem:
-        parameter: {fileID: 0}
-        conditionNumber: 0
-        checkType: 0
-        checkBoolValue: 0
-        checkIntValue: 0
-    linkNode:
-      index: 49
+      index: 47
       previousNodesNumbers: 08000000
       nextNodesNumbers: 01000000
       finalNode: 0
@@ -6080,8 +5856,8 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 50
-      previousNodesNumbers: 15000000
+      index: 48
+      previousNodesNumbers: 14000000
       nextNodesNumbers: 09000000
       finalNode: 0
       leftToRight: 1
@@ -6190,9 +5966,9 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 51
-      previousNodesNumbers: 17000000
-      nextNodesNumbers: 16000000
+      index: 49
+      previousNodesNumbers: 16000000
+      nextNodesNumbers: 15000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -6218,9 +5994,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 52
+      index: 50
       previousNodesNumbers: 09000000
-      nextNodesNumbers: 41000000
+      nextNodesNumbers: 3f000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -6416,15 +6192,15 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 53
-      previousNodesNumbers: 090000004b000000
+      index: 51
+      previousNodesNumbers: 48000000
       nextNodesNumbers: 01000000
       finalNode: 0
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 1208.463
-        y: 468.5
+        x: 1174.463
+        y: 509.5
         width: 150
         height: 50
     randomizerNode:
@@ -6526,7 +6302,7 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 54
+      index: 52
       previousNodesNumbers: 
       nextNodesNumbers: 09000000
       finalNode: 0
@@ -6636,9 +6412,9 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 55
-      previousNodesNumbers: 250000003c0000003f00000040000000
-      nextNodesNumbers: 16000000
+      index: 53
+      previousNodesNumbers: 240000003a0000003d0000003e000000
+      nextNodesNumbers: 15000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -6746,9 +6522,9 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 56
-      previousNodesNumbers: 20000000
-      nextNodesNumbers: 16000000
+      index: 54
+      previousNodesNumbers: 1f000000
+      nextNodesNumbers: 15000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -6774,9 +6550,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 57
-      previousNodesNumbers: 16000000
-      nextNodesNumbers: 3a000000
+      index: 55
+      previousNodesNumbers: 15000000
+      nextNodesNumbers: 38000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -6889,9 +6665,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 58
-      previousNodesNumbers: 39000000
-      nextNodesNumbers: 3b000000
+      index: 56
+      previousNodesNumbers: 37000000
+      nextNodesNumbers: 39000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -7005,9 +6781,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 59
-      previousNodesNumbers: 3a000000
-      nextNodesNumbers: 3c000000
+      index: 57
+      previousNodesNumbers: 38000000
+      nextNodesNumbers: 3a000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -7142,9 +6918,9 @@ MonoBehaviour:
         camPositionNumber: 0
         replicaText: 
     choiceNode:
-      index: 60
-      previousNodesNumbers: 3b000000
-      nextNodesNumbers: 370000003d0000003e000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      index: 58
+      previousNodesNumbers: 39000000
+      nextNodesNumbers: 350000003b0000003c000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -7300,9 +7076,9 @@ MonoBehaviour:
         camPositionNumber: 0
         replicaText: 
     choiceNode:
-      index: 61
-      previousNodesNumbers: 3c000000
-      nextNodesNumbers: 3f00000040000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      index: 59
+      previousNodesNumbers: 3a000000
+      nextNodesNumbers: 3d0000003e000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -7505,15 +7281,15 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 62
-      previousNodesNumbers: 3c000000
+      index: 60
+      previousNodesNumbers: 3a000000
       nextNodesNumbers: ffffffff
       finalNode: 0
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 3234.7114
-        y: 403.5
+        x: 3227.7114
+        y: 386.5
         width: 150
         height: 50
     randomizerNode:
@@ -7533,9 +7309,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 63
-      previousNodesNumbers: 3d000000
-      nextNodesNumbers: 37000000
+      index: 61
+      previousNodesNumbers: 3b000000
+      nextNodesNumbers: 35000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -7643,9 +7419,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 64
-      previousNodesNumbers: 3d000000
-      nextNodesNumbers: 37000000
+      index: 62
+      previousNodesNumbers: 3b000000
+      nextNodesNumbers: 35000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -7753,9 +7529,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 65
-      previousNodesNumbers: 34000000
-      nextNodesNumbers: 42000000
+      index: 63
+      previousNodesNumbers: 32000000
+      nextNodesNumbers: 40000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -7866,9 +7642,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 66
-      previousNodesNumbers: 41000000
-      nextNodesNumbers: 43000000
+      index: 64
+      previousNodesNumbers: 3f000000
+      nextNodesNumbers: 41000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -7984,9 +7760,9 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 67
-      previousNodesNumbers: 42000000
-      nextNodesNumbers: 0b000000
+      index: 65
+      previousNodesNumbers: 40000000
+      nextNodesNumbers: 58000000
       finalNode: 0
       leftToRight: 1
       transformRect:
@@ -8118,15 +7894,15 @@ MonoBehaviour:
         camPositionNumber: 0
         replicaText: 
     choiceNode:
-      index: 68
-      previousNodesNumbers: 0b00000049000000
-      nextNodesNumbers: 45000000460000004700000048000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      index: 66
+      previousNodesNumbers: 5800000059000000
+      nextNodesNumbers: 43000000440000004500000046000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
       finalNode: 0
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 2135.5034
-        y: 477.5
+        x: 2161.5034
+        y: 449.5
         width: 200
         height: 138
       character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
@@ -8355,15 +8131,15 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 69
-      previousNodesNumbers: 44000000
+      index: 67
+      previousNodesNumbers: 42000000
       nextNodesNumbers: ffffffff
       finalNode: 0
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 2409.6577
-        y: 428.5
+        x: 2534.6577
+        y: 399.5
         width: 150
         height: 50
     randomizerNode:
@@ -8465,15 +8241,15 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 70
-      previousNodesNumbers: 44000000
+      index: 68
+      previousNodesNumbers: 42000000
       nextNodesNumbers: 09000000
       finalNode: 0
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 2410.6577
-        y: 484.5
+        x: 2538.6577
+        y: 458.5
         width: 150
         height: 50
     randomizerNode:
@@ -8493,15 +8269,15 @@ MonoBehaviour:
       accessList: 
   - nodeType: 1
     replicaNode:
-      index: 71
-      previousNodesNumbers: 44000000
-      nextNodesNumbers: 49000000
+      index: 69
+      previousNodesNumbers: 42000000
+      nextNodesNumbers: 59000000
       finalNode: 0
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 2412.749
-        y: 547.5
+        x: 2532.749
+        y: 522.5
         width: 150
         height: 50
       replicaInformation:
@@ -8588,6 +8364,228 @@ MonoBehaviour:
         y: 0
         width: 0
         height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 1
+    replicaNode:
+      index: 70
+      previousNodesNumbers: 42000000
+      nextNodesNumbers: 59000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 2536.749
+        y: 604.5
+        width: 150
+        height: 50
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 2
+        replicaText: "\u0422\u0435\u0441\u0442\u043E\u0432\u0430\u044F \u0445\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043A\u0430
+          >=10. \u041F\u043E\u044D\u0442\u043E\u043C\u0443 \u044D\u0442\u043E\u0442
+          \u0432\u0430\u0440\u0438\u0430\u043D\u0442 \u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D"
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 71
+      previousNodesNumbers: 01000000
+      nextNodesNumbers: ffffffff
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 457
+        y: 259.5
+        width: 150
+        height: 50
     randomizerNode:
       index: 0
       previousNodesNumbers: 
@@ -8606,14 +8604,1131 @@ MonoBehaviour:
   - nodeType: 1
     replicaNode:
       index: 72
-      previousNodesNumbers: 44000000
+      previousNodesNumbers: 2c000000
       nextNodesNumbers: 49000000
       finalNode: 0
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 2416.749
-        y: 611.5
+        x: 0
+        y: 649.5
+        width: 150
+        height: 50
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 11400000, guid: deeb9ec5bb40a8a4fbdba6722ddc7a6a, type: 2}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: "\u0423\u0437\u0435\u043B-\u0443\u0441\u043B\u043E\u0432\u0438\u0435
+          \u0442\u0440\u0435\u0431\u0443\u0435\u0442 \u0434\u043B\u044F \u0440\u0430\u0431\u043E\u0442\u044B
+          \u043F\u0430\u043A\u0435\u0442 \u0441 \u0434\u0438\u0430\u043B\u043E\u0433\u043E\u0432\u044B\u043C\u0438
+          \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430\u043C\u0438. \u041A\u0430\u0436\u0434\u044B\u0439
+          \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440 \u043C\u043E\u0436\u0435\u0442
+          \u0431\u044B\u0442\u044C \u043B\u0438\u0431\u043E \u043B\u043E\u0433\u0438\u0447\u0435\u0441\u043A\u0438\u043C,
+          \u043B\u0438\u0431\u043E \u0446\u0435\u043B\u043E\u0447\u0438\u0441\u043B\u0435\u043D\u043D\u044B\u043C."
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 1
+    replicaNode:
+      index: 73
+      previousNodesNumbers: 48000000
+      nextNodesNumbers: 4b000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 205
+        y: 647.5
+        width: 150
+        height: 50
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 11400000, guid: deeb9ec5bb40a8a4fbdba6722ddc7a6a, type: 2}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: "\u0421\u0430\u043C \u0443\u0437\u0435\u043B \u043F\u043E\u0437\u0432\u043E\u043B\u044F\u0435\u0442
+          \u043F\u043E\u0441\u0442\u0440\u043E\u0438\u0442\u044C, \u0441\u043E\u0431\u0441\u0442\u0432\u0435\u043D\u043D\u043E,
+          \u0443\u0441\u043B\u043E\u0432\u0438\u0435 \u0441 \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u043D\u0438\u0435\u043C
+          \u043A\u0430\u043A\u043E\u0433\u043E-\u0442\u043E \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430
+          \u0438\u0437 \u043F\u0430\u043A\u0435\u0442\u0430. \u0412 \u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E\u0441\u0442\u0438
+          \u043E\u0442 \u0442\u043E\u0433\u043E, \u0432\u044B\u043F\u043E\u043B\u043D\u044F\u0435\u0442\u0441\u044F
+          \u043B\u0438 \u0443\u0441\u043B\u043E\u0432\u0438\u0435, \u0431\u0443\u0434\u0435\u0442
+          \u0432\u044B\u0431\u0440\u0430\u043D \u043E\u0434\u0438\u043D \u0438\u0437
+          \u0434\u0432\u0443\u0445 \u043F\u0435\u0440\u0435\u0445\u043E\u0434\u043E\u0432. "
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 2
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 74
+      previousNodesNumbers: 4b0000005000000060000000
+      nextNodesNumbers: 4c0000004d0000004e000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 577
+        y: 642.5
+        width: 200
+        height: 116
+      character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+      exitPointOffsetList:
+      - {x: 180, y: 21}
+      - {x: 180, y: 42}
+      - {x: 180, y: 63}
+      answers:
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041D\u0430\u0437\u0430\u0434"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats:
+        - value: 0
+          mode: 1
+        - value: 0
+          mode: 1
+      - variantForAutoChoise: 0
+        answerMode: 0
+        answerTip: "\u041F\u0440\u043E\u0432\u0435\u0440\u043A\u0430"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats:
+        - value: 0
+          mode: 1
+        - value: 0
+          mode: 1
+      - variantForAutoChoise: 0
+        answerMode: 0
+        answerTip: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u0435
+          \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats:
+        - value: 0
+          mode: 1
+        - value: 0
+          mode: 1
+      defaultCameraPositionIndex: 2
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 1
+    replicaNode:
+      index: 75
+      previousNodesNumbers: 49000000
+      nextNodesNumbers: 4a000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 385
+        y: 641.5
+        width: 150
+        height: 50
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 11400000, guid: deeb9ec5bb40a8a4fbdba6722ddc7a6a, type: 2}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: "\u0412 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u043C
+          \u043F\u0440\u0438\u043C\u0435\u0440\u0435 \u043F\u0440\u0438 \u043F\u0440\u043E\u0432\u0435\u0440\u043A\u0435
+          \u0443\u0441\u043B\u043E\u0432\u0438\u0435 \u0431\u0443\u0434\u0435\u0442
+          \u043F\u043E \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0443 SampleBool."
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 76
+      previousNodesNumbers: 4a000000
+      nextNodesNumbers: 01000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 860
+        y: 540.5
+        width: 150
+        height: 50
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 3
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 77
+      previousNodesNumbers: 4a000000
+      nextNodesNumbers: 5100000052000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 868
+        y: 642.5
+        width: 180
+        height: 65
+      conditionItem:
+        parameter: {fileID: 11400000, guid: b4d5416baa0d2ca41852952a6c1c11ac, type: 2}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 1
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 2
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 78
+      previousNodesNumbers: 4a0000005500000065000000
+      nextNodesNumbers: 500000004f000000530000005400000064000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 853
+        y: 874.5
+        width: 200
+        height: 160
+      character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+      exitPointOffsetList:
+      - {x: 180, y: 21}
+      - {x: 180, y: 42}
+      - {x: 180, y: 63}
+      - {x: 180, y: 84}
+      - {x: 180, y: 105}
+      answers:
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041A \u043F\u0440\u043E\u0432\u0435\u0440\u043A\u0435 \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats: []
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041A \u0441\u043E\u043A\u0440\u044B\u0442\u043E\u043C\u0443
+          \u0432\u044B\u0431\u043E\u0440\u0443 \u043E\u0442 \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats: []
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041F\u0430\u0440\u0430\u043C\u0435\u0442\u0440 \u0432 \u0438\u0441\u0442\u0438\u043D\u0443"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats: []
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041F\u0430\u0440\u0430\u043C\u0435\u0442\u0440 \u0432 \u043B\u043E\u0436\u044C"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats: []
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041A \u0438\u0437\u0443\u0447\u0435\u043D\u0438\u044E \u0441\u043E\u0431\u044B\u0442\u0438\u044F"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats: []
+      defaultCameraPositionIndex: 2
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 79
+      previousNodesNumbers: 4e000000
+      nextNodesNumbers: 56000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 1385
+        y: 787.5
+        width: 150
+        height: 50
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 80
+      previousNodesNumbers: 52000000510000004e000000
+      nextNodesNumbers: 4a000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 1368
+        y: 727.5
+        width: 150
+        height: 50
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 1
+    replicaNode:
+      index: 81
+      previousNodesNumbers: 4d000000
+      nextNodesNumbers: 50000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 1102.9221
+        y: 610.5
         width: 150
         height: 50
       replicaInformation:
@@ -8622,9 +9737,7 @@ MonoBehaviour:
         clip: {fileID: 0}
         animType: 0
         camPositionNumber: 2
-        replicaText: "\u0422\u0435\u0441\u0442\u043E\u0432\u0430\u044F \u0445\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043A\u0430
-          >=10. \u041F\u043E\u044D\u0442\u043E\u043C\u0443 \u044D\u0442\u043E\u0442
-          \u0432\u0430\u0440\u0438\u0430\u043D\u0442 \u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D"
+        replicaText: "\u0418\u0441\u0442\u0438\u043D\u0430"
     choiceNode:
       index: 0
       previousNodesNumbers: 
@@ -8641,6 +9754,621 @@ MonoBehaviour:
       exitPointOffsetList: []
       answers: []
       defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 1
+    replicaNode:
+      index: 82
+      previousNodesNumbers: 4d000000
+      nextNodesNumbers: 50000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 1110.9221
+        y: 686.5
+        width: 150
+        height: 50
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 2
+        replicaText: "\u041B\u043E\u0436\u044C"
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 4
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 83
+      previousNodesNumbers: 4e000000
+      nextNodesNumbers: 55000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 1265.9221
+        y: 883.5
+        width: 150
+        height: 90
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 11400000, guid: b4d5416baa0d2ca41852952a6c1c11ac, type: 2}
+      changeParameter: 1
+      targetBoolValue: 1
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 4
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 84
+      previousNodesNumbers: 4e000000
+      nextNodesNumbers: 55000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 1262.9221
+        y: 982.5
+        width: 150
+        height: 90
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 11400000, guid: b4d5416baa0d2ca41852952a6c1c11ac, type: 2}
+      changeParameter: 1
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 85
+      previousNodesNumbers: 5300000054000000
+      nextNodesNumbers: 4e000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 1460.9221
+        y: 950.5
+        width: 150
+        height: 50
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 2
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 86
+      previousNodesNumbers: 570000005f0000004f000000
+      nextNodesNumbers: 5c0000005d0000005e00000060000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 2174.233
+        y: 752.5
+        width: 200
+        height: 138
+      character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+      exitPointOffsetList:
+      - {x: 180, y: 21}
+      - {x: 180, y: 42}
+      - {x: 180, y: 63}
+      - {x: 180, y: 84}
+      answers:
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041D\u0430\u0437\u0430\u0434"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats:
+        - value: 0
+          mode: 1
+        - value: 0
+          mode: 1
+      - variantForAutoChoise: 0
+        answerMode: 2
+        answerTip: "\u0412\u0430\u0440\u0438\u0430\u043D\u0442 \u043E\u0442 \u043B\u0436\u0438"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats:
+        - value: 0
+          mode: 1
+        - value: 0
+          mode: 1
+      - variantForAutoChoise: 0
+        answerMode: 2
+        answerTip: "\u0412\u0430\u0440\u0438\u0430\u043D\u0442 \u043E\u0442 \u0438\u0441\u0442\u0438\u043D\u044B"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats:
+        - value: 0
+          mode: 1
+        - value: 0
+          mode: 1
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041D\u0430\u0441\u0442\u0440\u043E\u0438\u0442\u044C \u0434\u0438\u0430\u043B\u043E\u0433\u043E\u0432\u044B\u0439
+          \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats:
+        - value: 0
+          mode: 1
+        - value: 0
+          mode: 1
+      defaultCameraPositionIndex: 2
     eventNode:
       index: 0
       previousNodesNumbers: 
@@ -8799,15 +10527,15 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 73
-      previousNodesNumbers: 4700000048000000
-      nextNodesNumbers: 44000000
+      index: 87
+      previousNodesNumbers: 5b000000
+      nextNodesNumbers: 56000000
       finalNode: 0
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 2640.749
-        y: 574.5
+        x: 1872.4171
+        y: 455.5
         width: 150
         height: 50
     randomizerNode:
@@ -8909,15 +10637,1533 @@ MonoBehaviour:
         checkBoolValue: 0
         checkIntValue: 0
     linkNode:
-      index: 74
-      previousNodesNumbers: 01000000
-      nextNodesNumbers: ffffffff
+      index: 88
+      previousNodesNumbers: 41000000
+      nextNodesNumbers: 42000000
       finalNode: 0
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 459
-        y: 307.5
+        x: 1870.4171
+        y: 385.5
+        width: 150
+        height: 50
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 89
+      previousNodesNumbers: 4500000046000000
+      nextNodesNumbers: 42000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 2761.6663
+        y: 565.5
+        width: 150
+        height: 50
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 1
+    replicaNode:
+      index: 90
+      previousNodesNumbers: 09000000
+      nextNodesNumbers: 5b000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 1206.9763
+        y: 447.5
+        width: 150
+        height: 50
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 11400000, guid: deeb9ec5bb40a8a4fbdba6722ddc7a6a, type: 2}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: "\u0412\u044B \u043C\u043E\u0436\u0435\u0442\u0435 \u043D\u0430\u0441\u0442\u0440\u043E\u0438\u0442\u044C
+          \u0443\u0437\u0435\u043B \u0432\u044B\u0431\u043E\u0440\u0430 \u0442\u0430\u043A,
+          \u0447\u0442\u043E \u043D\u0435\u043A\u043E\u0442\u043E\u0440\u044B\u0435
+          \u0432\u0430\u0440\u0438\u0430\u043D\u0442\u044B \u0431\u0443\u0434\u0443\u0442
+          \u043F\u043E\u044F\u0432\u043B\u044F\u0442\u044C \u0442\u043E\u043B\u044C\u043A\u043E
+          \u043F\u0440\u0438 \u0432\u044B\u043F\u043E\u043B\u043D\u0435\u043D\u0438\u0438
+          \u0443\u0441\u043B\u043E\u0432\u0438\u044F \u043D\u0430 \u043E\u0441\u043D\u043E\u0432\u0435
+          \u0434\u0438\u0430\u043B\u043E\u0433\u043E\u0432\u043E\u0433\u043E \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430."
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 1
+    replicaNode:
+      index: 91
+      previousNodesNumbers: 5a000000
+      nextNodesNumbers: 57000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 1480.9763
+        y: 456.5
+        width: 150
+        height: 50
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 11400000, guid: deeb9ec5bb40a8a4fbdba6722ddc7a6a, type: 2}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: "\u0412 \u0441\u043B\u0435\u0434\u0443\u044E\u0449\u0435\u043C
+          \u043F\u0440\u0438\u043C\u0435\u0440\u0435 \u043D\u043E\u0432\u044B\u0435
+          \u0432\u0430\u0440\u0438\u0430\u043D\u0442\u044B \u0431\u0443\u0434\u0443\u0442
+          \u043F\u043E\u044F\u0432\u043B\u044F\u0442\u044C\u0441\u044F \u0438\u0441\u0447\u0435\u0437\u0430\u0442\u044C
+          \u0432 \u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E\u0441\u0442\u0438
+          \u043E\u0442 \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u044F \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u0430
+          SampleBool"
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 92
+      previousNodesNumbers: 56000000
+      nextNodesNumbers: 09000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 2529.3242
+        y: 696.5
+        width: 150
+        height: 50
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 1
+    replicaNode:
+      index: 93
+      previousNodesNumbers: 56000000
+      nextNodesNumbers: 5f000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 2529.407
+        y: 753.5
+        width: 150
+        height: 50
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 2
+        replicaText: "\u042D\u0442\u043E\u0442 \u0432\u0430\u0440\u0438\u0430\u043D\u0442
+          \u0431\u044B\u043B \u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D, \u043F\u043E\u0442\u043E\u043C\u0443
+          \u0447\u0442\u043E SampleBool == false"
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 1
+    replicaNode:
+      index: 94
+      previousNodesNumbers: 56000000
+      nextNodesNumbers: 5f000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 2534.407
+        y: 813.5
+        width: 150
+        height: 50
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 2
+        replicaText: "\u042D\u0442\u043E\u0442 \u0432\u0430\u0440\u0438\u0430\u043D\u0442
+          \u0431\u044B\u043B \u0434\u043E\u0441\u0442\u0443\u043F\u0435\u043D, \u043F\u043E\u0442\u043E\u043C\u0443
+          \u0447\u0442\u043E SampleBool == true"
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 95
+      previousNodesNumbers: 5d0000005e000000
+      nextNodesNumbers: 56000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 2730.407
+        y: 780.5
+        width: 150
+        height: 50
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 96
+      previousNodesNumbers: 56000000
+      nextNodesNumbers: 4a000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 2538.407
+        y: 881.5
+        width: 150
+        height: 50
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 1
+    replicaNode:
+      index: 97
+      previousNodesNumbers: 2d000000
+      nextNodesNumbers: 62000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 1238.5
+        width: 150
+        height: 50
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 11400000, guid: deeb9ec5bb40a8a4fbdba6722ddc7a6a, type: 2}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: "\u0423\u0437\u0435\u043B \u0441\u043E\u0431\u044B\u0442\u0438\u044F
+          \u043F\u043E\u0437\u0432\u043E\u043B\u044F\u0435\u0442 \u043C\u0435\u043D\u044F\u0442\u044C
+          \u0437\u043D\u0430\u0447\u0435\u043D\u0438\u044F \u0445\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043A
+          \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0435\u0439 \u0438 \u0434\u0438\u0430\u043B\u043E\u0433\u043E\u0432\u044B\u0445
+          \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u043E\u0432, \u0432\u044B\u0432\u043E\u0434\u0438\u0442\u044C
+          \u0442\u0435\u043A\u0441\u0442\u043E\u0432\u044B\u0435 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F,
+          \u0438\u0441\u043F\u0443\u0441\u043A\u0430\u0442\u044C \u0441\u043E\u0431\u044B\u0442\u0438\u044F
+          \u0432 \u0438\u0433\u0440\u043E\u0432\u0443\u044E \u0441\u0446\u0435\u043D\u0443."
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 2
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 98
+      previousNodesNumbers: 6100000064000000
+      nextNodesNumbers: ffffffff65000000ffffffff63000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 273
+        y: 1242.5
+        width: 200
+        height: 138
+      character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+      exitPointOffsetList:
+      - {x: 180, y: 21}
+      - {x: 180, y: 42}
+      - {x: 180, y: 63}
+      - {x: 180, y: 84}
+      answers:
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041C\u0435\u043D\u044F\u0442\u044C \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0435\u0439"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats:
+        - value: 0
+          mode: 1
+        - value: 0
+          mode: 1
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041C\u0435\u043D\u044F\u0442\u044C \u043F\u0430\u0440\u0430\u043C\u0435\u0442\u0440\u044B"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats:
+        - value: 0
+          mode: 1
+        - value: 0
+          mode: 1
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u0421\u043E\u0431\u044B\u0442\u0438\u0435 \u0432 \u0441\u0446\u0435\u043D\u0443"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats:
+        - value: 0
+          mode: 1
+        - value: 0
+          mode: 1
+      - variantForAutoChoise: 0
+        answerMode: 1
+        answerTip: "\u041D\u0430\u0437\u0430\u0434"
+        character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
+        conditionItem:
+          parameter: {fileID: 0}
+          conditionNumber: 0
+          checkType: 0
+          checkBoolValue: 0
+          checkIntValue: 0
+        answerStats:
+        - value: 0
+          mode: 1
+        - value: 0
+          mode: 1
+      defaultCameraPositionIndex: 2
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 99
+      previousNodesNumbers: 62000000
+      nextNodesNumbers: 01000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 554
+        y: 1438.5
+        width: 150
+        height: 50
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 100
+      previousNodesNumbers: 4e000000
+      nextNodesNumbers: 62000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 1216
+        y: 1104.5
+        width: 150
+        height: 50
+    randomizerNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      exitPointsOffsetList: []
+      withRemoving: 0
+      accessList: 
+  - nodeType: 5
+    replicaNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      replicaInformation:
+        alreadyUsed: 0
+        character: {fileID: 0}
+        clip: {fileID: 0}
+        animType: 0
+        camPositionNumber: 0
+        replicaText: 
+    choiceNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      character: {fileID: 0}
+      exitPointOffsetList: []
+      answers: []
+      defaultCameraPositionIndex: 0
+    eventNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      useMessage: 0
+      messageText: 
+      parameter: {fileID: 0}
+      changeParameter: 0
+      targetBoolValue: 0
+      changeIntValue: 0
+      changeingParameterIndex: 0
+      parameterOperation: 0
+      inSceneInvoke: 0
+      reactorsNumbers: 
+      eventTime: 0
+      eventCamPositionNumber: 0
+      character: {fileID: 0}
+      changeCharacter: 0
+      characterOperation: 0
+      changeCharacterStatIndex: 0
+      changeCharacterStatValue: 0
+    conditionNode:
+      index: 0
+      previousNodesNumbers: 
+      nextNodesNumbers: 
+      finalNode: 0
+      leftToRight: 0
+      transformRect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      conditionItem:
+        parameter: {fileID: 0}
+        conditionNumber: 0
+        checkType: 0
+        checkBoolValue: 0
+        checkIntValue: 0
+    linkNode:
+      index: 101
+      previousNodesNumbers: 62000000
+      nextNodesNumbers: 4e000000
+      finalNode: 0
+      leftToRight: 1
+      transformRect:
+        serializedVersion: 2
+        x: 556
+        y: 1275.5
         width: 150
         height: 50
     randomizerNode:
