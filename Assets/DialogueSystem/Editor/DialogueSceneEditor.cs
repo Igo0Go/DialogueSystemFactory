@@ -714,20 +714,20 @@ public class DialogueSceneEditor : EditorWindow
                     DialogueNode nextNode = sceneKit.Nodes[replica.NextNodeNumber];
 
                     Vector2 startPoint = new Vector2(replica.transformRect.x + replica.exitPointOffset.x,
-                        replica.transformRect.y + replica.exitPointOffset.y);
+                        replica.transformRect.y + replica.exitPointOffset.y) + new Vector2(20, 10);
                     if (!replica.leftToRight)
                     {
                         startPoint = new Vector2(replica.transformRect.x + replica.enterPointOffset.x,
-                            replica.transformRect.y + replica.enterPointOffset.y);
+                            replica.transformRect.y + replica.enterPointOffset.y) + new Vector2(0, 10);
                         startMultiplicator = -1;
                     }
 
                     Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
-                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                        nextNode.transformRect.y + nextNode.enterPointOffset.y) + new Vector2(0, 10);
                     if (!nextNode.leftToRight)
                     {
                         endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
-                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y) + new Vector2(20, 10);
                         endMultiplicator = -1;
                     }
 
@@ -743,20 +743,20 @@ public class DialogueSceneEditor : EditorWindow
                         DialogueNode nextNode = sceneKit.Nodes[choice.nextNodesNumbers[j]];
 
                         Vector2 startPoint = new Vector2(choice.transformRect.x + choice.exitPointOffsetList[j].x,
-                            choice.transformRect.y + choice.exitPointOffsetList[j].y);
+                            choice.transformRect.y + choice.exitPointOffsetList[j].y) + new Vector2(20, 10);
                         if (!choice.leftToRight)
                         {
                             startPoint = new Vector2(choice.transformRect.x + choice.enterPointOffset.x,
-                                choice.transformRect.y + choice.enterPointOffset.y + +(21 * j));
+                                choice.transformRect.y + choice.enterPointOffset.y + +(21 * j)) + new Vector2(0, 10);
                             startMultiplicator = -1;
                         }
 
                         Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
-                            nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                            nextNode.transformRect.y + nextNode.enterPointOffset.y) + new Vector2(0, 10);
                         if (!nextNode.leftToRight)
                         {
                             endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
-                                nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                                nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y) + new Vector2(20, 10);
                             endMultiplicator = -1;
                         }
 
@@ -769,22 +769,22 @@ public class DialogueSceneEditor : EditorWindow
                 if (eventNode.NextNodeNumber != -1)
                 {
                     Vector2 startPoint = new Vector2(eventNode.transformRect.x + eventNode.exitPointOffset.x,
-                        sceneKit.Nodes[i].transformRect.y + eventNode.exitPointOffset.y);
+                        sceneKit.Nodes[i].transformRect.y + eventNode.exitPointOffset.y) + new Vector2(20, 10);
                     if (!eventNode.leftToRight)
                     {
                         startPoint = new Vector2(eventNode.transformRect.x + eventNode.enterPointOffset.x, eventNode.transformRect.y +
-                        eventNode.enterPointOffset.y);
+                        eventNode.enterPointOffset.y) + new Vector2(0, 10);
                         startMultiplicator = -1;
                     }
 
                     DialogueNode nextNode = sceneKit.Nodes[eventNode.NextNodeNumber];
 
                     Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
-                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                        nextNode.transformRect.y + nextNode.enterPointOffset.y) + new Vector2(0, 10);
                     if (!nextNode.leftToRight)
                     {
                         endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
-                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y) + new Vector2(20, 10);
                         endMultiplicator = -1;
                     }
 
@@ -797,20 +797,20 @@ public class DialogueSceneEditor : EditorWindow
                 {
                     DialogueNode nextNode = sceneKit.Nodes[condition.PositiveNextNumber];
                     Vector2 startPoint = new Vector2(condition.transformRect.x + condition.positiveExitPointOffset.x,
-                        condition.transformRect.y + condition.positiveExitPointOffset.y);
+                        condition.transformRect.y + condition.positiveExitPointOffset.y) + new Vector2(20, 10);
                     if (!condition.leftToRight)
                     {
                         startPoint = new Vector2(condition.transformRect.x - 1, condition.transformRect.y +
-                            condition.positiveExitPointOffset.y);
+                            condition.positiveExitPointOffset.y) + new Vector2(0, 10);
                         startMultiplicator = -1;
                     }
 
                     Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
-                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                        nextNode.transformRect.y + nextNode.enterPointOffset.y) + new Vector2(0, 10);
                     if (!nextNode.leftToRight)
                     {
                         endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
-                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y) + new Vector2(20, 10);
                         endMultiplicator = -1;
                     }
 
@@ -821,20 +821,20 @@ public class DialogueSceneEditor : EditorWindow
                     startMultiplicator = endMultiplicator = 1;
                     DialogueNode nextNode = sceneKit.Nodes[condition.NegativeNextNumber];
                     Vector2 startPoint = new Vector2(condition.transformRect.x + condition.negativeExitPointOffset.x,
-                        condition.transformRect.y + condition.negativeExitPointOffset.y);
+                        condition.transformRect.y + condition.negativeExitPointOffset.y) + new Vector2(20, 10);
                     if (!sceneKit.Nodes[i].leftToRight)
                     {
                         startPoint = new Vector2(condition.transformRect.x - 1,
-                            condition.transformRect.y + condition.negativeExitPointOffset.y);
+                            condition.transformRect.y + condition.negativeExitPointOffset.y) + new Vector2(0, 10);
                         startMultiplicator = -1;
                     }
 
                     Vector2 endPoint = new Vector2(nextNode.transformRect.x + nextNode.enterPointOffset.x,
-                        nextNode.transformRect.y + nextNode.enterPointOffset.y);
+                        nextNode.transformRect.y + nextNode.enterPointOffset.y) + new Vector2(0, 10);
                     if (!nextNode.leftToRight)
                     {
                         endPoint = new Vector2(nextNode.transformRect.x + nextNode.InverseEnterPointOffset.x,
-                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y);
+                            nextNode.transformRect.y + nextNode.InverseEnterPointOffset.y) + new Vector2(20, 10);
                         endMultiplicator = -1;
                     }
 
