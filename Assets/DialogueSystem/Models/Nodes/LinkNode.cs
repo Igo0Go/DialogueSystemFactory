@@ -7,6 +7,22 @@ using UnityEngine;
 public class LinkNode : DialogueNode
 {
     /// <summary>
+    /// Цвет подложки узла
+    /// </summary>
+    public override Color СolorInEditor
+    {
+        get
+        {
+            foreach (var item in nextNodesNumbers)
+            {
+                if (item == -1 && !finalNode)
+                    return Color.red;
+            }
+            return Color.blue;
+        }
+    }
+
+    /// <summary>
     /// Индекс узла, на который нужно перенаправить ход диалога
     /// </summary>
     public int NextNodeNumber
@@ -33,7 +49,6 @@ public class LinkNode : DialogueNode
     public LinkNode(Vector2 pos, int index) : base(pos, index)
     {
         transformRect = new Rect(pos.x, pos.y, 150, 50);
-        СolorInEditor = Color.blue;
         nextNodesNumbers.Add(-1);
     }
 

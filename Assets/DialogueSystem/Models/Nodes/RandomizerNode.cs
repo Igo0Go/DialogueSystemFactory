@@ -8,6 +8,22 @@ using UnityEngine;
 public class RandomizerNode : DialogueNode
 {
     /// <summary>
+    /// Цвет подложки узла
+    /// </summary>
+    public override Color СolorInEditor
+    {
+        get
+        {
+            foreach (var item in nextNodesNumbers)
+            {
+                if (item == -1 && !finalNode)
+                    return Color.red;
+            }
+            return Color.magenta;
+        }
+    }
+
+    /// <summary>
     /// смещения выходов списка узлов случайного выбора
     /// </summary>
     public List<Vector2> exitPointsOffsetList;
@@ -44,7 +60,6 @@ public class RandomizerNode : DialogueNode
     public RandomizerNode(Vector2 pos, int index) : base(pos, index)
     {
         transformRect = new Rect(pos.x, pos.y, 150, 85);
-        СolorInEditor = Color.magenta;
         exitPointsOffsetList = new List<Vector2>();
         nextNodesNumbers.Add(-1);
         accessList = new List<bool>();

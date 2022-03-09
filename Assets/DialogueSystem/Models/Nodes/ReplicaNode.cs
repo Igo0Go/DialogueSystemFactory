@@ -43,7 +43,6 @@ public class ReplicaNode : DialogueNode
     public ReplicaNode(Vector2 pos, int index) : base(pos, index)
     {
         transformRect = new Rect(pos.x, pos.y, 150, 50);
-        ÑolorInEditor = Color.gray;
         replicaInformation = new ReplicInfo();
         nextNodesNumbers.Add(-1);
     }

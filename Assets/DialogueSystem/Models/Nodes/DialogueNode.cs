@@ -53,16 +53,9 @@ public class DialogueNode
                 if (item == -1 && !finalNode)
                     return Color.red;
             }
-            return _colorInEditor;
-        }
-        set
-        {
-            _colorInEditor = value;
+            return Color.gray;
         }
     }
-
-    protected Color _colorInEditor = Color.gray;
-
 
     /// <summary>
     /// Смещение входа

@@ -16,7 +16,7 @@ MonoBehaviour:
   - type: 0
     parameterName: SampleBool
     intValue: 0
-    boolValue: 1
+    boolValue: 0
   - type: 1
     parameterName: SampleInt
     intValue: 0

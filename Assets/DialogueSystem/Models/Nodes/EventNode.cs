@@ -7,7 +7,24 @@ using UnityEngine;
 [System.Serializable]
 public class EventNode : DialogueNode
 {
+    #region Основные поля и свойства
     public readonly Vector2 exitPointOffset = new Vector2(130, 21);
+
+    /// <summary>
+    /// Цвет подложки узла
+    /// </summary>
+    public override Color СolorInEditor
+    {
+        get
+        {
+            foreach (var item in nextNodesNumbers)
+            {
+                if (item == -1 && !finalNode)
+                    return Color.red;
+            }
+            return Color.yellow;
+        }
+    }
 
     public int NextNodeNumber
     {
@@ -20,6 +37,7 @@ public class EventNode : DialogueNode
             nextNodesNumbers[0] = value;
         }
     }
+    #endregion
 
     #region Сообщение при событии
     /// <summary>
@@ -126,7 +144,6 @@ public class EventNode : DialogueNode
     {
         reactorsNumbers = new List<int>();
         transformRect = new Rect(pos.x, pos.y, 150, 90);
-        СolorInEditor = Color.yellow;
         nextNodesNumbers.Add(-1);
     }
 

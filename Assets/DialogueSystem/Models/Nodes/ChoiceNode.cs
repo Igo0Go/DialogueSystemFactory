@@ -21,11 +21,7 @@ public class ChoiceNode : DialogueNode
                 if (nextNodesNumbers[i] == -1)
                     return Color.red;
             }
-            return _colorInEditor;
-        }
-        set
-        {
-            _colorInEditor = value;
+            return Color.gray;
         }
     }
 
@@ -62,7 +58,6 @@ public class ChoiceNode : DialogueNode
     public ChoiceNode(Vector2 pos, int index) : base(pos, index)
     {
         transformRect = new Rect(pos.x, pos.y, 200, 50);
-        ÑolorInEditor = Color.grey;
         exitPointOffsetList = new List<Vector2>();
         answers = new List<AnswerItem>();
         for (int i = 0; i < answerLimit; i++)

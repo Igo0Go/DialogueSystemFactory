@@ -9,6 +9,22 @@ public class ConditionNode : DialogueNode
     #region Поля и свойства
 
     /// <summary>
+    /// Цвет подложки узла
+    /// </summary>
+    public override Color СolorInEditor
+    {
+        get
+        {
+            foreach (var item in nextNodesNumbers)
+            {
+                if (item == -1 && !finalNode)
+                    return Color.red;
+            }
+            return Color.cyan;
+        }
+    }
+
+    /// <summary>
     /// Набор для работы с параметром
     /// </summary>
     public ConditionItem conditionItem;
@@ -59,7 +75,6 @@ public class ConditionNode : DialogueNode
     {
         transformRect = new Rect(pos.x, pos.y, 180, 65);
         //        _rightPointOffset = new Vector3(160, 21);
-        СolorInEditor = Color.cyan;
         nextNodesNumbers.Add(-1);
         nextNodesNumbers.Add(-1);
     }
