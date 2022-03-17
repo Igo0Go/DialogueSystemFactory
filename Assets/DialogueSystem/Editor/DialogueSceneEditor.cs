@@ -17,6 +17,7 @@ public class DialogueSceneEditor : EditorWindow
     private Vector2 scrollPosition = Vector2.zero;
     private Rect scrollViewRect;
 
+    private int focusedNode = -1;
     private int currentCamPos = 0;
     private int currentEvent = 0;
 
@@ -55,6 +56,10 @@ public class DialogueSceneEditor : EditorWindow
                 for (int i = 0; i < windows.Count; i++)
                 {
                     GUI.color = i == sceneKit.firstNodeIndex? Color.green : sceneKit.Nodes[i].ÑolorInEditor;
+                    if(i == focusedNode)
+                    {
+                        GUI.color = Color.black;
+                    }
                     windows[i] = GUI.Window(i, windows[i], DrawNodeWindow, i.ToString());
                 }
             }
@@ -613,9 +618,17 @@ public class DialogueSceneEditor : EditorWindow
                 exitBufer = 0;
             }
         }
-        bufer = new Rect(21, 22, nodeTransform.width - 39, 20);
-        GUI.color = Color.white;
-        EditorGUI.LabelField(bufer, linkNode.NextNodeNumber == -1 ? "ïóñòî" : linkNode.NextNodeNumber.ToString());
+        if(linkNode.nextNodesNumbers[0] >= 0)
+        {
+            bufer = new Rect(21, 22, nodeTransform.width - 39, 20);
+            GUI.color = Color.white;
+            if(GUI.Button(bufer, linkNode.NextNodeNumber.ToString()))
+            {
+                focusedNode = linkNode.nextNodesNumbers[0];
+                GUI.FocusWindow(linkNode.nextNodesNumbers[0]);
+                GUI.ScrollTo(windows[linkNode.nextNodesNumbers[0]]);
+            }
+        }
     }
     private void DrawRandomizer(RandomizerNode randomizer, Rect windowRect)
     {
