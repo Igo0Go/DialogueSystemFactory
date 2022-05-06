@@ -43,9 +43,27 @@ public class DialogueSceneEditor : EditorWindow
     {
         DrawGrid(20, 0.2f, Color.gray);
         DrawGrid(100, 0.4f, Color.gray);
+
+        ProcessEvents(Event.current);
+
+        if (GUI.changed) Repaint();
     }
     #endregion
 
+    private void ProcessEvents(Event e)
+    {
+        drag = Vector2.zero;
+
+        switch (e.type)
+        {
+            case EventType.MouseDrag:
+                if (e.button == 2)
+                {
+                    OnDrag(e.delta);
+                }
+                break;
+        }
+    }
     private void DrawGrid(float gridSpacing, float gridOpacity, Color gridColor)
     {
         int widthDivs = Mathf.CeilToInt(position.width / gridSpacing);
@@ -72,6 +90,14 @@ public class DialogueSceneEditor : EditorWindow
         Handles.color = Color.white;
         Handles.EndGUI();
     }
+
+    private void OnDrag(Vector2 delta)
+    {
+        drag = delta;
+
+        GUI.changed = true;
+    }
+
 
     #region Отрисовка узлов
     //private void DrawNodeWindow(int id)

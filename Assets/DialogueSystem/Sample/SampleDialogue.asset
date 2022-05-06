@@ -162,8 +162,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 196
-        y: 58.5
+        x: 171
+        y: 70.5
         width: 200
         height: 182
       character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
@@ -1151,8 +1151,8 @@ MonoBehaviour:
       leftToRight: 1
       transformRect:
         serializedVersion: 2
-        x: 844
-        y: 163.5
+        x: 877
+        y: 134.5
         width: 200
         height: 160
       character: {fileID: 11400000, guid: 53ce31ba38d7797448093e446477f7d7, type: 2}
