@@ -271,37 +271,37 @@ public class DialogueSceneEditor : EditorWindow
             case DialogueNodeType.Replica:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
                     nodeStyleReplica_default, nodeStyleReplica_selected, inPointStyle, outPointStyle,
-                    OnClickInPoint, OnClickOutPoint));
+                    OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
                 break;
             case DialogueNodeType.Choice:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
                     nodeStyleReplica_default, nodeStyleReplica_selected, inPointStyle, outPointStyle,
-                    OnClickInPoint, OnClickOutPoint));
+                    OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
                 break;
             case DialogueNodeType.Condition:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
                     nodeStyleCondition_default, nodeStyleCondition_selected, inPointStyle, outPointStyle,
-                    OnClickInPoint, OnClickOutPoint));
+                    OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
                 break;
             case DialogueNodeType.Event:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
                     nodeStyleEvent_default, nodeStyleEvent_selected, inPointStyle, outPointStyle,
-                    OnClickInPoint, OnClickOutPoint));
+                    OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
                 break;
             case DialogueNodeType.Link:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
                     nodeStyleLink_default, nodeStyleLink_selected, inPointStyle, outPointStyle,
-                    OnClickInPoint, OnClickOutPoint));
+                    OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
                 break;
             case DialogueNodeType.Randomizer:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
                     nodeStyleRandomizer_default, nodeStyleRandomizer_selected, inPointStyle, outPointStyle,
-                    OnClickInPoint, OnClickOutPoint));
+                    OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
                 break;
             default:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
                     nodeStyleReplica_default, nodeStyleReplica_selected, inPointStyle, outPointStyle,
-                    OnClickInPoint, OnClickOutPoint));
+                    OnClickInPoint, OnClickOutPoint, OnClickRemoveNode));
                 break;
         }
 
@@ -363,6 +363,29 @@ public class DialogueSceneEditor : EditorWindow
     {
         selectedInPoint = null;
         selectedOutPoint = null;
+    }
+
+    private void OnClickRemoveNode(EditorNode node)
+    {
+        if (connections != null)
+        {
+            List<Connection> connectionsToRemove = new List<Connection>();
+
+            for (int i = 0; i < connections.Count; i++)
+            {
+                if (connections[i].inPoint == node.inPoint || connections[i].outPoint == node.outPoint)
+                {
+                    connectionsToRemove.Add(connections[i]);
+                }
+            }
+
+            for (int i = 0; i < connectionsToRemove.Count; i++)
+            {
+                connections.Remove(connectionsToRemove[i]);
+            }
+        }
+
+        nodes.Remove(node);
     }
 
     #region Отрисовка узлов
