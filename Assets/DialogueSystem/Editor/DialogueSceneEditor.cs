@@ -13,11 +13,17 @@ public class DialogueSceneEditor : EditorWindow
     private Vector2 offset;
     private List<EditorNode> nodes;
 
-    private GUIStyle nodeStyleReplica;
-    private GUIStyle nodeStyleCondition;
-    private GUIStyle nodeStyleEvent;
-    private GUIStyle nodeStyleLink;
-    private GUIStyle nodeStyleRandomizer;
+    private GUIStyle nodeStyleReplica_default;
+    private GUIStyle nodeStyleReplica_selected;
+    private GUIStyle nodeStyleCondition_default;
+    private GUIStyle nodeStyleCondition_selected;
+    private GUIStyle nodeStyleEvent_default;
+    private GUIStyle nodeStyleEvent_selected;
+    private GUIStyle nodeStyleLink_default;
+    private GUIStyle nodeStyleLink_selected;
+    private GUIStyle nodeStyleRandomizer_default;
+    private GUIStyle nodeStyleRandomizer_selected;
+
 
     //private List<Rect> windows = new List<Rect>();
     //private DialogueNodeType nodeType = DialogueNodeType.Replica;
@@ -48,30 +54,55 @@ public class DialogueSceneEditor : EditorWindow
 
     private void OnEnable()
     {
-        nodeStyleReplica = new GUIStyle();
-        nodeStyleReplica.normal.background = 
+        nodeStyleReplica_default = new GUIStyle();
+        nodeStyleReplica_default.normal.background = 
             EditorGUIUtility.Load("builtin skins/darkskin/images/node0.png") as Texture2D;
-        nodeStyleReplica.border = new RectOffset(12, 12, 12, 12);
+        nodeStyleReplica_default.border = new RectOffset(12, 12, 12, 12);
 
-        nodeStyleCondition = new GUIStyle();
-        nodeStyleCondition.normal.background =
+        nodeStyleReplica_selected = new GUIStyle();
+        nodeStyleReplica_selected.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node0 on.png") as Texture2D;
+        nodeStyleReplica_selected.border = new RectOffset(12, 12, 12, 12);
+
+        nodeStyleCondition_default = new GUIStyle();
+        nodeStyleCondition_default.normal.background =
             EditorGUIUtility.Load("builtin skins/darkskin/images/node2.png") as Texture2D;
-        nodeStyleCondition.border = new RectOffset(12, 12, 12, 12);
+        nodeStyleCondition_default.border = new RectOffset(12, 12, 12, 12);
 
-        nodeStyleLink = new GUIStyle();
-        nodeStyleLink.normal.background =
+        nodeStyleCondition_selected = new GUIStyle();
+        nodeStyleCondition_selected.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node2 on.png") as Texture2D;
+        nodeStyleCondition_selected.border = new RectOffset(12, 12, 12, 12);
+
+        nodeStyleLink_default = new GUIStyle();
+        nodeStyleLink_default.normal.background =
             EditorGUIUtility.Load("builtin skins/darkskin/images/node1.png") as Texture2D;
-        nodeStyleLink.border = new RectOffset(12, 12, 12, 12);
+        nodeStyleLink_default.border = new RectOffset(12, 12, 12, 12);
 
-        nodeStyleEvent = new GUIStyle();
-        nodeStyleEvent.normal.background =
+        nodeStyleLink_selected = new GUIStyle();
+        nodeStyleLink_selected.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node1 on.png") as Texture2D;
+        nodeStyleLink_selected.border = new RectOffset(12, 12, 12, 12);
+
+        nodeStyleEvent_default = new GUIStyle();
+        nodeStyleEvent_default.normal.background =
             EditorGUIUtility.Load("builtin skins/darkskin/images/node4.png") as Texture2D;
-        nodeStyleEvent.border = new RectOffset(12, 12, 12, 12);
+        nodeStyleEvent_default.border = new RectOffset(12, 12, 12, 12);
 
-        nodeStyleRandomizer = new GUIStyle();
-        nodeStyleRandomizer.normal.background =
+        nodeStyleEvent_selected = new GUIStyle();
+        nodeStyleEvent_selected.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node4 on.png") as Texture2D;
+        nodeStyleEvent_selected.border = new RectOffset(12, 12, 12, 12);
+
+        nodeStyleRandomizer_default = new GUIStyle();
+        nodeStyleRandomizer_default.normal.background =
             EditorGUIUtility.Load("builtin skins/darkskin/images/node3.png") as Texture2D;
-        nodeStyleRandomizer.border = new RectOffset(12, 12, 12, 12);
+        nodeStyleRandomizer_default.border = new RectOffset(12, 12, 12, 12);
+
+        nodeStyleRandomizer_selected = new GUIStyle();
+        nodeStyleRandomizer_selected.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node3 on.png") as Texture2D;
+        nodeStyleRandomizer_selected.border = new RectOffset(12, 12, 12, 12);
     }
 
     void OnGUI()
@@ -80,7 +111,10 @@ public class DialogueSceneEditor : EditorWindow
         DrawGrid(100, 0.4f, Color.gray);
 
         DrawNodes();
+
+        ProcessNodeEvents(Event.current);
         ProcessEvents(Event.current);
+
 
         if (GUI.changed) Repaint();
     }
@@ -117,6 +151,21 @@ public class DialogueSceneEditor : EditorWindow
                 break;
         }
     }
+    private void ProcessNodeEvents(Event e)
+    {
+        if (nodes != null)
+        {
+            for (int i = nodes.Count - 1; i >= 0; i--)
+            {
+                bool guiChanged = nodes[i].ProcessEvents(e);
+
+                if (guiChanged)
+                {
+                    GUI.changed = true;
+                }
+            }
+        }
+    }
     private void DrawGrid(float gridSpacing, float gridOpacity, Color gridColor)
     {
         int widthDivs = Mathf.CeilToInt(position.width / gridSpacing);
@@ -148,6 +197,14 @@ public class DialogueSceneEditor : EditorWindow
     {
         drag = delta;
 
+        if (nodes != null)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                nodes[i].Drag(delta);
+            }
+        }
+
         GUI.changed = true;
     }
 
@@ -178,25 +235,32 @@ public class DialogueSceneEditor : EditorWindow
         switch (type)
         {
             case DialogueNodeType.Replica:
-                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleReplica));
+                nodes.Add(new EditorNode(mousePosition, 200, 50, 
+                    nodeStyleReplica_default, nodeStyleReplica_selected));
                 break;
             case DialogueNodeType.Choice:
-                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleReplica));
+                nodes.Add(new EditorNode(mousePosition, 200, 50, 
+                    nodeStyleReplica_default, nodeStyleReplica_selected));
                 break;
             case DialogueNodeType.Condition:
-                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleCondition));
+                nodes.Add(new EditorNode(mousePosition, 200, 50, 
+                    nodeStyleCondition_default, nodeStyleCondition_selected));
                 break;
             case DialogueNodeType.Event:
-                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleEvent));
+                nodes.Add(new EditorNode(mousePosition, 200, 50, 
+                    nodeStyleEvent_default, nodeStyleEvent_selected));
                 break;
             case DialogueNodeType.Link:
-                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleLink));
+                nodes.Add(new EditorNode(mousePosition, 200, 50, 
+                    nodeStyleLink_default, nodeStyleLink_selected));
                 break;
             case DialogueNodeType.Randomizer:
-                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleRandomizer));
+                nodes.Add(new EditorNode(mousePosition, 200, 50, 
+                    nodeStyleRandomizer_default, nodeStyleRandomizer_selected));
                 break;
             default:
-                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleReplica));
+                nodes.Add(new EditorNode(mousePosition, 200, 50, 
+                    nodeStyleReplica_default, nodeStyleReplica_selected));
                 break;
         }
 
