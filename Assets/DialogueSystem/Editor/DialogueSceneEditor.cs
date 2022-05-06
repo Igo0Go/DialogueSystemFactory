@@ -7,10 +7,17 @@ using UnityEditor;
 public class DialogueSceneEditor : EditorWindow
 {
     #region Поля
+    public DialogueSceneKit sceneKit;
 
     private Vector2 drag;
     private Vector2 offset;
-    public DialogueSceneKit sceneKit;
+    private List<EditorNode> nodes;
+
+    private GUIStyle nodeStyleReplica;
+    private GUIStyle nodeStyleCondition;
+    private GUIStyle nodeStyleEvent;
+    private GUIStyle nodeStyleLink;
+    private GUIStyle nodeStyleRandomizer;
 
     //private List<Rect> windows = new List<Rect>();
     //private DialogueNodeType nodeType = DialogueNodeType.Replica;
@@ -39,16 +46,56 @@ public class DialogueSceneEditor : EditorWindow
         return GetWindow<DialogueSceneEditor>();
     }
 
+    private void OnEnable()
+    {
+        nodeStyleReplica = new GUIStyle();
+        nodeStyleReplica.normal.background = 
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node0.png") as Texture2D;
+        nodeStyleReplica.border = new RectOffset(12, 12, 12, 12);
+
+        nodeStyleCondition = new GUIStyle();
+        nodeStyleCondition.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node2.png") as Texture2D;
+        nodeStyleCondition.border = new RectOffset(12, 12, 12, 12);
+
+        nodeStyleLink = new GUIStyle();
+        nodeStyleLink.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node1.png") as Texture2D;
+        nodeStyleLink.border = new RectOffset(12, 12, 12, 12);
+
+        nodeStyleEvent = new GUIStyle();
+        nodeStyleEvent.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node4.png") as Texture2D;
+        nodeStyleEvent.border = new RectOffset(12, 12, 12, 12);
+
+        nodeStyleRandomizer = new GUIStyle();
+        nodeStyleRandomizer.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node3.png") as Texture2D;
+        nodeStyleRandomizer.border = new RectOffset(12, 12, 12, 12);
+    }
+
     void OnGUI()
     {
         DrawGrid(20, 0.2f, Color.gray);
         DrawGrid(100, 0.4f, Color.gray);
 
+        DrawNodes();
         ProcessEvents(Event.current);
 
         if (GUI.changed) Repaint();
     }
     #endregion
+
+    private void DrawNodes()
+    {
+        if (nodes != null)
+        {
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                nodes[i].Draw();
+            }
+        }
+    }
 
     private void ProcessEvents(Event e)
     {
@@ -56,6 +103,12 @@ public class DialogueSceneEditor : EditorWindow
 
         switch (e.type)
         {
+            case EventType.MouseDown:
+                if (e.button == 1)
+                {
+                    ProcessContextMenu(e.mousePosition);
+                }
+                break;
             case EventType.MouseDrag:
                 if (e.button == 2)
                 {
@@ -98,6 +151,57 @@ public class DialogueSceneEditor : EditorWindow
         GUI.changed = true;
     }
 
+    private void ProcessContextMenu(Vector2 mousePosition)
+    {
+        GenericMenu genericMenu = new GenericMenu();
+        genericMenu.AddItem(new GUIContent("Replica"), false, 
+            () => OnClickAddNode(mousePosition, DialogueNodeType.Replica));
+        genericMenu.AddItem(new GUIContent("Choice"), false,
+            () => OnClickAddNode(mousePosition, DialogueNodeType.Choice));
+        genericMenu.AddItem(new GUIContent("Event"), false,
+            () => OnClickAddNode(mousePosition, DialogueNodeType.Event));
+        genericMenu.AddItem(new GUIContent("Condition"), false,
+            () => OnClickAddNode(mousePosition, DialogueNodeType.Condition));
+        genericMenu.AddItem(new GUIContent("Link"), false,
+            () => OnClickAddNode(mousePosition, DialogueNodeType.Link));
+        genericMenu.AddItem(new GUIContent("Randomizer"), false,
+            () => OnClickAddNode(mousePosition, DialogueNodeType.Randomizer));
+        genericMenu.ShowAsContext();
+    }
+    private void OnClickAddNode(Vector2 mousePosition, DialogueNodeType type)
+    {
+        if (nodes == null)
+        {
+            nodes = new List<EditorNode>();
+        }
+
+        switch (type)
+        {
+            case DialogueNodeType.Replica:
+                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleReplica));
+                break;
+            case DialogueNodeType.Choice:
+                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleReplica));
+                break;
+            case DialogueNodeType.Condition:
+                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleCondition));
+                break;
+            case DialogueNodeType.Event:
+                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleEvent));
+                break;
+            case DialogueNodeType.Link:
+                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleLink));
+                break;
+            case DialogueNodeType.Randomizer:
+                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleRandomizer));
+                break;
+            default:
+                nodes.Add(new EditorNode(mousePosition, 200, 50, nodeStyleReplica));
+                break;
+        }
+
+
+    }
 
     #region Отрисовка узлов
     //private void DrawNodeWindow(int id)
