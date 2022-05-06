@@ -12,6 +12,12 @@ public class DialogueSceneEditor : EditorWindow
     private Vector2 drag;
     private Vector2 offset;
     private List<EditorNode> nodes;
+    private List<Connection> connections;
+
+    private ConnectionPoint selectedInPoint;
+    private ConnectionPoint selectedOutPoint;
+
+
 
     private GUIStyle nodeStyleReplica_default;
     private GUIStyle nodeStyleReplica_selected;
@@ -23,6 +29,9 @@ public class DialogueSceneEditor : EditorWindow
     private GUIStyle nodeStyleLink_selected;
     private GUIStyle nodeStyleRandomizer_default;
     private GUIStyle nodeStyleRandomizer_selected;
+
+    private GUIStyle inPointStyle;
+    private GUIStyle outPointStyle;
 
 
     //private List<Rect> windows = new List<Rect>();
@@ -103,6 +112,20 @@ public class DialogueSceneEditor : EditorWindow
         nodeStyleRandomizer_selected.normal.background =
             EditorGUIUtility.Load("builtin skins/darkskin/images/node3 on.png") as Texture2D;
         nodeStyleRandomizer_selected.border = new RectOffset(12, 12, 12, 12);
+
+        inPointStyle = new GUIStyle();
+        inPointStyle.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/btn left.png") as Texture2D;
+        inPointStyle.active.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/btn left on.png") as Texture2D;
+        inPointStyle.border = new RectOffset(4, 4, 12, 12);
+
+        outPointStyle = new GUIStyle();
+        outPointStyle.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/btn right.png") as Texture2D;
+        outPointStyle.active.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/btn right on.png") as Texture2D;
+        outPointStyle.border = new RectOffset(4, 4, 12, 12);
     }
 
     void OnGUI()
@@ -111,6 +134,7 @@ public class DialogueSceneEditor : EditorWindow
         DrawGrid(100, 0.4f, Color.gray);
 
         DrawNodes();
+        DrawConnections();
 
         ProcessNodeEvents(Event.current);
         ProcessEvents(Event.current);
@@ -127,6 +151,16 @@ public class DialogueSceneEditor : EditorWindow
             for (int i = 0; i < nodes.Count; i++)
             {
                 nodes[i].Draw();
+            }
+        }
+    }
+    private void DrawConnections()
+    {
+        if (connections != null)
+        {
+            for (int i = 0; i < connections.Count; i++)
+            {
+                connections[i].Draw();
             }
         }
     }
@@ -236,35 +270,94 @@ public class DialogueSceneEditor : EditorWindow
         {
             case DialogueNodeType.Replica:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
-                    nodeStyleReplica_default, nodeStyleReplica_selected));
+                    nodeStyleReplica_default, nodeStyleReplica_selected, inPointStyle, outPointStyle,
+                    OnClickInPoint, OnClickOutPoint));
                 break;
             case DialogueNodeType.Choice:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
-                    nodeStyleReplica_default, nodeStyleReplica_selected));
+                    nodeStyleReplica_default, nodeStyleReplica_selected, inPointStyle, outPointStyle,
+                    OnClickInPoint, OnClickOutPoint));
                 break;
             case DialogueNodeType.Condition:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
-                    nodeStyleCondition_default, nodeStyleCondition_selected));
+                    nodeStyleCondition_default, nodeStyleCondition_selected, inPointStyle, outPointStyle,
+                    OnClickInPoint, OnClickOutPoint));
                 break;
             case DialogueNodeType.Event:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
-                    nodeStyleEvent_default, nodeStyleEvent_selected));
+                    nodeStyleEvent_default, nodeStyleEvent_selected, inPointStyle, outPointStyle,
+                    OnClickInPoint, OnClickOutPoint));
                 break;
             case DialogueNodeType.Link:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
-                    nodeStyleLink_default, nodeStyleLink_selected));
+                    nodeStyleLink_default, nodeStyleLink_selected, inPointStyle, outPointStyle,
+                    OnClickInPoint, OnClickOutPoint));
                 break;
             case DialogueNodeType.Randomizer:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
-                    nodeStyleRandomizer_default, nodeStyleRandomizer_selected));
+                    nodeStyleRandomizer_default, nodeStyleRandomizer_selected, inPointStyle, outPointStyle,
+                    OnClickInPoint, OnClickOutPoint));
                 break;
             default:
                 nodes.Add(new EditorNode(mousePosition, 200, 50, 
-                    nodeStyleReplica_default, nodeStyleReplica_selected));
+                    nodeStyleReplica_default, nodeStyleReplica_selected, inPointStyle, outPointStyle,
+                    OnClickInPoint, OnClickOutPoint));
                 break;
         }
 
 
+    }
+
+    private void OnClickInPoint(ConnectionPoint inPoint)
+    {
+        selectedInPoint = inPoint;
+
+        if (selectedOutPoint != null)
+        {
+            if (selectedOutPoint.node != selectedInPoint.node)
+            {
+                CreateConnection();
+                ClearConnectionSelection();
+            }
+            else
+            {
+                ClearConnectionSelection();
+            }
+        }
+    }
+
+    private void OnClickOutPoint(ConnectionPoint outPoint)
+    {
+        selectedOutPoint = outPoint;
+
+        if (selectedInPoint != null)
+        {
+            if (selectedOutPoint.node != selectedInPoint.node)
+            {
+                CreateConnection();
+                ClearConnectionSelection();
+            }
+            else
+            {
+                ClearConnectionSelection();
+            }
+        }
+    }
+
+    private void CreateConnection()
+    {
+        if (connections == null)
+        {
+            connections = new List<Connection>();
+        }
+
+        connections.Add(new Connection(selectedInPoint, selectedOutPoint/*, OnClickRemoveConnection*/));
+    }
+
+    private void ClearConnectionSelection()
+    {
+        selectedInPoint = null;
+        selectedOutPoint = null;
     }
 
     #region Отрисовка узлов
