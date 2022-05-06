@@ -351,7 +351,12 @@ public class DialogueSceneEditor : EditorWindow
             connections = new List<Connection>();
         }
 
-        connections.Add(new Connection(selectedInPoint, selectedOutPoint/*, OnClickRemoveConnection*/));
+        connections.Add(new Connection(selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
+    }
+
+    private void OnClickRemoveConnection(Connection connection)
+    {
+        connections.Remove(connection);
     }
 
     private void ClearConnectionSelection()
