@@ -118,7 +118,7 @@ public class DialogueSceneEditor : EditorWindow
             EditorGUIUtility.Load("builtin skins/darkskin/images/btn left.png") as Texture2D;
         inPointStyle.active.background =
             EditorGUIUtility.Load("builtin skins/darkskin/images/btn left on.png") as Texture2D;
-        inPointStyle.border = new RectOffset(4, 4, 12, 12);
+        inPointStyle.border = new RectOffset(4, 4, 4, 4);
 
         outPointStyle = new GUIStyle();
         outPointStyle.normal.background =
@@ -135,6 +135,8 @@ public class DialogueSceneEditor : EditorWindow
 
         DrawNodes();
         DrawConnections();
+
+        DrawConnectionLine(Event.current);
 
         ProcessNodeEvents(Event.current);
         ProcessEvents(Event.current);
@@ -162,6 +164,38 @@ public class DialogueSceneEditor : EditorWindow
             {
                 connections[i].Draw();
             }
+        }
+    }
+    private void DrawConnectionLine(Event e)
+    {
+        if (selectedInPoint != null && selectedOutPoint == null)
+        {
+            Handles.DrawBezier(
+                selectedInPoint.rect.center,
+                e.mousePosition,
+                selectedInPoint.rect.center + Vector2.left * 50f,
+                e.mousePosition - Vector2.left * 50f,
+                Color.white,
+                null,
+                2f
+            );
+
+            GUI.changed = true;
+        }
+
+        if (selectedOutPoint != null && selectedInPoint == null)
+        {
+            Handles.DrawBezier(
+                selectedOutPoint.rect.center,
+                e.mousePosition,
+                selectedOutPoint.rect.center - Vector2.left * 50f,
+                e.mousePosition + Vector2.left * 50f,
+                Color.white,
+                null,
+                2f
+            );
+
+            GUI.changed = true;
         }
     }
 
