@@ -78,6 +78,8 @@ public class DialogueScenePoint : MonoBehaviour
         camPosBufer = sceneCamera.position;
         camRotBufer = sceneCamera.rotation;
 
+        scene.LoadAllNodes();
+
         if (currentIndex >= 0)
         {
             PreparePlayersToDialogue();
@@ -137,7 +139,14 @@ public class DialogueScenePoint : MonoBehaviour
 
                 if (activeDialogueController.useAutoChoice)
                 {
-                    StartNode(choice.nextNodesNumbers[currentIndex]);
+                    if (useNetwork)
+                    {
+                        ActivateNodeWithIDEvent?.Invoke(choice.nextNodesNumbers[currentIndex]);
+                    }
+                    else
+                    {
+                        StartNode(choice.nextNodesNumbers[currentIndex]);
+                    }
                     return;
                 }
             }
