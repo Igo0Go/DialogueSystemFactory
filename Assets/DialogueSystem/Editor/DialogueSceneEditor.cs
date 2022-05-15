@@ -25,6 +25,9 @@ public class DialogueSceneEditor : EditorWindow
         DrawGrid(20, 0.2f, Color.gray);
         DrawGrid(100, 0.4f, Color.gray);
 
+
+        ProcessEvents(Event.current);
+
         if(GUI.changed)
         {
             Repaint();
@@ -33,7 +36,26 @@ public class DialogueSceneEditor : EditorWindow
 
     #endregion
 
-    #region Вспомогательные методы ОТРИСОВКА
+    #region События
+
+    private void ProcessEvents(Event e)
+    {
+        drag = Vector2.zero;
+
+        switch (e.type)
+        {
+            case EventType.MouseDrag:
+                if (e.button == 2)
+                {
+                    OnDrag(e.delta);
+                }
+                break;
+        }
+    }
+
+    #endregion
+
+    #region ОТРИСОВКА
 
     private void DrawGrid(float gridSpacing, float gridOpacity, Color gridColor)
     {
@@ -60,6 +82,17 @@ public class DialogueSceneEditor : EditorWindow
 
         Handles.color = Color.white;
         Handles.EndGUI();
+    }
+
+    #endregion
+
+    #region ОБРАБОТКА СОБЫТИЙ
+
+    private void OnDrag(Vector2 delta)
+    {
+        drag = delta;
+
+        GUI.changed = true;
     }
 
     #endregion
