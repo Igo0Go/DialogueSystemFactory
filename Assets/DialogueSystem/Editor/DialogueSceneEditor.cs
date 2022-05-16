@@ -61,6 +61,12 @@ public class DialogueSceneEditor : EditorWindow
 
         switch (e.type)
         {
+            case EventType.MouseDown:
+                if (e.button == 1)
+                {
+                    ProcessContextMenu(e.mousePosition);
+                }
+                break;
             case EventType.MouseDrag:
                 if (e.button == 2)
                 {
@@ -105,6 +111,14 @@ public class DialogueSceneEditor : EditorWindow
 
     #region ÎÁÐÀÁÎÒÊÀ ÑÎÁÛÒÈÉ
 
+    private void ProcessContextMenu(Vector2 mousePosition)
+    {
+        GenericMenu genericMenu = new GenericMenu();
+        genericMenu.AddItem(new GUIContent("Ê òî÷êå âõîäà"), false, () => OnToStartClick());
+
+        genericMenu.ShowAsContext();
+    }
+
     private void OnDrag(Vector2 delta)
     {
         drag = delta;
@@ -112,6 +126,12 @@ public class DialogueSceneEditor : EditorWindow
         startNode.Drag(delta);
 
         GUI.changed = true;
+    }
+
+    private void OnToStartClick()
+    {
+        Vector2 delta = -startNode.rect.position;
+        OnDrag(delta);
     }
 
     #endregion
