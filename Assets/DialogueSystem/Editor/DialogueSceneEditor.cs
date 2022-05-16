@@ -6,9 +6,12 @@ public class DialogueSceneEditor : EditorWindow
     #region Поля
 
     private DialogueSceneKit scene;
+    private StartNode startNode;
 
     private Vector2 drag;
     private Vector2 offset;
+
+    private GUIStyle startNodeStyle;
 
     #endregion
 
@@ -20,11 +23,25 @@ public class DialogueSceneEditor : EditorWindow
         return window;
     }
 
+    private void OnEnable()
+    {
+        startNodeStyle = new GUIStyle();
+        startNodeStyle.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node5.png") as Texture2D;
+        startNodeStyle.border = new RectOffset(0, 0, 0, 0);
+        startNodeStyle.active.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node5 on.png") as Texture2D;
+        startNodeStyle.border = new RectOffset(0, 0, 0, 0);
+
+        startNode = new StartNode(startNodeStyle);
+    }
+
     private void OnGUI()
     {
         DrawGrid(20, 0.2f, Color.gray);
         DrawGrid(100, 0.4f, Color.gray);
 
+        startNode.Draw();
 
         ProcessEvents(Event.current);
 
@@ -91,6 +108,8 @@ public class DialogueSceneEditor : EditorWindow
     private void OnDrag(Vector2 delta)
     {
         drag = delta;
+
+        startNode.Drag(delta);
 
         GUI.changed = true;
     }
