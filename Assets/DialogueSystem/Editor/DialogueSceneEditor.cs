@@ -60,8 +60,9 @@ public class DialogueSceneEditor : EditorWindow
         DrawNodes();
 
         ProcessEvents(Event.current);
+        ProcessNodeEvents(Event.current);
 
-        if(GUI.changed)
+        if (GUI.changed)
         {
             Repaint();
         }
@@ -89,6 +90,22 @@ public class DialogueSceneEditor : EditorWindow
                     OnDrag(e.delta);
                 }
                 break;
+        }
+    }
+
+    private void ProcessNodeEvents(Event e)
+    {
+        if (scene.nodes != null)
+        {
+            for (int i = scene.nodes.Count - 1; i >= 0; i--)
+            {
+                bool guiChanged = scene.nodes[i].ProcessEvents(e);
+
+                if (guiChanged)
+                {
+                    GUI.changed = true;
+                }
+            }
         }
     }
 

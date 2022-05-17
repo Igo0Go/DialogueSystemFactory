@@ -36,6 +36,9 @@ public class DialogueNode
     /// </summary>
     public Rect rect;
 
+    private bool isSelected;
+
+
     public GUIStyle style;
     public GUIStyle defaultNodeStyle;
     public GUIStyle selectedNodeStyle;
@@ -115,6 +118,35 @@ public class DialogueNode
     public void Draw()
     {
         GUI.Box(rect, "", style);
+    }
+
+    #endregion
+
+    #region Обработка событий
+
+    public bool ProcessEvents(Event e)
+    {
+        switch (e.type)
+        {
+            case EventType.MouseDown:
+                if (e.button == 0)
+                {
+                    if (rect.Contains(e.mousePosition))
+                    {
+                        GUI.changed = true;
+                        isSelected = true;
+                        style = selectedNodeStyle;
+                    }
+                    else
+                    {
+                        GUI.changed = true;
+                        isSelected = false;
+                        style = defaultNodeStyle;
+                    }
+                }
+                break;
+        }
+        return false;
     }
 
     #endregion
