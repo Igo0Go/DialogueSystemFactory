@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class DialogueSceneEditor : EditorWindow
 {
@@ -11,7 +12,11 @@ public class DialogueSceneEditor : EditorWindow
     private Vector2 drag;
     private Vector2 offset;
 
+    #region —ÚËÎË
     private GUIStyle startNodeStyle;
+    private GUIStyle nodeStyleReplica_default;
+    private GUIStyle nodeStyleReplica_selected;
+    #endregion
 
     #endregion
 
@@ -33,6 +38,16 @@ public class DialogueSceneEditor : EditorWindow
             EditorGUIUtility.Load("builtin skins/darkskin/images/node5 on.png") as Texture2D;
         startNodeStyle.border = new RectOffset(0, 0, 0, 0);
 
+        nodeStyleReplica_default = new GUIStyle();
+        nodeStyleReplica_default.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node0.png") as Texture2D;
+        nodeStyleReplica_default.border = new RectOffset(12, 12, 12, 12);
+
+        nodeStyleReplica_selected = new GUIStyle();
+        nodeStyleReplica_selected.normal.background =
+            EditorGUIUtility.Load("builtin skins/darkskin/images/node0 on.png") as Texture2D;
+        nodeStyleReplica_selected.border = new RectOffset(12, 12, 12, 12);
+
         startNode = new StartNode(startNodeStyle);
     }
 
@@ -42,6 +57,7 @@ public class DialogueSceneEditor : EditorWindow
         DrawGrid(100, 0.4f, Color.gray);
 
         startNode.Draw();
+        DrawNodes();
 
         ProcessEvents(Event.current);
 
@@ -107,6 +123,17 @@ public class DialogueSceneEditor : EditorWindow
         Handles.EndGUI();
     }
 
+    private void DrawNodes()
+    {
+        if (scene.nodes != null)
+        {
+            for (int i = 0; i < scene.nodes.Count; i++)
+            {
+                scene.nodes[i].Draw();
+            }
+        }
+    }
+
     #endregion
 
     #region Œ¡–¿¡Œ“ ¿ —Œ¡€“»…
@@ -115,6 +142,7 @@ public class DialogueSceneEditor : EditorWindow
     {
         GenericMenu genericMenu = new GenericMenu();
         genericMenu.AddItem(new GUIContent("  ÚÓ˜ÍÂ ‚ıÓ‰‡"), false, () => OnToStartClick());
+        genericMenu.AddItem(new GUIContent("—ÓÁ‰‡Ú¸ ÛÁÂÎ"), false, () => CreateNewNode(mousePosition));
 
         genericMenu.ShowAsContext();
     }
@@ -132,6 +160,21 @@ public class DialogueSceneEditor : EditorWindow
     {
         Vector2 delta = -startNode.rect.position;
         OnDrag(delta);
+    }
+
+    #endregion
+
+    #region ÀÓ„ËÍ‡
+
+    public void CreateNewNode(Vector2 position)
+    {
+        if(scene.nodes == null)
+        {
+            scene.nodes = new List<DialogueNode>();
+        }
+
+        scene.nodes.Add(new DialogueNode(position, scene.nodes.Count,
+            nodeStyleReplica_default, nodeStyleReplica_selected));
     }
 
     #endregion
