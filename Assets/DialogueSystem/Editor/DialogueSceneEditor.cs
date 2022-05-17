@@ -169,6 +169,13 @@ public class DialogueSceneEditor : EditorWindow
         drag = delta;
 
         startNode.Drag(delta);
+        if (scene.nodes != null)
+        {
+            for (int i = 0; i < scene.nodes.Count; i++)
+            {
+                scene.nodes[i].Drag(delta);
+            }
+        }
 
         GUI.changed = true;
     }

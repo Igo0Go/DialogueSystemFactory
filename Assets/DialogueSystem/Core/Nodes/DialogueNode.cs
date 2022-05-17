@@ -37,6 +37,7 @@ public class DialogueNode
     public Rect rect;
 
     private bool isSelected;
+    private bool isDragged;
 
 
     public GUIStyle style;
@@ -58,7 +59,7 @@ public class DialogueNode
         previousNodesNumbers = new List<int>();
         nextNodesNumbers = new List<int>();
 
-        rect = new Rect(position.x, position.y, 100, 40);
+        rect = new Rect(position.x, position.y, 110, 40);
         defaultNodeStyle = style = defaultStyle;
         selectedNodeStyle = selectedStyle;
     }
@@ -120,6 +121,11 @@ public class DialogueNode
         GUI.Box(rect, "", style);
     }
 
+    public void Drag(Vector2 delta)
+    {
+        rect.position += delta;
+    }
+
     #endregion
 
     #region Обработка событий
@@ -133,6 +139,7 @@ public class DialogueNode
                 {
                     if (rect.Contains(e.mousePosition))
                     {
+                        isDragged = true;
                         GUI.changed = true;
                         isSelected = true;
                         style = selectedNodeStyle;
@@ -143,6 +150,19 @@ public class DialogueNode
                         isSelected = false;
                         style = defaultNodeStyle;
                     }
+                }
+                break;
+
+            case EventType.MouseUp:
+                isDragged = false;
+                break;
+
+            case EventType.MouseDrag:
+                if (e.button == 0 && isDragged)
+                {
+                    Drag(e.delta);
+                    e.Use();
+                    return true;
                 }
                 break;
         }
