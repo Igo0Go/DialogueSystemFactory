@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-public class DialogueNode
+public class DialogueNode : IDrawableElement, IDragableElement
 {
     #region Поля и свойства
 
@@ -35,12 +35,26 @@ public class DialogueNode
     /// <summary>
     /// Прямоугольник, в котором отрисовывается узел
     /// </summary>
-    public Rect rect;
+    public Rect Rect
+    {
+        get
+        {
+            return _rect;
+        }
+        set
+        {
+            _rect = value;
+        }
+    }
+    private Rect _rect;
 
     private bool isSelected;
     private bool isDragged;
 
     public Action<DialogueNode> OnRemoveNode;
+
+    private ConnectionPoint inPoint;
+    private ConnectionPoint outPoint;
 
     public GUIStyle style;
     public GUIStyle defaultNodeStyle;
@@ -56,15 +70,22 @@ public class DialogueNode
     /// <param name="pos">позиция узла в координатах схемы</param>
     /// <param name="index">индекс узла в схеме</param>
     public DialogueNode(Vector2 position, int index, GUIStyle defaultStyle, GUIStyle selectedStyle,
-        Action<DialogueNode> onRemove)
+        Action<DialogueNode> onRemove,
+        GUIStyle inPointStyle, GUIStyle outPointStyle,
+        Action<IConnectionPoint> OnClickInPoint)
     {
         this.index = index;
         previousNodesNumbers = new List<int>();
         nextNodesNumbers = new List<int>();
 
-        rect = new Rect(position.x, position.y, 110, 40);
+        Rect = new Rect(position.x, position.y, 110, 40);
         defaultNodeStyle = style = defaultStyle;
         selectedNodeStyle = selectedStyle;
+
+        inPoint = new ConnectionPoint(new Vector2(-55, -10), this, ConnectionPointType.In, inPointStyle,
+            OnClickInPoint);
+        outPoint = new ConnectionPoint(new Vector2(45, -10), this, ConnectionPointType.Out, outPointStyle,
+            OnClickInPoint);
 
         OnRemoveNode = onRemove;
     }
@@ -123,12 +144,14 @@ public class DialogueNode
 
     public void Draw()
     {
-        GUI.Box(rect, "", style);
+        inPoint.Draw();
+        outPoint.Draw();
+        GUI.Box(Rect, "", style);
     }
 
     public void Drag(Vector2 delta)
     {
-        rect.position += delta;
+        _rect.position += delta;
     }
 
     #endregion
@@ -142,7 +165,7 @@ public class DialogueNode
             case EventType.MouseDown:
                 if (e.button == 0)
                 {
-                    if (rect.Contains(e.mousePosition))
+                    if (Rect.Contains(e.mousePosition))
                     {
                         isDragged = true;
                         GUI.changed = true;
@@ -156,7 +179,7 @@ public class DialogueNode
                         style = defaultNodeStyle;
                     }
                 }
-                if (e.button == 1 && isSelected && rect.Contains(e.mousePosition))
+                if (e.button == 1 && isSelected && Rect.Contains(e.mousePosition))
                 {
                     ProcessContextMenu();
                     e.Use();
