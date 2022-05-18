@@ -186,6 +186,11 @@ public class DialogueSceneEditor : EditorWindow
         OnDrag(delta);
     }
 
+    private void OnClickRemoveNode(DialogueNode node)
+    {
+        scene.nodes.Remove(node);
+    }
+
     #endregion
 
     #region Логика
@@ -198,7 +203,7 @@ public class DialogueSceneEditor : EditorWindow
         }
 
         scene.nodes.Add(new DialogueNode(position, scene.nodes.Count,
-            nodeStyleReplica_default, nodeStyleReplica_selected));
+            nodeStyleReplica_default, nodeStyleReplica_selected, OnClickRemoveNode));
     }
 
     #endregion

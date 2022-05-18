@@ -1,6 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using System;
 
 public class DialogueNode
 {
@@ -39,6 +40,7 @@ public class DialogueNode
     private bool isSelected;
     private bool isDragged;
 
+    public Action<DialogueNode> OnRemoveNode;
 
     public GUIStyle style;
     public GUIStyle defaultNodeStyle;
@@ -53,7 +55,8 @@ public class DialogueNode
     /// </summary>
     /// <param name="pos">позиция узла в координатах схемы</param>
     /// <param name="index">индекс узла в схеме</param>
-    public DialogueNode(Vector2 position, int index, GUIStyle defaultStyle, GUIStyle selectedStyle)
+    public DialogueNode(Vector2 position, int index, GUIStyle defaultStyle, GUIStyle selectedStyle,
+        Action<DialogueNode> onRemove)
     {
         this.index = index;
         previousNodesNumbers = new List<int>();
@@ -62,6 +65,8 @@ public class DialogueNode
         rect = new Rect(position.x, position.y, 110, 40);
         defaultNodeStyle = style = defaultStyle;
         selectedNodeStyle = selectedStyle;
+
+        OnRemoveNode = onRemove;
     }
     #endregion
 
@@ -151,6 +156,11 @@ public class DialogueNode
                         style = defaultNodeStyle;
                     }
                 }
+                if (e.button == 1 && isSelected && rect.Contains(e.mousePosition))
+                {
+                    ProcessContextMenu();
+                    e.Use();
+                }
                 break;
 
             case EventType.MouseUp:
@@ -167,6 +177,18 @@ public class DialogueNode
                 break;
         }
         return false;
+    }
+
+    private void ProcessContextMenu()
+    {
+        GenericMenu genericMenu = new GenericMenu();
+        genericMenu.AddItem(new GUIContent("Remove node"), false, OnClickRemoveNode);
+        genericMenu.ShowAsContext();
+    }
+
+    private void OnClickRemoveNode()
+    {
+        OnRemoveNode?.Invoke(this);
     }
 
     #endregion
