@@ -7,12 +7,10 @@ public class DialogueSceneEditor : EditorWindow
     #region Поля
 
     private DialogueSceneKit scene;
-    private List<Connection> connections;
 
     private Vector2 drag;
     private Vector2 offset;
 
-    private StartNode startNode;
     private IConnectionPoint selectedInPoint;
     private IConnectionPoint selectedOutPoint;
 
@@ -31,11 +29,18 @@ public class DialogueSceneEditor : EditorWindow
     {
         DialogueSceneEditor window = GetWindow<DialogueSceneEditor>();
         window.scene = sceneKit;
+        if (window.scene.startNode == null)
+        {
+            window.scene.startNode = new StartNode(window.startNodeStyle, window.OnClickConnectionPoint);
+        }
+        window.UpdateSceneData();
         return window;
     }
 
     private void OnEnable()
     {
+        ClearConnectionSelection();
+
         startNodeStyle = new GUIStyle();
         startNodeStyle.normal.background =
             EditorGUIUtility.Load("builtin skins/darkskin/images/node5.png") as Texture2D;
@@ -67,8 +72,6 @@ public class DialogueSceneEditor : EditorWindow
         outPointStyle.active.background =
             EditorGUIUtility.Load("builtin skins/darkskin/images/btn right on.png") as Texture2D;
         outPointStyle.border = new RectOffset(4, 4, 12, 12);
-
-        startNode = new StartNode(startNodeStyle, OnClickConnectionPoint);
     }
 
     private void OnGUI()
@@ -77,7 +80,7 @@ public class DialogueSceneEditor : EditorWindow
         DrawGrid(100, 0.4f, Color.gray);
 
         DrawConnections();
-        startNode.Draw();
+        scene.startNode.Draw();
         DrawNodes();
 
         DrawConnectionLine(Event.current);
@@ -176,11 +179,11 @@ public class DialogueSceneEditor : EditorWindow
 
     private void DrawConnections()
     {
-        if (connections != null)
+        if (scene.connections != null)
         {
-            for (int i = 0; i < connections.Count; i++)
+            for (int i = 0; i < scene.connections.Count; i++)
             {
-                connections[i].Draw();
+                scene.connections[i].Draw();
             }
         }
     }
@@ -234,7 +237,7 @@ public class DialogueSceneEditor : EditorWindow
     {
         drag = delta;
 
-        startNode.Drag(delta);
+        scene.startNode.Drag(delta);
         if (scene.nodes != null)
         {
             for (int i = 0; i < scene.nodes.Count; i++)
@@ -248,7 +251,7 @@ public class DialogueSceneEditor : EditorWindow
 
     private void OnToStartClick()
     {
-        Vector2 delta = -startNode.Rect.position;
+        Vector2 delta = -scene.startNode.Rect.position;
         OnDrag(delta);
     }
 
@@ -295,19 +298,10 @@ public class DialogueSceneEditor : EditorWindow
         }
     }
 
-    private void CreateConnection()
-    {
-        if (connections == null)
-        {
-            connections = new List<Connection>();
-        }
-
-        connections.Add(new Connection(selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
-    }
-
     private void OnClickRemoveConnection(Connection connection)
     {
-        connections.Remove(connection);
+        connection.inPoint.CurrentConnection = connection.outPoint.CurrentConnection = null;
+        scene.connections.Remove(connection);
     }
 
     private void ClearConnectionSelection()
@@ -318,6 +312,22 @@ public class DialogueSceneEditor : EditorWindow
     #endregion
 
     #region Логика
+
+    private void CreateConnection()
+    {
+        selectedOutPoint.CurrentConnection?.
+            OnClickRemoveConnection(selectedOutPoint.CurrentConnection);
+        selectedInPoint.CurrentConnection?.
+            OnClickRemoveConnection(selectedInPoint.CurrentConnection);
+
+
+        if (scene.connections == null)
+        {
+            scene.connections = new List<Connection>();
+        }
+
+        scene.connections.Add(new Connection(selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
+    }
 
     public void CreateNewNode(Vector2 position)
     {
@@ -331,5 +341,19 @@ public class DialogueSceneEditor : EditorWindow
             OnClickConnectionPoint));
     }
 
+    private void UpdateSceneData()
+    {
+        if(scene != null)
+        {
+            scene.startNode.UpdateDelegates(OnClickConnectionPoint);
+            if(scene.nodes != null)
+            {
+                foreach (var item in scene.nodes)
+                {
+                    item.UpdateNodeDelegates(OnClickRemoveNode, OnClickConnectionPoint);
+                }
+            }
+        }
+    }
     #endregion
 }

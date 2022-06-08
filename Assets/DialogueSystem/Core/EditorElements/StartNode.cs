@@ -1,10 +1,9 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
-public class StartNode : IDragableElement, IConnectionPoint
+public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHaveOneNextNode
 {
-    public int firstNodeNomber = -1;
-
     private GUIStyle style;
     public ConnectionPointType PointType { get; set; }
     public Action<IConnectionPoint> OnClickConnectionPoint { get; set; }
@@ -24,12 +23,40 @@ public class StartNode : IDragableElement, IConnectionPoint
         }
     }
 
+    public int NodeIndex => -2;
+
+    public Connection CurrentConnection { get; set; }
+    public Action<int> OnRemoveNext { get; set ; }
+    public Action<int> OnRemovePrevoius { get; set; } = (item) => { };
+    public List<int> NextNodesNumbers { get; set; }
+
+    public int NextNodeNumber
+    {
+        get 
+        {
+            if (NextNodesNumbers != null && NextNodesNumbers.Count > 0)
+                return NextNodesNumbers[0];
+            return -1;
+        }
+        set
+        {
+            if (NextNodesNumbers == null)
+                NextNodesNumbers = new List<int>();
+
+            NextNodesNumbers[0] = value;
+        }
+    }
+
     private Rect _rect = new Rect(0, 0, 70, 30);
 
     public StartNode(GUIStyle style, Action<IConnectionPoint> OnClickInPoint)
     {
         this.style = style;
         PointType = ConnectionPointType.Out;
+        UpdateDelegates(OnClickInPoint);
+    }
+    public void UpdateDelegates(Action<IConnectionPoint> OnClickInPoint)
+    {
         OnClickConnectionPoint = OnClickInPoint;
     }
 
@@ -53,5 +80,10 @@ public class StartNode : IDragableElement, IConnectionPoint
     public bool Equals(IConnectionPoint other)
     {
         return false;
+    }
+
+    public void RemoveThisNodeFromPrevious(int nodeForRemoving)
+    {
+        NextNodesNumbers.RemoveAll(item => item == nodeForRemoving);
     }
 }

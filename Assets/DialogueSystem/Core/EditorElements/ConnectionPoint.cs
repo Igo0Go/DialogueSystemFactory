@@ -24,10 +24,15 @@ public class ConnectionPoint : IConnectionPoint
     private Rect _rect;
 
     public DialogueNode node;
+    public int NodeIndex => node.Index;
     public GUIStyle style;
 
     public ConnectionPointType PointType { get; set; }
     public Action<IConnectionPoint> OnClickConnectionPoint { get; set; }
+    public Connection CurrentConnection { get; set; }
+    public IHavePreviousNodes havePreviousNodes { get; set; }
+    public Action<int> OnRemoveNext { get; set; }
+    public Action<int> OnRemovePrevoius { get; set; }
 
     private Vector2 offset;
 
@@ -40,6 +45,15 @@ public class ConnectionPoint : IConnectionPoint
         this.offset = offset;
         this.OnClickConnectionPoint = OnClickConnectionPoint;
         _rect = new Rect(0, 0, 10f, 20f);
+
+        OnRemoveNext = node.RemoveThisNodeFromNext;
+
+    }
+    public void UpdateDelegates(Action<IConnectionPoint> OnClickConnectionPoint)
+    {
+        this.OnClickConnectionPoint = OnClickConnectionPoint;
+        OnRemoveNext = node.RemoveThisNodeFromNext;
+
     }
 
     public void Draw()
@@ -63,7 +77,7 @@ public class ConnectionPoint : IConnectionPoint
         }
         else if (other is ConnectionPoint point)
         {
-            return node.index == point.node.index;
+            return node.Index == point.node.Index;
         }
         return false;
     }

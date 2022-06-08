@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-public class DialogueNode : IDrawableElement, IDragableElement
+public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNodes, IHaveOneNextNode
 {
     #region Поля и свойства
 
@@ -12,22 +12,42 @@ public class DialogueNode : IDrawableElement, IDragableElement
     /// <summary>
     /// Номер в схеме диалога
     /// </summary>
-    public int index;
+    public int Index { get; set; }
 
     /// <summary>
-    /// Индексы предыдущих узлов
+    /// Индекс следующего узла
     /// </summary>
-    public List<int> previousNodesNumbers;
+    public int NextNodeNumber
+    {
+        get
+        {
+            if (NextNodesNumbers != null && NextNodesNumbers.Count > 0)
+                return NextNodesNumbers[0];
+            return -1;
+        }
+        set
+        {
+            if (NextNodesNumbers == null)
+                NextNodesNumbers = new List<int>();
+
+            NextNodesNumbers[0] = value;
+        }
+    }
 
     /// <summary>
     /// Индексы следующих узлов
     /// </summary>
-    public List<int> nextNodesNumbers;
+    public List<int> NextNodesNumbers { get; set; }
 
     /// <summary>
     /// Этот узел заканчивает диалог/группу
     /// </summary>
     public bool finalNode;
+
+    /// <summary>
+    /// Индексы предыдущих узлов
+    /// </summary>
+    public List<int> PreviousNodeNumbers { get; set; }
 
     #endregion
 
@@ -46,6 +66,9 @@ public class DialogueNode : IDrawableElement, IDragableElement
             _rect = value;
         }
     }
+
+
+
     private Rect _rect;
 
     private bool isSelected;
@@ -63,7 +86,7 @@ public class DialogueNode : IDrawableElement, IDragableElement
 
     #endregion
 
-    #region Конструкторы
+    #region Создание и обновление
     /// <summary>
     /// Создать дилоговый узел с указанным индексом в указанной позиции
     /// </summary>
@@ -74,9 +97,9 @@ public class DialogueNode : IDrawableElement, IDragableElement
         GUIStyle inPointStyle, GUIStyle outPointStyle,
         Action<IConnectionPoint> OnClickInPoint)
     {
-        this.index = index;
-        previousNodesNumbers = new List<int>();
-        nextNodesNumbers = new List<int>();
+        this.Index = index;
+        PreviousNodeNumbers = new List<int>();
+        NextNodesNumbers = new List<int>();
 
         Rect = new Rect(position.x, position.y, 110, 40);
         defaultNodeStyle = style = defaultStyle;
@@ -89,6 +112,13 @@ public class DialogueNode : IDrawableElement, IDragableElement
 
         OnRemoveNode = onRemove;
     }
+
+    public void UpdateNodeDelegates(Action<DialogueNode> onRemove, Action<IConnectionPoint> OnClickInPoint)
+    {
+        OnRemoveNode = onRemove;
+        inPoint.UpdateDelegates(OnClickInPoint);
+        outPoint.UpdateDelegates(OnClickInPoint);
+    }
     #endregion
 
     #region Методы
@@ -98,18 +128,18 @@ public class DialogueNode : IDrawableElement, IDragableElement
     /// <summary>
     /// Удалить указанный узел из списка следующих
     /// </summary>
-    public void RemoveThisNodeFromNext(DialogueNode nodeForRemoving)
+    public void RemoveThisNodeFromNext(int nodeForRemoving)
     {
-        nextNodesNumbers.RemoveAll(item => item == nodeForRemoving.index);
+        NextNodesNumbers.RemoveAll(item => item == nodeForRemoving);
     }
 
     /// <summary>
     /// Удалить указанный узел из списка предыдущих
     /// </summary>
     /// <param name="nodeForRemoving">удаляемый узел</param>
-    public void RemoveThisNodeFromPrevious(DialogueNode nodeForRemoving)
+    public void RemoveThisNodeFromPrevious(int nodeForRemoving)
     {
-        previousNodesNumbers.RemoveAll(item => item == nodeForRemoving.index);
+        PreviousNodeNumbers.RemoveAll(item => item == nodeForRemoving);
     }
 
     /// <summary>
@@ -118,22 +148,22 @@ public class DialogueNode : IDrawableElement, IDragableElement
     /// <param name="removedIndex">индекс только что удалённого узла</param>
     public void CheckIndexes(int removedIndex)
     {
-        if (index > removedIndex)
+        if (Index > removedIndex)
         {
-            index--;
+            Index--;
         }
-        for (int i = 0; i < previousNodesNumbers.Count; i++)
+        for (int i = 0; i < PreviousNodeNumbers.Count; i++)
         {
-            if (previousNodesNumbers[i] > removedIndex)
+            if (PreviousNodeNumbers[i] > removedIndex)
             {
-                previousNodesNumbers[i]--;
+                PreviousNodeNumbers[i]--;
             }
         }
-        for (int i = 0; i < nextNodesNumbers.Count; i++)
+        for (int i = 0; i < NextNodesNumbers.Count; i++)
         {
-            if (nextNodesNumbers[i] > removedIndex)
+            if (NextNodesNumbers[i] > removedIndex)
             {
-                nextNodesNumbers[i]--;
+                NextNodesNumbers[i]--;
             }
         }
     }
@@ -146,7 +176,7 @@ public class DialogueNode : IDrawableElement, IDragableElement
     {
         inPoint.Draw();
         outPoint.Draw();
-        GUI.Box(Rect, "", style);
+        GUI.Box(Rect, Index.ToString() , style);
     }
 
     public void Drag(Vector2 delta)

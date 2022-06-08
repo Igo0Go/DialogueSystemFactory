@@ -13,6 +13,12 @@ public class Connection
     {
         this.inPoint = inPoint;
         this.outPoint = outPoint;
+        inPoint.CurrentConnection = outPoint.CurrentConnection = this;
+        UpdateDelegates(OnClickRemoveConnection);
+    }
+
+    public void UpdateDelegates(Action<Connection> OnClickRemoveConnection)
+    {
         this.OnClickRemoveConnection = OnClickRemoveConnection;
     }
 
