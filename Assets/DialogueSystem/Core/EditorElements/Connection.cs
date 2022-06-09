@@ -14,6 +14,8 @@ public class Connection
         this.inPoint = inPoint;
         this.outPoint = outPoint;
         inPoint.CurrentConnection = outPoint.CurrentConnection = this;
+        inPoint.SaveReferenceToNode(outPoint.NodeIndex);
+        outPoint.SaveReferenceToNode(inPoint.NodeIndex);
         UpdateDelegates(OnClickRemoveConnection);
     }
 

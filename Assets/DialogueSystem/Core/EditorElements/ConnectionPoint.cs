@@ -25,6 +25,7 @@ public class ConnectionPoint : IConnectionPoint
 
     public DialogueNode node;
     public int NodeIndex => node.Index;
+    public int PointIndex { get; private set; }
     public GUIStyle style;
 
     public ConnectionPointType PointType { get; set; }
@@ -36,23 +37,24 @@ public class ConnectionPoint : IConnectionPoint
 
     private Vector2 offset;
 
-    public ConnectionPoint(Vector2 offset, DialogueNode node, ConnectionPointType type, GUIStyle style,
+    public ConnectionPoint(Vector2 offset, DialogueNode node, int indexOfPoint, ConnectionPointType type, GUIStyle style,
         Action<IConnectionPoint> OnClickConnectionPoint)
     {
         this.node = node;
-        this.PointType = type;
+        PointIndex = indexOfPoint;
+        PointType = type;
         this.style = style;
         this.offset = offset;
         this.OnClickConnectionPoint = OnClickConnectionPoint;
         _rect = new Rect(0, 0, 10f, 20f);
 
-        OnRemoveNext = node.RemoveThisNodeFromNext;
+        OnRemoveNext = node.RemoveThisNodeFromPrevious;
 
     }
     public void UpdateDelegates(Action<IConnectionPoint> OnClickConnectionPoint)
     {
         this.OnClickConnectionPoint = OnClickConnectionPoint;
-        OnRemoveNext = node.RemoveThisNodeFromNext;
+        OnRemoveNext = node.RemoveThisNodeFromPrevious;
 
     }
 
@@ -80,5 +82,17 @@ public class ConnectionPoint : IConnectionPoint
             return node.Index == point.node.Index;
         }
         return false;
+    }
+
+    public void SaveReferenceToNode(int nodeReference)
+    {
+        if(PointType == ConnectionPointType.In)
+        {
+            node.AddThisNodeInNext(nodeReference, PointIndex);
+        }
+        else
+        {
+            node.AddThisNodeInPrevious(nodeReference);
+        }
     }
 }

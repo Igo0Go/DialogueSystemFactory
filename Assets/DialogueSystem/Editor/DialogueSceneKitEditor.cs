@@ -13,7 +13,12 @@ public class DialogueSceneKitEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        EditorGUILayout.BeginHorizontal();
+        if(sceneKit.nodes != null)
+        {
+            GUILayout.Label("Количество узлов: " + sceneKit.nodes.Count.ToString());
+        }
+
+
         GUI.color = Color.cyan;
         if (GUILayout.Button("Редактировать", GUILayout.MinWidth(80)))
         {
@@ -21,6 +26,12 @@ public class DialogueSceneKitEditor : Editor
             sceneEditor.minSize = new Vector2(400, 300);
             sceneEditor.Show();
         }
-        EditorGUILayout.EndHorizontal();
+        GUI.color = Color.magenta;
+        if (GUILayout.Button("Сохранить", GUILayout.MinWidth(80)))
+        {
+            EditorUtility.SetDirty(sceneKit);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
     }
 }

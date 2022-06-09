@@ -40,18 +40,18 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
         }
         set
         {
-            if (NextNodesNumbers == null)
-                NextNodesNumbers = new List<int>();
-
             NextNodesNumbers[0] = value;
         }
     }
+
+    public int PointIndex => 0;
 
     private Rect _rect = new Rect(0, 0, 70, 30);
 
     public StartNode(GUIStyle style, Action<IConnectionPoint> OnClickInPoint)
     {
         this.style = style;
+        NextNodesNumbers = new List<int>() { -1 };
         PointType = ConnectionPointType.Out;
         UpdateDelegates(OnClickInPoint);
     }
@@ -82,8 +82,18 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
         return false;
     }
 
-    public void RemoveThisNodeFromPrevious(int nodeForRemoving)
+    public void RemoveThisNodeFromNext(int nodeForRemoving)
     {
         NextNodesNumbers.RemoveAll(item => item == nodeForRemoving);
+    }
+
+    public void SaveReferenceToNode(int nodeReference)
+    {
+        NextNodeNumber = nodeReference;
+    }
+
+    public void AddThisNodeInNext(int newNode, int outPoinIndex)
+    {
+        NextNodeNumber = newNode;
     }
 }

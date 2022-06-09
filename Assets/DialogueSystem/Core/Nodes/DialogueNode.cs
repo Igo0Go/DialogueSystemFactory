@@ -3,16 +3,21 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
+[System.Serializable]
 public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNodes, IHaveOneNextNode
 {
     #region Поля и свойства
 
     #region Логика
-
     /// <summary>
     /// Номер в схеме диалога
     /// </summary>
     public int Index { get; set; }
+
+    /// <summary>
+    /// Этот узел заканчивает диалог/группу
+    /// </summary>
+    public bool finalNode;
 
     /// <summary>
     /// Индекс следующего узла
@@ -27,9 +32,6 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
         }
         set
         {
-            if (NextNodesNumbers == null)
-                NextNodesNumbers = new List<int>();
-
             NextNodesNumbers[0] = value;
         }
     }
@@ -40,17 +42,9 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
     public List<int> NextNodesNumbers { get; set; }
 
     /// <summary>
-    /// Этот узел заканчивает диалог/группу
-    /// </summary>
-    public bool finalNode;
-
-    /// <summary>
     /// Индексы предыдущих узлов
     /// </summary>
     public List<int> PreviousNodeNumbers { get; set; }
-
-
-
     #endregion
 
     #region Отрисовка
@@ -98,15 +92,15 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
     {
         this.Index = index;
         PreviousNodeNumbers = new List<int>();
-        NextNodesNumbers = new List<int>();
+        NextNodesNumbers = new List<int>() { -1 };
 
         Rect = new Rect(position.x, position.y, 110, 40);
         defaultNodeStyle = style = defaultStyle;
         selectedNodeStyle = selectedStyle;
 
-        inPoint = new ConnectionPoint(new Vector2(-55, -10), this, ConnectionPointType.In, inPointStyle,
+        inPoint = new ConnectionPoint(new Vector2(-55, -10), this, 0, ConnectionPointType.In, inPointStyle,
             OnClickInPoint);
-        outPoint = new ConnectionPoint(new Vector2(45, -10), this, ConnectionPointType.Out, outPointStyle,
+        outPoint = new ConnectionPoint(new Vector2(45, -10), this, 0, ConnectionPointType.Out, outPointStyle,
             OnClickInPoint);
 
         OnRemoveNode = onRemove;
@@ -133,12 +127,37 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
     }
 
     /// <summary>
+    /// Добавить новый узел в список следующих (в данном случае идёт замена единственного следующего)
+    /// </summary>
+    /// <param name="newNode">индекс нового узла</param>
+    /// <param name="outPoinIndex">для какого выхода сделать ссылку (в данном случае игнорируется)</param>
+    public void AddThisNodeInNext(int newNode, int outPoinIndex)
+    {
+        NextNodeNumber = newNode;
+    }
+
+    /// <summary>
     /// Удалить указанный узел из списка предыдущих
     /// </summary>
     /// <param name="nodeForRemoving">удаляемый узел</param>
     public void RemoveThisNodeFromPrevious(int nodeForRemoving)
     {
         PreviousNodeNumbers.RemoveAll(item => item == nodeForRemoving);
+    }
+    /// <summary>
+    /// Добавить узел в список следующих
+    /// </summary>
+    /// <param name="newNode">индекс нвого узла</param>
+    public void AddThisNodeInPrevious(int newNode)
+    {
+        if (PreviousNodeNumbers == null)
+        {
+            PreviousNodeNumbers = new List<int>();
+        }
+        if (!PreviousNodeNumbers.Contains(newNode))
+        {
+            PreviousNodeNumbers.Add(newNode);
+        }
     }
 
     /// <summary>
@@ -186,7 +205,6 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
     #endregion
 
     #region Обработка событий
-
     public bool ProcessEvents(Event e)
     {
         switch (e.type)
@@ -244,6 +262,7 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
         inPoint?.CurrentConnection?.OnClickRemoveConnection(inPoint.CurrentConnection);
         OnRemoveNode?.Invoke(this);
     }
+
 
     #endregion
 

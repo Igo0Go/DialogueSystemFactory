@@ -3,5 +3,6 @@ using System.Collections.Generic;
 public interface IHaveNextNodes
 {
     List<int> NextNodesNumbers { get; set; }
-    void RemoveThisNodeFromPrevious(int nodeForRemoving);
+    void RemoveThisNodeFromNext(int nodeForRemoving);
+    void AddThisNodeInNext(int newNode, int outPoinIndex);
 }

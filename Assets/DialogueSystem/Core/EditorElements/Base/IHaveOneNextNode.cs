@@ -1,4 +1,4 @@
-public interface IHaveOneNextNode
+public interface IHaveOneNextNode : IHaveNextNodes
 {
     int NextNodeNumber { get; set; }
 }
