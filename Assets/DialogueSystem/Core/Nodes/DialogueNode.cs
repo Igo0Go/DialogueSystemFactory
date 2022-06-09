@@ -49,6 +49,8 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
     /// </summary>
     public List<int> PreviousNodeNumbers { get; set; }
 
+
+
     #endregion
 
     #region Отрисовка
@@ -66,9 +68,6 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
             _rect = value;
         }
     }
-
-
-
     private Rect _rect;
 
     private bool isSelected;
@@ -241,6 +240,8 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
 
     private void OnClickRemoveNode()
     {
+        outPoint?.CurrentConnection?.OnClickRemoveConnection(outPoint.CurrentConnection);
+        inPoint?.CurrentConnection?.OnClickRemoveConnection(inPoint.CurrentConnection);
         OnRemoveNode?.Invoke(this);
     }
 
