@@ -51,11 +51,10 @@ public class ConnectionPoint : IConnectionPoint
         OnRemoveNext = node.RemoveThisNodeFromPrevious;
 
     }
-    public void UpdateDelegates(Action<IConnectionPoint> OnClickConnectionPoint)
+    public void UpdateData(Action<IConnectionPoint> OnClickConnectionPoint)
     {
         this.OnClickConnectionPoint = OnClickConnectionPoint;
         OnRemoveNext = node.RemoveThisNodeFromPrevious;
-
     }
 
     public void Draw()
@@ -88,11 +87,11 @@ public class ConnectionPoint : IConnectionPoint
     {
         if(PointType == ConnectionPointType.In)
         {
-            node.AddThisNodeInNext(nodeReference, PointIndex);
+            node.AddThisNodeInPrevious(nodeReference);
         }
         else
         {
-            node.AddThisNodeInPrevious(nodeReference);
+            node.AddThisNodeInNext(nodeReference, PointIndex);
         }
     }
 }

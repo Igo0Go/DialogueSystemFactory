@@ -12,7 +12,7 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
     /// <summary>
     /// Номер в схеме диалога
     /// </summary>
-    public int Index { get; set; }
+    public int Index;
 
     /// <summary>
     /// Этот узел заканчивает диалог/группу
@@ -39,12 +39,11 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
     /// <summary>
     /// Индексы следующих узлов
     /// </summary>
-    public List<int> NextNodesNumbers { get; set; }
-
+    public List<int> NextNodesNumbers;
     /// <summary>
     /// Индексы предыдущих узлов
     /// </summary>
-    public List<int> PreviousNodeNumbers { get; set; }
+    public List<int> PreviousNodeNumbers;
     #endregion
 
     #region Отрисовка
@@ -62,6 +61,7 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
             _rect = value;
         }
     }
+    [SerializeField]
     private Rect _rect;
 
     private bool isSelected;
@@ -69,8 +69,8 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
 
     public Action<DialogueNode> OnRemoveNode;
 
-    private ConnectionPoint inPoint;
-    private ConnectionPoint outPoint;
+    public ConnectionPoint InPoint { get; private set; }
+    public List<ConnectionPoint> OutPoints { get; private set; }
 
     public GUIStyle style;
     public GUIStyle defaultNodeStyle;
@@ -97,20 +97,21 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
         Rect = new Rect(position.x, position.y, 110, 40);
         defaultNodeStyle = style = defaultStyle;
         selectedNodeStyle = selectedStyle;
+        UpdateNodeData(onRemove, OnClickInPoint, inPointStyle, outPointStyle);
 
-        inPoint = new ConnectionPoint(new Vector2(-55, -10), this, 0, ConnectionPointType.In, inPointStyle,
-            OnClickInPoint);
-        outPoint = new ConnectionPoint(new Vector2(45, -10), this, 0, ConnectionPointType.Out, outPointStyle,
-            OnClickInPoint);
-
-        OnRemoveNode = onRemove;
     }
 
-    public void UpdateNodeDelegates(Action<DialogueNode> onRemove, Action<IConnectionPoint> OnClickInPoint)
+    public void UpdateNodeData(Action<DialogueNode> onRemove, Action<IConnectionPoint> OnClickInPoint,
+        GUIStyle inPointStyle, GUIStyle outPointStyle)
     {
+        InPoint = new ConnectionPoint(new Vector2(-55, -10), this, 0, ConnectionPointType.In, inPointStyle,
+            OnClickInPoint);
+        OutPoints = new List<ConnectionPoint>()
+        {
+            new ConnectionPoint(new Vector2(45, -10), this, 0, ConnectionPointType.Out, outPointStyle,
+            OnClickInPoint)
+        };
         OnRemoveNode = onRemove;
-        inPoint.UpdateDelegates(OnClickInPoint);
-        outPoint.UpdateDelegates(OnClickInPoint);
     }
     #endregion
 
@@ -190,10 +191,10 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
 
     #region Отрисовка
 
-    public void Draw()
+    public virtual void Draw()
     {
-        inPoint.Draw();
-        outPoint.Draw();
+        InPoint.Draw();
+        OutPoints[0].Draw();
         GUI.Box(Rect, Index.ToString() , style);
     }
 
@@ -258,12 +259,10 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
 
     private void OnClickRemoveNode()
     {
-        outPoint?.CurrentConnection?.OnClickRemoveConnection(outPoint.CurrentConnection);
-        inPoint?.CurrentConnection?.OnClickRemoveConnection(inPoint.CurrentConnection);
+        OutPoints[0]?.CurrentConnection?.OnClickRemoveConnection(OutPoints[0].CurrentConnection);
+        InPoint?.CurrentConnection?.OnClickRemoveConnection(InPoint.CurrentConnection);
         OnRemoveNode?.Invoke(this);
     }
-
-
     #endregion
 
     #endregion

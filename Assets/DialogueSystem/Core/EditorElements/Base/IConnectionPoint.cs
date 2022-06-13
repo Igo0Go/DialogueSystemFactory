@@ -12,6 +12,6 @@ public interface IConnectionPoint : IDrawableElement, IEquatable<IConnectionPoin
     Action<int> OnRemovePrevoius { get; set; }
     Action<IConnectionPoint> OnClickConnectionPoint { get; set; }
 
-    void UpdateDelegates(Action<IConnectionPoint> OnClickConnectionPoint);
+    void UpdateData(Action<IConnectionPoint> OnClickConnectionPoint);
     void SaveReferenceToNode(int nodeReference);
 }

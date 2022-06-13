@@ -4,9 +4,16 @@ using System.Collections.Generic;
 
 public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHaveOneNextNode
 {
+    public int NodeIndex => -2;
+
     private GUIStyle style;
     public ConnectionPointType PointType { get; set; }
+    public Connection CurrentConnection { get; set; }
+
     public Action<IConnectionPoint> OnClickConnectionPoint { get; set; }
+    public Action<int> OnChangeFirstNode { get; set; }
+    public Action<int> OnRemoveNext { get; set; }
+    public Action<int> OnRemovePrevoius { get; set; } = (item) => { };
 
     /// <summary>
     /// Прямоугольник, в котором отрисовывается узел
@@ -22,42 +29,33 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
             _rect = value;
         }
     }
+    private Rect _rect = new Rect(0, 0, 70, 30);
 
-    public int NodeIndex => -2;
-
-    public Connection CurrentConnection { get; set; }
-    public Action<int> OnRemoveNext { get; set ; }
-    public Action<int> OnRemovePrevoius { get; set; } = (item) => { };
-    public List<int> NextNodesNumbers { get; set; }
+    public List<int> NextNodesNumbers;
 
     public int NextNodeNumber
     {
         get 
         {
-            if (NextNodesNumbers != null && NextNodesNumbers.Count > 0)
-                return NextNodesNumbers[0];
-            return -1;
+            return NextNodesNumbers[0];
         }
         set
         {
             NextNodesNumbers[0] = value;
+            OnChangeFirstNode?.Invoke(value);
         }
     }
 
     public int PointIndex => 0;
 
-    private Rect _rect = new Rect(0, 0, 70, 30);
-
-    public StartNode(GUIStyle style, Action<IConnectionPoint> OnClickInPoint)
+    public StartNode(GUIStyle style, Action<IConnectionPoint> OnClickInPoint, int nextNodeIndex, Action<int> OnChangeFirstNode)
     {
         this.style = style;
-        NextNodesNumbers = new List<int>() { -1 };
         PointType = ConnectionPointType.Out;
-        UpdateDelegates(OnClickInPoint);
-    }
-    public void UpdateDelegates(Action<IConnectionPoint> OnClickInPoint)
-    {
+
+        this.OnChangeFirstNode = OnChangeFirstNode;
         OnClickConnectionPoint = OnClickInPoint;
+        NextNodesNumbers = new List<int>() { nextNodeIndex };
     }
 
     public void Drag(Vector2 delta)
@@ -95,5 +93,10 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
     public void AddThisNodeInNext(int newNode, int outPoinIndex)
     {
         NextNodeNumber = newNode;
+    }
+
+    public void UpdateData(Action<IConnectionPoint> OnClickConnectionPoint)
+    {
+        this.OnClickConnectionPoint = OnClickConnectionPoint;
     }
 }

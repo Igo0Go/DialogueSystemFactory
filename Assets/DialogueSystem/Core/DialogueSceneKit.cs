@@ -5,6 +5,5 @@ using System.Collections.Generic;
 public class DialogueSceneKit : ScriptableObject
 {
     public List<DialogueNode> nodes;
-    public List<Connection> connections;
-    public StartNode startNode;
+    public int startNodeIndex = -1;
 }

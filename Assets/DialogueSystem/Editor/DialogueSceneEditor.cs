@@ -11,8 +11,12 @@ public class DialogueSceneEditor : EditorWindow
     private Vector2 drag;
     private Vector2 offset;
 
+    private List<Connection> connections;
+
     private IConnectionPoint selectedInPoint;
     private IConnectionPoint selectedOutPoint;
+    private StartNode startNode;
+
 
     #region Стили
     private GUIStyle startNodeStyle;
@@ -29,10 +33,6 @@ public class DialogueSceneEditor : EditorWindow
     {
         DialogueSceneEditor window = GetWindow<DialogueSceneEditor>();
         window.scene = sceneKit;
-        if (window.scene.startNode == null)
-        {
-            window.scene.startNode = new StartNode(window.startNodeStyle, window.OnClickConnectionPoint);
-        }
         window.UpdateSceneData();
         return window;
     }
@@ -80,7 +80,7 @@ public class DialogueSceneEditor : EditorWindow
         DrawGrid(100, 0.4f, Color.gray);
 
         DrawConnections();
-        scene.startNode.Draw();
+        startNode.Draw();
         DrawNodes();
 
         DrawConnectionLine(Event.current);
@@ -105,7 +105,11 @@ public class DialogueSceneEditor : EditorWindow
         switch (e.type)
         {
             case EventType.MouseDown:
-                if (e.button == 1)
+                if (e.button == 0)
+                {
+                    ClearConnectionSelection();
+                }
+                else if (e.button == 1)
                 {
                     ProcessContextMenu(e.mousePosition);
                 }
@@ -179,11 +183,11 @@ public class DialogueSceneEditor : EditorWindow
 
     private void DrawConnections()
     {
-        if (scene.connections != null)
+        if (connections != null)
         {
-            for (int i = 0; i < scene.connections.Count; i++)
+            for (int i = 0; i < connections.Count; i++)
             {
-                scene.connections[i].Draw();
+                connections[i].Draw();
             }
         }
     }
@@ -237,7 +241,7 @@ public class DialogueSceneEditor : EditorWindow
     {
         drag = delta;
 
-        scene.startNode.Drag(delta);
+        startNode.Drag(delta);
         if (scene.nodes != null)
         {
             for (int i = 0; i < scene.nodes.Count; i++)
@@ -251,7 +255,7 @@ public class DialogueSceneEditor : EditorWindow
 
     private void OnToStartClick()
     {
-        Vector2 delta = -scene.startNode.Rect.position;
+        Vector2 delta = -startNode.Rect.position;
         OnDrag(delta);
     }
 
@@ -301,7 +305,12 @@ public class DialogueSceneEditor : EditorWindow
     private void OnClickRemoveConnection(Connection connection)
     {
         connection.inPoint.CurrentConnection = connection.outPoint.CurrentConnection = null;
-        scene.connections.Remove(connection);
+        connections.Remove(connection);
+    }
+
+    private void OnChangeFirstNode(int newFirstNode)
+    {
+        scene.startNodeIndex = newFirstNode;
     }
 
     private void ClearConnectionSelection()
@@ -321,12 +330,19 @@ public class DialogueSceneEditor : EditorWindow
             OnClickRemoveConnection(selectedInPoint.CurrentConnection);
 
 
-        if (scene.connections == null)
+        if (connections == null)
         {
-            scene.connections = new List<Connection>();
+            connections = new List<Connection>();
         }
 
-        scene.connections.Add(new Connection(selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
+        connections.Add(new Connection(selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
+    }
+
+    private void CreateConnection(IConnectionPoint outPoint, IConnectionPoint inPoint)
+    {
+        selectedInPoint = inPoint;
+        selectedOutPoint = outPoint;
+        CreateConnection();
     }
 
     public void CreateNewNode(Vector2 position)
@@ -343,14 +359,35 @@ public class DialogueSceneEditor : EditorWindow
 
     private void UpdateSceneData()
     {
-        if(scene != null)
+
+        if (scene != null)
         {
-            scene.startNode.UpdateDelegates(OnClickConnectionPoint);
-            if(scene.nodes != null)
+            startNode = new StartNode(startNodeStyle, OnClickConnectionPoint, scene.startNodeIndex, OnChangeFirstNode);
+
+            if (scene.nodes != null)
             {
                 foreach (var item in scene.nodes)
                 {
-                    item.UpdateNodeDelegates(OnClickRemoveNode, OnClickConnectionPoint);
+                    item.UpdateNodeData(OnClickRemoveNode, OnClickConnectionPoint, inPointStyle, outPointStyle);
+                }
+            }
+        }
+
+        if(startNode.NextNodeNumber >= 0)
+        {
+            CreateConnection(startNode, scene.nodes[scene.startNodeIndex].InPoint);
+        }
+        if(scene.nodes != null)
+        {
+            for (int i = 0; i < scene.nodes.Count; i++)
+            {
+                DialogueNode node = scene.nodes[i];
+                for (int j = 0; j < node.OutPoints.Count; j++)
+                {
+                    if (node.NextNodesNumbers[j] >= 0)
+                    {
+                        CreateConnection(node.OutPoints[j], scene.nodes[node.NextNodesNumbers[j]].InPoint);
+                    }
                 }
             }
         }
