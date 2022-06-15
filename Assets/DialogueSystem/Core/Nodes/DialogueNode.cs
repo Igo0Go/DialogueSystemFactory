@@ -219,6 +219,7 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
                         GUI.changed = true;
                         isSelected = true;
                         style = selectedNodeStyle;
+                        CommandManager.dragBufer = _rect.position;
                     }
                     else
                     {
@@ -236,6 +237,12 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
 
             case EventType.MouseUp:
                 isDragged = false;
+                if(e.button == 0 && Rect.Contains(e.mousePosition))
+                {
+                    CommandManager.dragBufer = _rect.position - CommandManager.dragBufer;
+                    CommandManager.AddCommand(new MoveNodeCommand(CommandManager.dragBufer, this));
+                    CommandManager.dragBufer = Vector2.zero;
+                }
                 break;
 
             case EventType.MouseDrag:

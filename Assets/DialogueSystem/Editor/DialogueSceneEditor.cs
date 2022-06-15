@@ -120,6 +120,13 @@ public class DialogueSceneEditor : EditorWindow
                     OnDrag(e.delta);
                 }
                 break;
+            case EventType.KeyDown:
+                if(e.keyCode == KeyCode.Z)
+                {
+                    CommandManager.Undo();
+                    GUI.changed = true;
+                }
+                break;
         }
     }
 
@@ -233,6 +240,7 @@ public class DialogueSceneEditor : EditorWindow
         GenericMenu genericMenu = new GenericMenu();
         genericMenu.AddItem(new GUIContent("К точке входа"), false, () => OnToStartClick());
         genericMenu.AddItem(new GUIContent("Создать узел"), false, () => CreateNewNode(mousePosition));
+        genericMenu.AddItem(new GUIContent("Стереть историю"), false, () => CommandManager.commandHistory = new Stack<ICommand>());
 
         genericMenu.ShowAsContext();
     }
@@ -359,7 +367,7 @@ public class DialogueSceneEditor : EditorWindow
 
     private void UpdateSceneData()
     {
-
+        CommandManager.commandHistory = new Stack<ICommand>();
         if (scene != null)
         {
             startNode = new StartNode(startNodeStyle, OnClickConnectionPoint, scene.startNodeIndex, OnChangeFirstNode);
