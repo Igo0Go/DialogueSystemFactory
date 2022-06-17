@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEditor;
 using System;
 
-[System.Serializable]
-public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNodes, IHaveOneNextNode
+[Serializable]
+public class DialogueNode : IHaveIndexCheckFunctions, IDrawableElement, IDragableElement, IHavePreviousNodes, IHaveOneNextNode
 {
     #region Поля и свойства
 
@@ -193,7 +193,6 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
             }
         }
     }
-
     /// <summary>
     /// корректировка номеров узлов после удаления
     /// </summary>
@@ -223,7 +222,6 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
     #endregion
 
     #region Отрисовка
-
     public virtual void Draw()
     {
         InPoint.Draw();
@@ -240,12 +238,10 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
                 NextNodesNumbers[0].ToString());
         }
     }
-
     public void Drag(Vector2 delta)
     {
         _rect.position += delta;
     }
-
     #endregion
 
     #region Обработка событий
@@ -299,22 +295,18 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
         }
         return false;
     }
-
     private void ProcessContextMenu()
     {
         GenericMenu genericMenu = new GenericMenu();
         genericMenu.AddItem(new GUIContent("Remove node"), false, OnClickRemoveNode);
         genericMenu.ShowAsContext();
     }
-
     private void OnClickRemoveNode()
     {
         OutPoints[0]?.CurrentConnection?.OnClickRemoveConnection(OutPoints[0].CurrentConnection);
         InPoint?.CurrentConnection?.OnClickRemoveConnection(InPoint.CurrentConnection);
         OnRemoveNode?.Invoke(this);
     }
-
-
     #endregion
 
     #endregion

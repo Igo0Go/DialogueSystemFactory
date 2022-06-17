@@ -2,18 +2,9 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHaveOneNextNode
+public class StartNode : IHaveIndexCheckFunctions, IDragableElement, IConnectionPoint, IHaveNextNodes, IHaveOneNextNode
 {
     public int NodeIndex => -2;
-
-    private GUIStyle style;
-    public ConnectionPointType PointType { get; set; }
-    public Connection CurrentConnection { get; set; }
-
-    public Action<IConnectionPoint> OnClickConnectionPoint { get; set; }
-    public Action<int> OnChangeFirstNode { get; set; }
-    public Action<int> OnRemoveNext { get; set; }
-    public Action<int> OnRemovePrevoius { get; set; } = (item) => { };
 
     /// <summary>
     /// ѕр€моугольник, в котором отрисовываетс€ узел
@@ -31,11 +22,9 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
     }
     private Rect _rect = new Rect(0, 0, 70, 30);
 
-    public List<int> NextNodesNumbers;
-
     public int NextNodeNumber
     {
-        get 
+        get
         {
             return NextNodesNumbers[0];
         }
@@ -45,8 +34,19 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
             OnChangeFirstNode?.Invoke(NextNodesNumbers[0]);
         }
     }
+    public List<int> NextNodesNumbers;
 
     public int PointIndex => 0;
+
+    public ConnectionPointType PointType { get; set; }
+    public Connection CurrentConnection { get; set; }
+
+    public Action<IConnectionPoint> OnClickConnectionPoint { get; set; }
+    public Action<int> OnChangeFirstNode { get; set; }
+    public Action<int> OnRemoveNext { get; set; }
+    public Action<int> OnRemovePrevoius { get; set; } = (item) => { };
+
+    private readonly GUIStyle style;
 
     public StartNode(GUIStyle style, Action<IConnectionPoint> OnClickInPoint, int nextNodeIndex, Action<int> OnChangeFirstNode)
     {
@@ -77,23 +77,7 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
 
     public bool Equals(IConnectionPoint other)
     {
-        return false;
-    }
-
-    public void RemoveThisNodeFromNext(int nodeForRemoving)
-    {
-        NextNodesNumbers = new List<int> { -1};
-        OnChangeFirstNode?.Invoke(NextNodesNumbers[0]);
-    }
-
-    public void SaveReferenceToNode(int nodeReference)
-    {
-        NextNodeNumber = nodeReference;
-    }
-
-    public void AddThisNodeInNext(int newNode, int outPoinIndex)
-    {
-        NextNodeNumber = newNode;
+        return false; //поскольку нет второго такого стартового узла в схеме, метод всегда возвращает false
     }
 
     public void UpdateData(Action<IConnectionPoint> OnClickConnectionPoint)
@@ -101,13 +85,42 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
         this.OnClickConnectionPoint = OnClickConnectionPoint;
     }
 
+    public void SaveReferenceToNode(int nodeReference)
+    {
+        NextNodeNumber = nodeReference;
+    }
     public void ClearReferenceToNodeByValue(int nodeReference)
     {
         ClearNextByIndex(0);
     }
 
+    public void AddThisNodeInNext(int newNode, int outPoinIndex)
+    {
+        NextNodeNumber = newNode;
+    }
     public void ClearNextByIndex(int indexOfNextConnectionPoint)
     {
         NextNodeNumber = -1;
     }
+    public void RemoveThisNodeFromNext(int nodeForRemoving)
+    {
+        NextNodesNumbers = new List<int> { -1 };
+        OnChangeFirstNode?.Invoke(NextNodesNumbers[0]);
+    }
+
+    public void CheckIndexesAfterRemovingNodeWithIndex(int removedIndex)
+    {
+        if (NextNodeNumber > removedIndex)
+        {
+            NextNodeNumber--;
+        }
+    }
+    public void CheckIndexesAfterInsertingNodeWithIndex(int insertedIndex)
+    {
+        if (NextNodeNumber >= insertedIndex)
+        {
+            NextNodeNumber++;
+        }
+    }
+
 }

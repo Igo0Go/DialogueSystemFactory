@@ -26,12 +26,12 @@ public class ConnectionPoint : IConnectionPoint
     public DialogueNode node;
     public int NodeIndex => node.Index;
     public int PointIndex { get; private set; }
+    public ConnectionPointType PointType { get; set; }
+    public Connection CurrentConnection { get; set; }
+
     public GUIStyle style;
 
-    public ConnectionPointType PointType { get; set; }
     public Action<IConnectionPoint> OnClickConnectionPoint { get; set; }
-    public Connection CurrentConnection { get; set; }
-    public IHavePreviousNodes havePreviousNodes { get; set; }
     public Action<int> OnRemoveNext { get; set; }
     public Action<int> OnRemovePrevoius { get; set; }
 
@@ -84,15 +84,15 @@ public class ConnectionPoint : IConnectionPoint
         return false;
     }
 
-    public void SaveReferenceToNode(int nodeReference)
+    public void SaveReferenceToNode(int saveNodeIndex)
     {
         if(PointType == ConnectionPointType.In)
         {
-            node.AddThisNodeInPrevious(nodeReference);
+            node.AddThisNodeInPrevious(saveNodeIndex);
         }
         else
         {
-            node.AddThisNodeInNext(nodeReference, PointIndex);
+            node.AddThisNodeInNext(saveNodeIndex, PointIndex);
         }
     }
 

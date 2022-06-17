@@ -1,8 +1,11 @@
+/// <summary>
+/// Команда создания связи
+/// </summary>
 public class CreateConnectionCommand : ICommand
 {
-    private Connection connectionBufer;
-    private Connection oldConnectionForInPoint;
-    private Connection oldConnectionForOutPoint;
+    private readonly Connection connectionBufer;
+    private readonly Connection oldConnectionForInPoint;
+    private readonly Connection oldConnectionForOutPoint;
 
     public CreateConnectionCommand(Connection connection, Connection oldInConnection, Connection oldOutConnection)
     {
@@ -11,11 +14,17 @@ public class CreateConnectionCommand : ICommand
         connectionBufer = connection;
     }
 
+    /// <summary>
+    /// создаёт указанную связь. Если были старые связи, может заменить их
+    /// </summary>
     public void Execute()
     {
         CommandManager.connections.Add(connectionBufer);
     }
 
+    /// <summary>
+    /// удаляет созданную ранее связь и возвращает старые, если они были
+    /// </summary>
     public void Undo()
     {
         connectionBufer.OnClickRemoveConnection(connectionBufer);

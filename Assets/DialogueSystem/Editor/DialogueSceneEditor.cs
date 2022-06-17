@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class DialogueSceneEditor : EditorWindow
 {
-    #region Поля
+    #region ПОЛЯ
 
     private DialogueSceneKit scene;
 
@@ -28,7 +28,7 @@ public class DialogueSceneEditor : EditorWindow
 
     #endregion
 
-    #region Основные методы
+    #region ОСНОВНЫЕ МЕТОДЫ
     public static DialogueSceneEditor GetEditor(DialogueSceneKit sceneKit)
     {
         DialogueSceneEditor window = GetWindow<DialogueSceneEditor>();
@@ -91,58 +91,6 @@ public class DialogueSceneEditor : EditorWindow
         if (GUI.changed)
         {
             Repaint();
-        }
-    }
-
-    #endregion
-
-    #region События
-
-    private void ProcessEvents(Event e)
-    {
-        drag = Vector2.zero;
-
-        switch (e.type)
-        {
-            case EventType.MouseDown:
-                if (e.button == 0)
-                {
-                    ClearConnectionSelection();
-                }
-                else if (e.button == 1)
-                {
-                    ProcessContextMenu(e.mousePosition);
-                }
-                break;
-            case EventType.MouseDrag:
-                if (e.button == 2)
-                {
-                    OnDrag(e.delta);
-                }
-                break;
-            case EventType.KeyDown:
-                if(e.keyCode == KeyCode.Z)
-                {
-                    CommandManager.Undo();
-                    GUI.changed = true;
-                }
-                break;
-        }
-    }
-
-    private void ProcessNodeEvents(Event e)
-    {
-        if (scene.nodes != null)
-        {
-            for (int i = scene.nodes.Count - 1; i >= 0; i--)
-            {
-                bool guiChanged = scene.nodes[i].ProcessEvents(e);
-
-                if (guiChanged)
-                {
-                    GUI.changed = true;
-                }
-            }
         }
     }
 
@@ -235,6 +183,38 @@ public class DialogueSceneEditor : EditorWindow
 
     #region ОБРАБОТКА СОБЫТИЙ
 
+    private void ProcessEvents(Event e)
+    {
+        drag = Vector2.zero;
+
+        switch (e.type)
+        {
+            case EventType.MouseDown:
+                if (e.button == 0)
+                {
+                    ClearConnectionSelection();
+                }
+                else if (e.button == 1)
+                {
+                    ProcessContextMenu(e.mousePosition);
+                }
+                break;
+            case EventType.MouseDrag:
+                if (e.button == 2)
+                {
+                    OnDrag(e.delta);
+                }
+                break;
+            case EventType.KeyDown:
+                if (e.keyCode == KeyCode.Z)
+                {
+                    CommandManager.Undo();
+                    GUI.changed = true;
+                }
+                break;
+        }
+    }
+
     private void ProcessContextMenu(Vector2 mousePosition)
     {
         GenericMenu genericMenu = new GenericMenu();
@@ -243,6 +223,22 @@ public class DialogueSceneEditor : EditorWindow
         genericMenu.AddItem(new GUIContent("Стереть историю"), false, () => CommandManager.commandHistory = new Stack<ICommand>());
 
         genericMenu.ShowAsContext();
+    }
+
+    private void ProcessNodeEvents(Event e)
+    {
+        if (scene.nodes != null)
+        {
+            for (int i = scene.nodes.Count - 1; i >= 0; i--)
+            {
+                bool guiChanged = scene.nodes[i].ProcessEvents(e);
+
+                if (guiChanged)
+                {
+                    GUI.changed = true;
+                }
+            }
+        }
     }
 
     private void OnDrag(Vector2 delta)
@@ -330,7 +326,7 @@ public class DialogueSceneEditor : EditorWindow
     }
     #endregion
 
-    #region Логика
+    #region ЛОГИКА
 
     private void CreateConnection()
     {
