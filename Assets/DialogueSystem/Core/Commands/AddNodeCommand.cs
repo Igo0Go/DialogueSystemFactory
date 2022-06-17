@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class AddNodeCommand : ICommand
 {
-    public AddNodeCommand()
-    {
+    DialogueNode node;
 
+    public AddNodeCommand(DialogueNode node)
+    {
+        this.node = node;
     }
 
     public void Execute()
     {
-
+        CommandManager.sceneKit.AddNewNode(node);
     }
 
     public void Undo()
     {
-
+        CommandManager.sceneKit.RemoveNode(node);
     }
 }

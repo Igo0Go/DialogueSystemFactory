@@ -13,11 +13,13 @@ public class DialogueSceneKitEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        base.OnInspectorGUI();
+
         if(sceneKit.nodes != null)
         {
             GUILayout.Label("Количество узлов: " + sceneKit.nodes.Count.ToString());
+            GUILayout.Label("Первый узел: " + ((sceneKit.startNodeIndex >= 0)? sceneKit.startNodeIndex.ToString() : "нет"));
         }
-
 
         GUI.color = Color.cyan;
         if (GUILayout.Button("Редактировать", GUILayout.MinWidth(80)))

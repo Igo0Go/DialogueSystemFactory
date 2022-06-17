@@ -42,7 +42,7 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
         set
         {
             NextNodesNumbers[0] = value;
-            OnChangeFirstNode?.Invoke(value);
+            OnChangeFirstNode?.Invoke(NextNodesNumbers[0]);
         }
     }
 
@@ -72,7 +72,7 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
 
         Rect bufer = _rect;
         bufer.position += new Vector2(10, 0);
-        GUI.Label(bufer, "бвРав");
+        GUI.Label(bufer, NextNodeNumber.ToString());
     }
 
     public bool Equals(IConnectionPoint other)
@@ -82,7 +82,8 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
 
     public void RemoveThisNodeFromNext(int nodeForRemoving)
     {
-        NextNodesNumbers.RemoveAll(item => item == nodeForRemoving);
+        NextNodesNumbers = new List<int> { -1};
+        OnChangeFirstNode?.Invoke(NextNodesNumbers[0]);
     }
 
     public void SaveReferenceToNode(int nodeReference)
@@ -98,5 +99,15 @@ public class StartNode : IDragableElement, IConnectionPoint, IHaveNextNodes, IHa
     public void UpdateData(Action<IConnectionPoint> OnClickConnectionPoint)
     {
         this.OnClickConnectionPoint = OnClickConnectionPoint;
+    }
+
+    public void ClearReferenceToNodeByValue(int nodeReference)
+    {
+        ClearNextByIndex(0);
+    }
+
+    public void ClearNextByIndex(int indexOfNextConnectionPoint)
+    {
+        NextNodeNumber = -1;
     }
 }

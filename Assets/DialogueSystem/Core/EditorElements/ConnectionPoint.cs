@@ -49,6 +49,7 @@ public class ConnectionPoint : IConnectionPoint
         _rect = new Rect(0, 0, 10f, 20f);
 
         OnRemoveNext = node.RemoveThisNodeFromPrevious;
+        OnRemovePrevoius = node.RemoveThisNodeFromNext;
 
     }
     public void UpdateData(Action<IConnectionPoint> OnClickConnectionPoint)
@@ -92,6 +93,18 @@ public class ConnectionPoint : IConnectionPoint
         else
         {
             node.AddThisNodeInNext(nodeReference, PointIndex);
+        }
+    }
+
+    public void ClearReferenceToNodeByValue(int nodeReference)
+    {
+        if (PointType == ConnectionPointType.In)
+        {
+            node.RemoveThisNodeFromPrevious(nodeReference);
+        }
+        else
+        {
+            node.ClearNextByIndex(PointIndex);
         }
     }
 }

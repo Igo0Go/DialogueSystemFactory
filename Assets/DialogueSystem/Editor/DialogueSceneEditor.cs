@@ -269,7 +269,7 @@ public class DialogueSceneEditor : EditorWindow
 
     private void OnClickRemoveNode(DialogueNode node)
     {
-        scene.nodes.Remove(node);
+        scene.RemoveNode(node);
     }
 
     private void OnClickConnectionPoint(IConnectionPoint point)
@@ -313,6 +313,8 @@ public class DialogueSceneEditor : EditorWindow
     private void OnClickRemoveConnection(Connection connection)
     {
         connection.inPoint.CurrentConnection = connection.outPoint.CurrentConnection = null;
+        connection.inPoint.ClearReferenceToNodeByValue(connection.outPoint.NodeIndex);
+        connection.outPoint.ClearReferenceToNodeByValue(connection.inPoint.NodeIndex);
         connections.Remove(connection);
     }
 
@@ -332,18 +334,13 @@ public class DialogueSceneEditor : EditorWindow
 
     private void CreateConnection()
     {
-        selectedOutPoint.CurrentConnection?.
-            OnClickRemoveConnection(selectedOutPoint.CurrentConnection);
-        selectedInPoint.CurrentConnection?.
-            OnClickRemoveConnection(selectedInPoint.CurrentConnection);
+        var oldInConnection = selectedInPoint.CurrentConnection;
+        var oldOutConnection = selectedOutPoint.CurrentConnection;
 
+        ICommand command = new CreateConnectionCommand(new Connection(selectedInPoint, selectedOutPoint, 
+            OnClickRemoveConnection), oldInConnection, oldOutConnection);
 
-        if (connections == null)
-        {
-            connections = new List<Connection>();
-        }
-
-        connections.Add(new Connection(selectedInPoint, selectedOutPoint, OnClickRemoveConnection));
+        CommandManager.AddCommandAndExecute(command);
     }
 
     private void CreateConnection(IConnectionPoint outPoint, IConnectionPoint inPoint)
@@ -355,29 +352,36 @@ public class DialogueSceneEditor : EditorWindow
 
     public void CreateNewNode(Vector2 position)
     {
-        if(scene.nodes == null)
-        {
-            scene.nodes = new List<DialogueNode>();
-        }
-
-        scene.nodes.Add(new DialogueNode(position, scene.nodes.Count,
+        ICommand addCommand = new AddNodeCommand(new DialogueNode(position, scene.nodes.Count,
             nodeStyleReplica_default, nodeStyleReplica_selected, OnClickRemoveNode, inPointStyle, outPointStyle,
             OnClickConnectionPoint));
+        CommandManager.AddCommandAndExecute(addCommand);
     }
 
     private void UpdateSceneData()
     {
+        if (connections == null)
+        {
+            connections = new List<Connection>();
+        }
+
         CommandManager.commandHistory = new Stack<ICommand>();
+        CommandManager.connections = connections;
         if (scene != null)
         {
+            CommandManager.sceneKit = scene;
+            CommandManager.connections = connections;
+
             startNode = new StartNode(startNodeStyle, OnClickConnectionPoint, scene.startNodeIndex, OnChangeFirstNode);
 
-            if (scene.nodes != null)
+            if (scene.nodes == null)
             {
-                foreach (var item in scene.nodes)
-                {
-                    item.UpdateNodeData(OnClickRemoveNode, OnClickConnectionPoint, inPointStyle, outPointStyle);
-                }
+                scene.nodes = new List<DialogueNode>();
+            }
+
+            foreach (var item in scene.nodes)
+            {
+                item.UpdateNodeData(OnClickRemoveNode, OnClickConnectionPoint, inPointStyle, outPointStyle);
             }
         }
 

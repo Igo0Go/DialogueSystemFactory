@@ -13,6 +13,10 @@ public class Connection
     {
         this.inPoint = inPoint;
         this.outPoint = outPoint;
+
+        outPoint.CurrentConnection?.OnClickRemoveConnection(outPoint.CurrentConnection);
+        inPoint.CurrentConnection?.OnClickRemoveConnection(inPoint.CurrentConnection);
+
         inPoint.CurrentConnection = outPoint.CurrentConnection = this;
         inPoint.SaveReferenceToNode(outPoint.NodeIndex);
         outPoint.SaveReferenceToNode(inPoint.NodeIndex);

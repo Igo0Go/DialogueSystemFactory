@@ -126,7 +126,14 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
     {
         NextNodesNumbers.RemoveAll(item => item == nodeForRemoving);
     }
-
+    /// <summary>
+    /// «ачистить указанный выход к следующим узлам
+    /// </summary>
+    /// <param name="indexOfNextConnectionPoint">индекс выхода, который нужно зачистить</param>
+    public void ClearNextByIndex(int indexOfNextConnectionPoint)
+    {
+        NextNodesNumbers[indexOfNextConnectionPoint] = -1;
+    }
     /// <summary>
     /// ƒобавить новый узел в список следующих (в данном случае идЄт замена единственного следующего)
     /// </summary>
@@ -165,7 +172,7 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
     /// корректировка номеров узлов после удалени€
     /// </summary>
     /// <param name="removedIndex">индекс только что удалЄнного узла</param>
-    public void CheckIndexes(int removedIndex)
+    public void CheckIndexesAfterRemovingNodeWithIndex(int removedIndex)
     {
         if (Index > removedIndex)
         {
@@ -187,6 +194,32 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
         }
     }
 
+    /// <summary>
+    /// корректировка номеров узлов после удалени€
+    /// </summary>
+    /// <param name="removedIndex">индекс только что удалЄнного узла</param>
+    public void CheckIndexesAfterInsertingNodeWithIndex(int insertedIndex)
+    {
+        if (Index >= insertedIndex)
+        {
+            Index++;
+        }
+        for (int i = 0; i < PreviousNodeNumbers.Count; i++)
+        {
+            if (PreviousNodeNumbers[i] >= insertedIndex)
+            {
+                PreviousNodeNumbers[i]++;
+            }
+        }
+        for (int i = 0; i < NextNodesNumbers.Count; i++)
+        {
+            if (NextNodesNumbers[i] >= insertedIndex)
+            {
+                NextNodesNumbers[i]++;
+            }
+        }
+    }
+
     #endregion
 
     #region ќтрисовка
@@ -196,6 +229,16 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
         InPoint.Draw();
         OutPoints[0].Draw();
         GUI.Box(Rect, Index.ToString() , style);
+
+        if(PreviousNodeNumbers != null && PreviousNodeNumbers.Count > 0)
+        {
+            GUI.Label(new Rect(Rect.position, new Vector2(20, 20)), PreviousNodeNumbers[0].ToString());
+        }
+        if(NextNodesNumbers != null && NextNodesNumbers.Count > 0)
+        {
+            GUI.Label(new Rect(Rect.position + new Vector2(Rect.width - 22, 0), new Vector2(20, 20)),
+                NextNodesNumbers[0].ToString());
+        }
     }
 
     public void Drag(Vector2 delta)
@@ -270,6 +313,8 @@ public class DialogueNode : IDrawableElement, IDragableElement, IHavePreviousNod
         InPoint?.CurrentConnection?.OnClickRemoveConnection(InPoint.CurrentConnection);
         OnRemoveNode?.Invoke(this);
     }
+
+
     #endregion
 
     #endregion

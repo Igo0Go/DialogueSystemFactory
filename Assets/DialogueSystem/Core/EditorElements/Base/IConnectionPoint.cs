@@ -14,4 +14,5 @@ public interface IConnectionPoint : IDrawableElement, IEquatable<IConnectionPoin
 
     void UpdateData(Action<IConnectionPoint> OnClickConnectionPoint);
     void SaveReferenceToNode(int nodeReference);
+    void ClearReferenceToNodeByValue(int nodeReference);
 }
