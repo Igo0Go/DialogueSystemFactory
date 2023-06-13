@@ -24,7 +24,7 @@ public class DialogueSceneKit : ScriptableObject
     }
     public void RemoveNode(DialogueNode node)
     {
-        RemoveNodeWithId(node.Index);
+        RemoveNodeWithId(node.index);
     }
     public void RemoveNodeWithId(int index)
     {

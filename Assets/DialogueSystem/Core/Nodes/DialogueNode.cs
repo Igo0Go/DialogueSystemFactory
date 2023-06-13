@@ -12,7 +12,7 @@ public class DialogueNode : IHaveIndexCheckFunctions, IDrawableElement, IDragabl
     /// <summary>
     /// Номер в схеме диалога
     /// </summary>
-    public int Index;
+    public int index;
 
     /// <summary>
     /// Этот узел заканчивает диалог/группу
@@ -90,7 +90,7 @@ public class DialogueNode : IHaveIndexCheckFunctions, IDrawableElement, IDragabl
         GUIStyle inPointStyle, GUIStyle outPointStyle,
         Action<IConnectionPoint> OnClickInPoint)
     {
-        this.Index = index;
+        this.index = index;
         PreviousNodeNumbers = new List<int>();
         NextNodesNumbers = new List<int>() { -1 };
 
@@ -174,9 +174,9 @@ public class DialogueNode : IHaveIndexCheckFunctions, IDrawableElement, IDragabl
     /// <param name="removedIndex">индекс только что удалённого узла</param>
     public void CheckIndexesAfterRemovingNodeWithIndex(int removedIndex)
     {
-        if (Index > removedIndex)
+        if (index > removedIndex)
         {
-            Index--;
+            index--;
         }
         for (int i = 0; i < PreviousNodeNumbers.Count; i++)
         {
@@ -199,9 +199,9 @@ public class DialogueNode : IHaveIndexCheckFunctions, IDrawableElement, IDragabl
     /// <param name="removedIndex">индекс только что удалённого узла</param>
     public void CheckIndexesAfterInsertingNodeWithIndex(int insertedIndex)
     {
-        if (Index >= insertedIndex)
+        if (index >= insertedIndex)
         {
-            Index++;
+            index++;
         }
         for (int i = 0; i < PreviousNodeNumbers.Count; i++)
         {
@@ -226,9 +226,11 @@ public class DialogueNode : IHaveIndexCheckFunctions, IDrawableElement, IDragabl
     {
         InPoint.Draw();
         OutPoints[0].Draw();
-        GUI.Box(Rect, Index.ToString() , style);
+        GUI.Box(Rect, string.Empty, style);
 
-        if(PreviousNodeNumbers != null && PreviousNodeNumbers.Count > 0)
+        GUI.Label(new Rect(Rect.center, new Vector2(20, 20)), "[" + index.ToString() + "]");
+        
+        if (PreviousNodeNumbers != null && PreviousNodeNumbers.Count > 0)
         {
             GUI.Label(new Rect(Rect.position, new Vector2(20, 20)), PreviousNodeNumbers[0].ToString());
         }

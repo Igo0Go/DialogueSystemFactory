@@ -76,6 +76,15 @@ public class DialogueSceneEditor : EditorWindow
 
     private void OnGUI()
     {
+        if(scene== null)
+        {
+            return;
+        }
+        else if (startNode == null)
+        {
+            UpdateSceneData();
+        }
+
         DrawGrid(20, 0.2f, Color.gray);
         DrawGrid(100, 0.4f, Color.gray);
 
@@ -259,7 +268,7 @@ public class DialogueSceneEditor : EditorWindow
 
     private void OnToStartClick()
     {
-        Vector2 delta = -startNode.Rect.position;
+        Vector2 delta = - (startNode.Rect.position - new Vector2(position.size.x/2, + position.size.y/2));
         OnDrag(delta);
     }
 
@@ -359,14 +368,14 @@ public class DialogueSceneEditor : EditorWindow
         if (connections == null)
         {
             connections = new List<Connection>();
+            CommandManager.connections = connections;
         }
 
         CommandManager.commandHistory = new Stack<ICommand>();
-        CommandManager.connections = connections;
+
         if (scene != null)
         {
             CommandManager.sceneKit = scene;
-            CommandManager.connections = connections;
 
             startNode = new StartNode(startNodeStyle, OnClickConnectionPoint, scene.startNodeIndex, OnChangeFirstNode);
 

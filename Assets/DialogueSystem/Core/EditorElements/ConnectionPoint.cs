@@ -24,7 +24,7 @@ public class ConnectionPoint : IConnectionPoint
     private Rect _rect;
 
     public DialogueNode node;
-    public int NodeIndex => node.Index;
+    public int NodeIndex => node.index;
     public int PointIndex { get; private set; }
     public ConnectionPointType PointType { get; set; }
     public Connection CurrentConnection { get; set; }
@@ -79,7 +79,7 @@ public class ConnectionPoint : IConnectionPoint
         }
         else if (other is ConnectionPoint point)
         {
-            return node.Index == point.node.Index;
+            return node.index == point.node.index;
         }
         return false;
     }
