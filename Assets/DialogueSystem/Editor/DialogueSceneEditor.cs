@@ -215,7 +215,7 @@ public class DialogueSceneEditor : EditorWindow
                 }
                 break;
             case EventType.KeyDown:
-                if (e.keyCode == KeyCode.Z)
+                if (e.control && e.keyCode == KeyCode.Z)
                 {
                     CommandManager.Undo();
                     GUI.changed = true;

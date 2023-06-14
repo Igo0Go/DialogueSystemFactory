@@ -45,7 +45,8 @@ public class Connection
         {
             if (OnClickRemoveConnection != null)
             {
-                OnClickRemoveConnection(this);
+                ICommand command = new RemoveConnectionCommand(this);
+                CommandManager.AddCommandAndExecute(command);
             }
         }
     }
