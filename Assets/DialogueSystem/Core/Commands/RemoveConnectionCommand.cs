@@ -20,6 +20,8 @@ public class RemoveConnectionCommand : ICommand
     /// </summary>
     public void Undo()
     {
+        connectionBufer.inPoint.SaveReferenceToNode(connectionBufer.outPoint.NodeIndex);
+        connectionBufer.outPoint.SaveReferenceToNode(connectionBufer.inPoint.NodeIndex);
         CommandManager.connections.Add(connectionBufer);
     }
 }
