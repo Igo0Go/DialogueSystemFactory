@@ -37,7 +37,7 @@ public class ConnectionPoint : IConnectionPoint
 
     private Vector2 offset;
 
-    public ConnectionPoint(Vector2 offset, DialogueNode node, int indexOfPoint, ConnectionPointType type, GUIStyle style,
+    public ConnectionPoint(Vector2 offset, Vector2 size, DialogueNode node, int indexOfPoint, ConnectionPointType type, GUIStyle style,
         Action<IConnectionPoint> OnClickConnectionPoint)
     {
         this.node = node;
@@ -46,7 +46,7 @@ public class ConnectionPoint : IConnectionPoint
         this.style = style;
         this.offset = offset;
         this.OnClickConnectionPoint = OnClickConnectionPoint;
-        _rect = new Rect(0, 0, 10f, 20f);
+        _rect = new Rect(0, 0, size.x, size.y);
 
         OnRemoveNext = node.RemoveThisNodeFromPrevious;
         OnRemovePrevoius = node.RemoveThisNodeFromNext;

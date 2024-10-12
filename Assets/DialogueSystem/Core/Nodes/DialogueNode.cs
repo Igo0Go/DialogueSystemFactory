@@ -64,17 +64,22 @@ public class DialogueNode : IHaveIndexCheckFunctions, IDrawableElement, IDragabl
     [SerializeField]
     private Rect _rect;
 
-    private bool isSelected;
+    public bool isSelected;
     private bool isDragged;
 
     public Action<DialogueNode> OnRemoveNode;
+    public event Action<DialogueNode> OnNodeSelect;
+    public event Action<DialogueNode> OnNodeDeselect;
 
     public ConnectionPoint InPoint { get; private set; }
     public List<ConnectionPoint> OutPoints { get; private set; }
 
-    public GUIStyle style;
-    public GUIStyle defaultNodeStyle;
-    public GUIStyle selectedNodeStyle;
+    private GUIStyle style;
+    private GUISkin skin;
+    private Vector2 position;
+    private Vector2 size;
+    private Action<DialogueNode> onRemove;
+    private Action<IConnectionPoint> onClickInPoint;
     #endregion
 
     #endregion
@@ -85,31 +90,41 @@ public class DialogueNode : IHaveIndexCheckFunctions, IDrawableElement, IDragabl
     /// </summary>
     /// <param name="pos">позиция узла в координатах схемы</param>
     /// <param name="index">индекс узла в схеме</param>
-    public DialogueNode(Vector2 position, int index, GUIStyle defaultStyle, GUIStyle selectedStyle,
-        Action<DialogueNode> onRemove,
-        GUIStyle inPointStyle, GUIStyle outPointStyle,
-        Action<IConnectionPoint> OnClickInPoint)
+    public DialogueNode(Vector2 position, Vector2 size, int index, GUISkin skin,
+        Action<DialogueNode> onRemove, Action<IConnectionPoint> OnClickInPoint, 
+        Action<DialogueNode> onNodeSelect, Action<DialogueNode> onNodeDeselect)
     {
         this.index = index;
         PreviousNodeNumbers = new List<int>();
         NextNodesNumbers = new List<int>() { -1 };
+        style = StylePack.nodeStyleReplica_default;
+        this.skin = skin;
+        Rect = new Rect(position.x, position.y, size.x, size.y);
+        UpdateNodeData(onRemove, OnClickInPoint, StylePack.inPointStyle, StylePack.outPointStyle);
+        OnNodeSelect += onNodeSelect;
+        OnNodeDeselect += onNodeDeselect;
+    }
 
-        Rect = new Rect(position.x, position.y, 110, 40);
-        defaultNodeStyle = style = defaultStyle;
-        selectedNodeStyle = selectedStyle;
-        UpdateNodeData(onRemove, OnClickInPoint, inPointStyle, outPointStyle);
-
+    public DialogueNode(Vector2 position, Vector2 size, int index, GUISkin skin, Action<DialogueNode> onRemove, Action<IConnectionPoint> onClickInPoint)
+    {
+        this.position = position;
+        this.size = size;
+        this.index = index;
+        this.skin = skin;
+        this.onRemove = onRemove;
+        this.onClickInPoint = onClickInPoint;
     }
 
     public void UpdateNodeData(Action<DialogueNode> onRemove, Action<IConnectionPoint> OnClickInPoint,
         GUIStyle inPointStyle, GUIStyle outPointStyle)
     {
-        InPoint = new ConnectionPoint(new Vector2(-55, -10), this, 0, ConnectionPointType.In, inPointStyle,
+        InPoint = new ConnectionPoint(new Vector2(-Rect.width/2 - 10, -Rect.height/2 + 10), new Vector2(20, Rect.height-20),
+            this, 0, ConnectionPointType.In, inPointStyle,
             OnClickInPoint);
         OutPoints = new List<ConnectionPoint>()
         {
-            new ConnectionPoint(new Vector2(45, -10), this, 0, ConnectionPointType.Out, outPointStyle,
-            OnClickInPoint)
+            new ConnectionPoint(new Vector2(Rect.width/2 - 10, -Rect.height/2 + 10), new Vector2(20, Rect.height-20), 
+            this, 0, ConnectionPointType.Out, outPointStyle, OnClickInPoint)
         };
         OnRemoveNode = onRemove;
     }
@@ -224,12 +239,16 @@ public class DialogueNode : IHaveIndexCheckFunctions, IDrawableElement, IDragabl
     #region Отрисовка
     public virtual void Draw()
     {
+        GUI.skin = this.skin;
         InPoint.Draw();
         OutPoints[0].Draw();
         GUI.Box(Rect, string.Empty, style);
+        Rect bufer = new Rect(Rect.position.x + 10, Rect.position.y + 10, 17, 17);
 
-        GUI.Label(new Rect(Rect.center, new Vector2(20, 20)), "[" + index.ToString() + "]");
-        
+        skin.box.fontSize = 8;
+
+        GUI.Box(bufer, index.ToString());
+
         if (PreviousNodeNumbers != null && PreviousNodeNumbers.Count > 0)
         {
             GUI.Label(new Rect(Rect.position, new Vector2(20, 20)), PreviousNodeNumbers[0].ToString());
@@ -259,14 +278,16 @@ public class DialogueNode : IHaveIndexCheckFunctions, IDrawableElement, IDragabl
                         isDragged = true;
                         GUI.changed = true;
                         isSelected = true;
-                        style = selectedNodeStyle;
+                        OnNodeSelect?.Invoke(this);
+                        style = StylePack.nodeStyleReplica_selected;
                         CommandManager.dragBufer = _rect.position;
                     }
                     else
                     {
                         GUI.changed = true;
                         isSelected = false;
-                        style = defaultNodeStyle;
+                        OnNodeDeselect?.Invoke(this);
+                        style = StylePack.nodeStyleReplica_default;
                     }
                 }
                 if (e.button == 1 && isSelected && Rect.Contains(e.mousePosition))
@@ -307,6 +328,7 @@ public class DialogueNode : IHaveIndexCheckFunctions, IDrawableElement, IDragabl
     {
         OutPoints[0]?.CurrentConnection?.OnClickRemoveConnection(OutPoints[0].CurrentConnection);
         InPoint?.CurrentConnection?.OnClickRemoveConnection(InPoint.CurrentConnection);
+        OnNodeDeselect?.Invoke(this);
         OnRemoveNode?.Invoke(this);
     }
     #endregion

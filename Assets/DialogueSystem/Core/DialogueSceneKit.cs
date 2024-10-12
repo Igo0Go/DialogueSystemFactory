@@ -7,6 +7,8 @@ public class DialogueSceneKit : ScriptableObject
     public List<DialogueNode> nodes;
     public int startNodeIndex = -1;
 
+    public GUISkin replicaSkin;
+
     public void AddNewNode(DialogueNode node)
     {
         if (nodes == null)

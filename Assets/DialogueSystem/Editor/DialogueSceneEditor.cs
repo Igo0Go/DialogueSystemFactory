@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class DialogueSceneEditor : EditorWindow
 {
@@ -15,16 +16,8 @@ public class DialogueSceneEditor : EditorWindow
 
     private IConnectionPoint selectedInPoint;
     private IConnectionPoint selectedOutPoint;
+    private DialogueNode selectedNode;
     private StartNode startNode;
-
-
-    #region Стили
-    private GUIStyle startNodeStyle;
-    private GUIStyle nodeStyleReplica_default;
-    private GUIStyle nodeStyleReplica_selected;
-    private GUIStyle inPointStyle;
-    private GUIStyle outPointStyle;
-    #endregion
 
     #endregion
 
@@ -39,39 +32,8 @@ public class DialogueSceneEditor : EditorWindow
 
     private void OnEnable()
     {
+        selectedNode = null;
         ClearConnectionSelection();
-
-        startNodeStyle = new GUIStyle();
-        startNodeStyle.normal.background =
-            EditorGUIUtility.Load("builtin skins/darkskin/images/node5.png") as Texture2D;
-        startNodeStyle.border = new RectOffset(0, 0, 0, 0);
-        startNodeStyle.active.background =
-            EditorGUIUtility.Load("builtin skins/darkskin/images/node5 on.png") as Texture2D;
-        startNodeStyle.border = new RectOffset(0, 0, 0, 0);
-
-        nodeStyleReplica_default = new GUIStyle();
-        nodeStyleReplica_default.normal.background =
-            EditorGUIUtility.Load("builtin skins/darkskin/images/node0.png") as Texture2D;
-        nodeStyleReplica_default.border = new RectOffset(12, 12, 12, 12);
-
-        nodeStyleReplica_selected = new GUIStyle();
-        nodeStyleReplica_selected.normal.background =
-            EditorGUIUtility.Load("builtin skins/darkskin/images/node0 on.png") as Texture2D;
-        nodeStyleReplica_selected.border = new RectOffset(12, 12, 12, 12);
-
-        inPointStyle = new GUIStyle();
-        inPointStyle.normal.background =
-            EditorGUIUtility.Load("builtin skins/darkskin/images/btn left.png") as Texture2D;
-        inPointStyle.active.background =
-            EditorGUIUtility.Load("builtin skins/darkskin/images/btn left on.png") as Texture2D;
-        inPointStyle.border = new RectOffset(4, 4, 4, 4);
-
-        outPointStyle = new GUIStyle();
-        outPointStyle.normal.background =
-            EditorGUIUtility.Load("builtin skins/darkskin/images/btn right.png") as Texture2D;
-        outPointStyle.active.background =
-            EditorGUIUtility.Load("builtin skins/darkskin/images/btn right on.png") as Texture2D;
-        outPointStyle.border = new RectOffset(4, 4, 12, 12);
     }
 
     private void OnGUI()
@@ -88,11 +50,15 @@ public class DialogueSceneEditor : EditorWindow
         DrawGrid(20, 0.2f, Color.gray);
         DrawGrid(100, 0.4f, Color.gray);
 
+
+
         DrawConnections();
         startNode.Draw();
         DrawNodes();
 
         DrawConnectionLine(Event.current);
+
+        DrawInspector();
 
         ProcessEvents(Event.current);
         ProcessNodeEvents(Event.current);
@@ -141,6 +107,10 @@ public class DialogueSceneEditor : EditorWindow
             for (int i = 0; i < scene.nodes.Count; i++)
             {
                 scene.nodes[i].Draw();
+                if (scene.nodes[i].isSelected)
+                {
+                    selectedNode = scene.nodes[i];
+                }
             }
         }
     }
@@ -188,6 +158,17 @@ public class DialogueSceneEditor : EditorWindow
             GUI.changed = true;
         }
     }
+
+    private void DrawInspector()
+    {
+        if(selectedNode != null)
+        {
+            Rect inspectorRect = new Rect(position.width - 200, 0, 200, position.height);
+            GUI.Box(inspectorRect, string.Empty, StylePack.nodeStyleReplica_default);
+            Rect bufer = new Rect(position.width - 200, 0, 200, 20);
+            GUI.Label(bufer, selectedNode.index.ToString());
+        }
+    }
     #endregion
 
     #region ОБРАБОТКА СОБЫТИЙ
@@ -201,6 +182,17 @@ public class DialogueSceneEditor : EditorWindow
             case EventType.MouseDown:
                 if (e.button == 0)
                 {
+                    if(selectedNode != null)
+                    {
+                        Rect inspectorRect = new Rect(position.width - 200, 0, 200, position.height);
+                        Vector2 mouse = Event.current.mousePosition;
+                        if (mouse.x > inspectorRect.x && mouse.x < inspectorRect.x + inspectorRect.width &&
+                            mouse.y > 0 && mouse.y < inspectorRect.height)
+                        {
+                            e.Use();
+                            return;
+                        }
+                    }
                     ClearConnectionSelection();
                 }
                 else if (e.button == 1)
@@ -220,6 +212,14 @@ public class DialogueSceneEditor : EditorWindow
                     CommandManager.Undo();
                     GUI.changed = true;
                 }
+                else if(e.control && e.keyCode == KeyCode.C)
+                {
+                    //copy
+                }
+                else if (e.control && e.keyCode == KeyCode.V)
+                {
+                    //paste
+                }
                 break;
         }
     }
@@ -228,7 +228,7 @@ public class DialogueSceneEditor : EditorWindow
     {
         GenericMenu genericMenu = new GenericMenu();
         genericMenu.AddItem(new GUIContent("К точке входа"), false, () => OnToStartClick());
-        genericMenu.AddItem(new GUIContent("Создать узел"), false, () => CreateNewNode(mousePosition));
+        genericMenu.AddItem(new GUIContent("Создать реплику"), false, () => CreateNewNode(mousePosition));
         genericMenu.AddItem(new GUIContent("Стереть историю"), false, () => CommandManager.commandHistory = new Stack<ICommand>());
 
         genericMenu.ShowAsContext();
@@ -328,6 +328,19 @@ public class DialogueSceneEditor : EditorWindow
         scene.startNodeIndex = newFirstNode;
     }
 
+    private void OnNodeSelected(DialogueNode node)
+    {
+        selectedNode = node;
+    }
+
+    private void OnNodeDeselected(DialogueNode node)
+    {
+        if(selectedNode == node)
+        {
+            selectedNode = null;
+        }
+    }
+
     private void ClearConnectionSelection()
     {
         selectedInPoint = null;
@@ -357,9 +370,9 @@ public class DialogueSceneEditor : EditorWindow
 
     public void CreateNewNode(Vector2 position)
     {
-        ICommand addCommand = new AddNodeCommand(new DialogueNode(position, scene.nodes.Count,
-            nodeStyleReplica_default, nodeStyleReplica_selected, OnClickRemoveNode, inPointStyle, outPointStyle,
-            OnClickConnectionPoint));
+        ICommand addCommand = new AddNodeCommand(
+            new DialogueNodeReplica(position, new Vector2(200, 80), scene.nodes.Count, scene.replicaSkin,
+            OnClickRemoveNode, OnClickConnectionPoint, OnNodeSelected, OnNodeDeselected));
         CommandManager.AddCommandAndExecute(addCommand);
     }
 
@@ -377,7 +390,7 @@ public class DialogueSceneEditor : EditorWindow
         {
             CommandManager.sceneKit = scene;
 
-            startNode = new StartNode(startNodeStyle, OnClickConnectionPoint, scene.startNodeIndex, OnChangeFirstNode);
+            startNode = new StartNode(StylePack.startNodeStyle, OnClickConnectionPoint, scene.startNodeIndex, OnChangeFirstNode);
 
             if (scene.nodes == null)
             {
@@ -386,7 +399,7 @@ public class DialogueSceneEditor : EditorWindow
 
             foreach (var item in scene.nodes)
             {
-                item.UpdateNodeData(OnClickRemoveNode, OnClickConnectionPoint, inPointStyle, outPointStyle);
+                item.UpdateNodeData(OnClickRemoveNode, OnClickConnectionPoint, StylePack.inPointStyle, StylePack.outPointStyle);
             }
         }
 
